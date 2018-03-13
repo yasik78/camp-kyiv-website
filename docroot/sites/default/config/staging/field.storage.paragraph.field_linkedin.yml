@@ -1,0 +1,20 @@
+uuid: be4fb5d8-969d-4326-b30b-dd7222239c63
+langcode: uk
+status: true
+dependencies:
+  module:
+    - entity_reference_revisions
+    - paragraphs
+id: paragraph.field_linkedin
+field_name: field_linkedin
+entity_type: paragraph
+type: entity_reference_revisions
+settings:
+  target_type: paragraph
+module: entity_reference_revisions
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

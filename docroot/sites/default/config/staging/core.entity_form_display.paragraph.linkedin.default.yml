@@ -1,0 +1,25 @@
+uuid: c0ab7da8-5168-4a1d-979a-7c7af5169620
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.linkedin.field_linkedin_link
+    - paragraphs.paragraphs_type.linkedin
+  module:
+    - link
+id: paragraph.linkedin.default
+targetEntityType: paragraph
+bundle: linkedin
+mode: default
+content:
+  field_linkedin_link:
+    weight: 0
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+hidden:
+  created: true
+  status: true
+  uid: true

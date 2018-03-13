@@ -1,0 +1,16 @@
+uuid: ef4af288-7d38-413e-a536-31c1648b7abd
+langcode: uk
+status: true
+dependencies:
+  config:
+    - block_content.type.block_application_form
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: block_content.block_application_form
+target_entity_type_id: block_content
+target_bundle: block_application_form
+default_langcode: site_default
+language_alterable: true

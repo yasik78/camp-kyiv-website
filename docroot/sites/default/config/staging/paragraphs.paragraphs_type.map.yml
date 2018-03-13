@@ -1,0 +1,6 @@
+uuid: 35bd316d-806c-4a86-8c0e-b5420a98a90d
+langcode: uk
+status: true
+dependencies: {  }
+id: map
+label: Map

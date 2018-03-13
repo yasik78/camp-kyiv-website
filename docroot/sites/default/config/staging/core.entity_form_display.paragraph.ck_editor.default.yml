@@ -1,0 +1,25 @@
+uuid: ca0ae559-a9ec-420b-ad3d-1fdcf851664c
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.ck_editor.field_editor
+    - paragraphs.paragraphs_type.ck_editor
+  module:
+    - text
+id: paragraph.ck_editor.default
+targetEntityType: paragraph
+bundle: ck_editor
+mode: default
+content:
+  field_editor:
+    weight: 0
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+hidden:
+  created: true
+  status: true
+  uid: true

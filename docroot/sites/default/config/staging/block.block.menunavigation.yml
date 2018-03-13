@@ -1,0 +1,29 @@
+uuid: 1c2eb072-6ba9-4b2c-9d43-da2ab036d64c
+langcode: uk
+status: true
+dependencies:
+  config:
+    - system.menu.menu-navigation
+  module:
+    - system
+  theme:
+    - dc17_bootstrap
+id: menunavigation
+theme: dc17_bootstrap
+region: navigation
+weight: -13
+provider: null
+plugin: 'system_menu_block:menu-navigation'
+settings:
+  id: 'system_menu_block:menu-navigation'
+  label: 'Menu navigation for FRONT page'
+  provider: system
+  label_display: '0'
+  level: 1
+  depth: 2
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }

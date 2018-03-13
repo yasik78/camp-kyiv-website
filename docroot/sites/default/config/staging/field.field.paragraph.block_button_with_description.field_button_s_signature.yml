@@ -1,0 +1,21 @@
+uuid: bc95fe77-7770-4417-a108-325924a85e18
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_button_s_signature
+    - paragraphs.paragraphs_type.block_button_with_description
+  module:
+    - text
+id: paragraph.block_button_with_description.field_button_s_signature
+field_name: field_button_s_signature
+entity_type: paragraph
+bundle: block_button_with_description
+label: 'Button''s signature'
+description: 'buttons signature'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

@@ -1,0 +1,64 @@
+uuid: fe6f8d2c-6d3f-4965-9f88-4f8d788deacf
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.field.node.sponsors.body
+    - field.field.node.sponsors.field_e_mail
+    - field.field.node.sponsors.field_logo
+    - field.field.node.sponsors.field_meta_tags_sponsors
+    - field.field.node.sponsors.field_sponsor_web_site
+    - field.field.node.sponsors.field_status
+    - field.field.node.sponsors.field_summury
+    - image.style.dc17_sponsor_270x120
+    - node.type.sponsors
+  module:
+    - image
+    - link
+    - text
+    - user
+id: node.sponsors.default
+targetEntityType: node
+bundle: sponsors
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 3
+    settings: {  }
+    third_party_settings: {  }
+  field_e_mail:
+    weight: 1
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: email_mailto
+  field_logo:
+    weight: 2
+    label: hidden
+    settings:
+      image_style: dc17_sponsor_270x120
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+  field_sponsor_web_site:
+    weight: 0
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+  links:
+    weight: 4
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_meta_tags_sponsors: true
+  field_status: true
+  field_summury: true
+  langcode: true

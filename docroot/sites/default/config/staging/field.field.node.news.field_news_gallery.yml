@@ -1,0 +1,38 @@
+uuid: 24d57724-13d1-4795-9b5d-07dd5f12fff5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_news_gallery
+    - node.type.news
+  module:
+    - image
+id: node.news.field_news_gallery
+field_name: field_news_gallery
+entity_type: node
+bundle: news
+label: 'News gallery'
+description: 'News gallery. Minimum image resolution 260x400px.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: images/news/gallery
+  file_extensions: 'png gif jpg jpeg'
+  max_filesize: ''
+  max_resolution: ''
+  min_resolution: 260x400
+  alt_field: true
+  alt_field_required: true
+  title_field: false
+  title_field_required: false
+  default_image:
+    uuid: ''
+    alt: ''
+    title: ''
+    width: null
+    height: null
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: image

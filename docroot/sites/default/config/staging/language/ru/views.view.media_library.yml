@@ -1,0 +1,127 @@
+display:
+  default:
+    display_title: Основной
+    display_options:
+      exposed_form:
+        options:
+          submit_button: Применить
+          reset_button_label: Сбросить
+          exposed_sorts_label: 'Сортировать по:'
+          sort_asc_label: 'По возрастанию'
+          sort_desc_label: Убыв
+      pager:
+        options:
+          expose:
+            items_per_page_label: 'Элементов на страницу'
+            items_per_page_options_all_label: '- Все -'
+            offset_label: Пропустить
+          tags:
+            previous: ‹‹
+            next: ››
+      filters:
+        bundle:
+          expose:
+            label: Набор
+        status:
+          expose:
+            label: 'Статус публикации'
+      sorts:
+        created:
+          expose:
+            label: Создано
+  gallery_media_select_modal:
+    display_options:
+      filters:
+        bundle:
+          expose:
+            label: Набор
+        bundle_1:
+          expose:
+            label: Набор
+        status:
+          expose:
+            label: 'Статус публикации'
+  gallery_user_media_select_modal:
+    display_options:
+      filters:
+        bundle:
+          expose:
+            label: Набор
+        bundle_1:
+          expose:
+            label: Набор
+        status:
+          expose:
+            label: 'Статус публикации'
+      arguments:
+        uid:
+          exception:
+            title: Все
+  global_media_library_page:
+    display_options:
+      menu:
+        title: Мультимедиа
+      fields:
+        bundle:
+          label: Тип
+          separator: ', '
+        status:
+          label: Статус
+          separator: ', '
+      filters:
+        bundle:
+          expose:
+            label: Набор
+        status:
+          expose:
+            label: 'Статус публикации'
+        langcode:
+          expose:
+            label: Язык
+  media_select_modal:
+    display_options:
+      filters:
+        bundle:
+          expose:
+            label: Набор
+        status:
+          expose:
+            label: 'Статус публикации'
+  user_media_library:
+    display_options:
+      menu:
+        title: Мультимедиа
+      arguments:
+        uid:
+          exception:
+            title: Все
+      fields:
+        bundle:
+          label: Тип
+          separator: ', '
+        status:
+          label: Статус
+          separator: ', '
+      filters:
+        bundle:
+          expose:
+            label: Набор
+        status:
+          expose:
+            label: 'Статус публикации'
+        langcode:
+          expose:
+            label: Язык
+  user_media_select_modal:
+    display_options:
+      filters:
+        bundle:
+          expose:
+            label: Набор
+        status:
+          expose:
+            label: 'Статус публикации'
+      arguments:
+        uid:
+          exception:
+            title: Все

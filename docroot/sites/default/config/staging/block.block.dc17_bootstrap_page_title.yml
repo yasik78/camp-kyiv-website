@@ -1,0 +1,27 @@
+uuid: 9fa9653b-913b-44c0-8238-b4409d0dd625
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - dc17_bootstrap
+_core:
+  default_config_hash: 7rR9chwXvdM2H8OYMAYx9Zj3GGlPMrZp_M3ZA4thYTk
+id: dc17_bootstrap_page_title
+theme: dc17_bootstrap
+region: content
+weight: -28
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  provider: core
+  label_display: '0'
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: true
+    context_mapping: {  }

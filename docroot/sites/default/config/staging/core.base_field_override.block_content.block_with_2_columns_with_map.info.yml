@@ -1,0 +1,18 @@
+uuid: 354d57af-cf31-445a-b88a-634b33c17d11
+langcode: uk
+status: true
+dependencies:
+  config:
+    - block_content.type.block_with_2_columns_with_map
+id: block_content.block_with_2_columns_with_map.info
+field_name: info
+entity_type: block_content
+bundle: block_with_2_columns_with_map
+label: 'Block description'
+description: 'A brief description of your block.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

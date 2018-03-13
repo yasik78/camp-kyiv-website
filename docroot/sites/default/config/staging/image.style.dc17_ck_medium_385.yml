@@ -1,0 +1,15 @@
+uuid: 608c268f-3fa8-4d0d-8017-133f9d057149
+langcode: en
+status: true
+dependencies: {  }
+name: dc17_ck_medium_385
+label: dc17_CK-medium_385
+effects:
+  1d1674e3-7643-467e-adfc-e76a82582558:
+    uuid: 1d1674e3-7643-467e-adfc-e76a82582558
+    id: image_scale
+    weight: 1
+    data:
+      width: 385
+      height: null
+      upscale: true

@@ -1,0 +1,21 @@
+uuid: 303f49c9-c419-42c1-bf1a-dbb9c858c55c
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_subtitle_basic_page
+    - node.type.page
+  module:
+    - text
+id: node.page.field_subtitle_basic_page
+field_name: field_subtitle_basic_page
+entity_type: node
+bundle: page
+label: Subtitle
+description: 'Enter your Subtitle Basic page.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

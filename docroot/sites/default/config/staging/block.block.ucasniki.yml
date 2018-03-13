@@ -1,0 +1,31 @@
+uuid: ea7b40be-e412-4421-9e51-be7a991729c7
+langcode: uk
+status: true
+dependencies:
+  content:
+    - 'block_content:block_with_3_columns:b726dd4a-b33b-48b3-b05b-8c30dcd94393'
+  module:
+    - block_content
+    - system
+  theme:
+    - dc17_bootstrap
+id: ucasniki
+theme: dc17_bootstrap
+region: custom_region
+weight: -29
+provider: null
+plugin: 'block_content:b726dd4a-b33b-48b3-b05b-8c30dcd94393'
+settings:
+  id: 'block_content:b726dd4a-b33b-48b3-b05b-8c30dcd94393'
+  label: 'Учасники  <front>'
+  provider: block_content
+  label_display: '0'
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }

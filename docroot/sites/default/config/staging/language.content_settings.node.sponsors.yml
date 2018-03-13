@@ -1,0 +1,16 @@
+uuid: 579bbe3d-380f-421a-bb7a-c1f666db5e76
+langcode: uk
+status: true
+dependencies:
+  config:
+    - node.type.sponsors
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: node.sponsors
+target_entity_type_id: node
+target_bundle: sponsors
+default_langcode: site_default
+language_alterable: true

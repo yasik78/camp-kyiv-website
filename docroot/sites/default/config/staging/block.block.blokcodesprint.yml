@@ -1,0 +1,31 @@
+uuid: 790edfec-d43e-4377-ba0d-0efc1c7bf120
+langcode: uk
+status: true
+dependencies:
+  content:
+    - 'block_content:block_with_2_columns:b7b109dc-cee8-4734-915e-7cafb506d500'
+  module:
+    - block_content
+    - system
+  theme:
+    - dc17_bootstrap
+id: blokcodesprint
+theme: dc17_bootstrap
+region: custom_region
+weight: -24
+provider: null
+plugin: 'block_content:b7b109dc-cee8-4734-915e-7cafb506d500'
+settings:
+  id: 'block_content:b7b109dc-cee8-4734-915e-7cafb506d500'
+  label: 'Блок codesprint <front>'
+  provider: block_content
+  label_display: '0'
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }

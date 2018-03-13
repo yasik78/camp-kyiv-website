@@ -1,0 +1,92 @@
+.footer {
+
+  &--info {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    @include gradient-vertical(#50525a, #393942);
+    font-size: 15px;
+  }
+
+  &__logo {
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 40px;
+
+    @media (max-width: $screen-sm) {
+      text-align: center;
+      margin: 17px 0;
+    }
+
+    a {
+      color: $white;
+
+      &:hover,
+      &:active {
+        text-decoration: none;
+      }
+    }
+
+    .text-green {
+      color: $green;
+    }
+  }
+
+  .previous-years {
+    display: flex;
+    line-height: 40px;
+    justify-content: center;
+
+    @media (max-width: $screen-sm) {
+      margin-top: 17px;
+      margin-bottom: 17px;
+    }
+
+    a {
+      color: $white;
+      text-decoration: underline;
+      @include transition(all 0.3s);
+
+      &:hover,
+      &:active {
+        color: $green;
+      }
+    }
+
+    &__title {
+      color: $white;
+      padding-right: 25px;
+    }
+
+    &__item {
+      margin-right: 10px;
+    }
+  }
+
+  &__dev {
+    text-align: right;
+    line-height: 40px;
+
+    @media (max-width: $screen-sm) {
+      text-align: center;
+      margin-top: 17px;
+      margin-bottom: 17px;
+    }
+
+    a {
+      color: $white;
+      font-weight: 700;
+      text-transform: uppercase;
+
+      @include transition(all 0.3s);
+
+      &:hover {
+        text-decoration: none;
+        color: $green;
+      }
+
+      span {
+        margin-right: 20px;
+      }
+    }
+  }
+}

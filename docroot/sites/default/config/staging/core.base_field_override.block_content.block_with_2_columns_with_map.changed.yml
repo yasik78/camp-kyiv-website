@@ -1,0 +1,18 @@
+uuid: 0c258452-fbcb-4147-95a2-5c881e8d00b5
+langcode: uk
+status: true
+dependencies:
+  config:
+    - block_content.type.block_with_2_columns_with_map
+id: block_content.block_with_2_columns_with_map.changed
+field_name: changed
+entity_type: block_content
+bundle: block_with_2_columns_with_map
+label: Changed
+description: 'The time that the custom block was last edited.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

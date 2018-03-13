@@ -1,0 +1,16 @@
+uuid: 79884792-0fbe-466b-9f64-80d331b0ae81
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.bitbucket
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: false
+id: paragraph.bitbucket
+target_entity_type_id: paragraph
+target_bundle: bitbucket
+default_langcode: site_default
+language_alterable: false

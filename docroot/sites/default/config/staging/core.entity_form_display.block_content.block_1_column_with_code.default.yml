@@ -1,0 +1,48 @@
+uuid: 8f009c8a-ea27-49a0-bd7f-3ad4bdf856ae
+langcode: uk
+status: true
+dependencies:
+  config:
+    - block_content.type.block_1_column_with_code
+    - field.field.block_content.block_1_column_with_code.field_editor
+    - field.field.block_content.block_1_column_with_code.field_title
+  module:
+    - paragraphs
+id: block_content.block_1_column_with_code.default
+targetEntityType: block_content
+bundle: block_1_column_with_code
+mode: default
+content:
+  field_editor:
+    weight: 4
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+    third_party_settings: {  }
+    type: entity_reference_paragraphs
+  field_title:
+    weight: 3
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+    third_party_settings: {  }
+    type: entity_reference_paragraphs
+  info:
+    type: string_textfield
+    weight: -5
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

@@ -1,0 +1,127 @@
+display:
+  default:
+    display_title: Головне
+    display_options:
+      exposed_form:
+        options:
+          submit_button: Застосувати
+          reset_button_label: Скинути
+          exposed_sorts_label: 'Впорядкувати за'
+          sort_asc_label: Зрост
+          sort_desc_label: Спад
+      pager:
+        options:
+          expose:
+            items_per_page_label: 'Елементів на сторінку'
+            items_per_page_options_all_label: '- Усе -'
+            offset_label: Зміщення
+          tags:
+            previous: ‹‹
+            next: ››
+      filters:
+        bundle:
+          expose:
+            label: Пакет
+        status:
+          expose:
+            label: 'Стан публікації'
+      sorts:
+        created:
+          expose:
+            label: Створено
+  gallery_media_select_modal:
+    display_options:
+      filters:
+        bundle:
+          expose:
+            label: Пакет
+        bundle_1:
+          expose:
+            label: Пакет
+        status:
+          expose:
+            label: 'Стан публікації'
+  gallery_user_media_select_modal:
+    display_options:
+      filters:
+        bundle:
+          expose:
+            label: Пакет
+        bundle_1:
+          expose:
+            label: Пакет
+        status:
+          expose:
+            label: 'Стан публікації'
+      arguments:
+        uid:
+          exception:
+            title: Все
+  global_media_library_page:
+    display_options:
+      menu:
+        title: Медіа
+      fields:
+        bundle:
+          label: Тип
+          separator: ', '
+        status:
+          label: Стан
+          separator: ', '
+      filters:
+        bundle:
+          expose:
+            label: Пакет
+        status:
+          expose:
+            label: 'Стан публікації'
+        langcode:
+          expose:
+            label: Мова
+  media_select_modal:
+    display_options:
+      filters:
+        bundle:
+          expose:
+            label: Пакет
+        status:
+          expose:
+            label: 'Стан публікації'
+  user_media_library:
+    display_options:
+      menu:
+        title: Медіа
+      arguments:
+        uid:
+          exception:
+            title: Все
+      fields:
+        bundle:
+          label: Тип
+          separator: ', '
+        status:
+          label: Стан
+          separator: ', '
+      filters:
+        bundle:
+          expose:
+            label: Пакет
+        status:
+          expose:
+            label: 'Стан публікації'
+        langcode:
+          expose:
+            label: Мова
+  user_media_select_modal:
+    display_options:
+      filters:
+        bundle:
+          expose:
+            label: Пакет
+        status:
+          expose:
+            label: 'Стан публікації'
+      arguments:
+        uid:
+          exception:
+            title: Все

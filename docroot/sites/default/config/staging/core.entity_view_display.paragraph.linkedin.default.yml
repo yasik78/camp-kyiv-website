@@ -1,0 +1,28 @@
+uuid: 6fbb6f44-9908-4878-bf16-7058142ab6f1
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.linkedin.field_linkedin_link
+    - paragraphs.paragraphs_type.linkedin
+  module:
+    - link
+id: paragraph.linkedin.default
+targetEntityType: paragraph
+bundle: linkedin
+mode: default
+content:
+  field_linkedin_link:
+    weight: 0
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: true
+      target: _blank
+      url_plain: false
+      rel: '0'
+    third_party_settings: {  }
+    type: link
+hidden:
+  created: true
+  uid: true

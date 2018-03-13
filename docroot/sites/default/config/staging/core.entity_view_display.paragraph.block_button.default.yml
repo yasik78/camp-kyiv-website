@@ -1,0 +1,28 @@
+uuid: fce07ee5-15b0-4598-b476-f6353bc22af4
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.block_button.field_block_link
+    - paragraphs.paragraphs_type.block_button
+  module:
+    - link
+id: paragraph.block_button.default
+targetEntityType: paragraph
+bundle: block_button
+mode: default
+content:
+  field_block_link:
+    weight: 0
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+hidden:
+  created: true
+  uid: true

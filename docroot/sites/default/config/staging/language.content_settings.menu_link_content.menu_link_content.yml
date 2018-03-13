@@ -1,0 +1,15 @@
+uuid: 31a322a2-ce06-4101-97fc-ffc2cad65009
+langcode: uk
+status: true
+dependencies:
+  module:
+    - content_translation
+    - menu_link_content
+third_party_settings:
+  content_translation:
+    enabled: true
+id: menu_link_content.menu_link_content
+target_entity_type_id: menu_link_content
+target_bundle: menu_link_content
+default_langcode: site_default
+language_alterable: true

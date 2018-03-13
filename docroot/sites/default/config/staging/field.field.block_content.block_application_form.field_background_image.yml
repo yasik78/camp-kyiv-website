@@ -1,0 +1,54 @@
+uuid: 6758f8a8-f297-4f00-a3a3-b94deb8de501
+langcode: uk
+status: true
+dependencies:
+  config:
+    - block_content.type.block_application_form
+    - field.storage.block_content.field_background_image
+    - paragraphs.paragraphs_type.block_background_image
+  module:
+    - entity_reference_revisions
+id: block_content.block_application_form.field_background_image
+field_name: field_background_image
+entity_type: block_content
+bundle: block_application_form
+label: 'Background image'
+description: 'Upload an image for display background block.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      block_background_image: block_background_image
+    target_bundles_drag_drop:
+      block_background_image:
+        enabled: true
+        weight: 10
+      block_application_form:
+        weight: 11
+        enabled: false
+      block_background_picker:
+        weight: 12
+        enabled: false
+      block_body:
+        weight: 13
+        enabled: false
+      block_button:
+        weight: 14
+        enabled: false
+      block_image:
+        weight: 15
+        enabled: false
+      block_title:
+        weight: 16
+        enabled: false
+      ck_editor:
+        weight: 17
+        enabled: false
+      map:
+        weight: 18
+        enabled: false
+field_type: entity_reference_revisions

@@ -1,0 +1,22 @@
+uuid: 70c84f15-c79c-4c2a-8a63-1de3bc69b13a
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - dc17_bootstrap
+_core:
+  default_config_hash: 9EoWV2Lot6FVSr50t4hoKgiz1LIXYWNG-IIPYsWxBqo
+id: dc17_bootstrap_content
+theme: dc17_bootstrap
+region: content
+weight: -26
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  provider: system
+  label_display: '0'
+visibility: {  }

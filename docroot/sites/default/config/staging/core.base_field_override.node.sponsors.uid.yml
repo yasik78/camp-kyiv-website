@@ -1,0 +1,20 @@
+uuid: f72492f0-f147-42da-ab80-c38b380f50a3
+langcode: uk
+status: true
+dependencies:
+  config:
+    - node.type.sponsors
+id: node.sponsors.uid
+field_name: uid
+entity_type: node
+bundle: sponsors
+label: 'Authored by'
+description: 'The username of the content author.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: 'Drupal\node\Entity\Node::getCurrentUserId'
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

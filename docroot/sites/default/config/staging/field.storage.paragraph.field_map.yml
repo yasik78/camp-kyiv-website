@@ -1,0 +1,19 @@
+uuid: 6af5344a-cd04-4bf6-8c30-94115e1ee0bc
+langcode: uk
+status: true
+dependencies:
+  module:
+    - link
+    - paragraphs
+id: paragraph.field_map
+field_name: field_map
+entity_type: paragraph
+type: link
+settings: {  }
+module: link
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

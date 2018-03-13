@@ -1,0 +1,23 @@
+uuid: a8be731e-65ad-42b8-9c5e-5ebe740a801d
+langcode: uk
+status: true
+dependencies:
+  config:
+    - block_content.type.block_with_2_columns
+    - field.storage.block_content.field_background_picker
+  module:
+    - options
+id: block_content.block_with_2_columns.field_background_picker
+field_name: field_background_picker
+entity_type: block_content
+bundle: block_with_2_columns
+label: 'Background picker'
+description: 'pick your background color'
+required: true
+translatable: true
+default_value:
+  -
+    value: Dark
+default_value_callback: ''
+settings: {  }
+field_type: list_string

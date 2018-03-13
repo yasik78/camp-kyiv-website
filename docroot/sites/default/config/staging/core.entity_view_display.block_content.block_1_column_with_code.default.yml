@@ -1,0 +1,33 @@
+uuid: e5b8df3a-c6b9-4958-bd5b-7f5a44cb54e1
+langcode: uk
+status: true
+dependencies:
+  config:
+    - block_content.type.block_1_column_with_code
+    - field.field.block_content.block_1_column_with_code.field_editor
+    - field.field.block_content.block_1_column_with_code.field_title
+  module:
+    - entity_reference_revisions
+id: block_content.block_1_column_with_code.default
+targetEntityType: block_content
+bundle: block_1_column_with_code
+mode: default
+content:
+  field_editor:
+    weight: 1
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_entity_view
+  field_title:
+    weight: 0
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_entity_view
+hidden:
+  langcode: true

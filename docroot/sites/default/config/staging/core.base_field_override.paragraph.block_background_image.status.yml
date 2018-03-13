@@ -1,0 +1,22 @@
+uuid: d0cd980f-7e0f-424e-a50f-57946978305e
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.block_background_image
+id: paragraph.block_background_image.status
+field_name: status
+entity_type: paragraph
+bundle: block_background_image
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

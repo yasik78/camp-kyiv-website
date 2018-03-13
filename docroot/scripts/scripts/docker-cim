@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+clear
+
+set -eo pipefail
+
+if [ ! -f "index.php" ]; then
+  echo 'Please run this script from "drupal8" directory.'
+  exit 1;
+fi
+
+if [ $(pwd) = '/var/www/html' ]; then
+  echo 'Please run this script only under LOCAL enviroment.'
+  exit 1;
+fi
+
+get_path() {
+  # $1 : file path.
+  if [ -d "$(dirname "$1")" ]; then
+    echo "$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"
+  fi
+}
+
+#$(echo $(pwd)"/scripts/project-branch");
+
+## ##############################################################################
+echo "Importing config files ..."
+
+## ##############################################################################
+PROJECT="$(cat "./.project-name" | tr -d '[:space:]')";
+DOCKER=$(get_path "$(pwd)/../ci");
+DOCKER_YML="${DOCKER}/docker-compose.yml";
+DOCKER_CMD="docker-compose -f ${DOCKER_YML} -p ${PROJECT} exec php sh -c";
+
+## ##############################################################################
+sudo chmod -R 777 "$(pwd)/sites/default/config/staging"
+
+# TODO: add global variables for config folders
+$DOCKER_CMD 'drush config-import -y --skip-modules=devel,config_devel,stage_file_proxy,coffee,devel_generate';
+#sudo chmod -R 777 "$(pwd)/sites/default/config/staging"
+#sudo chmod -R -x+X "$(pwd)/sites/default/config/staging"
+#sudo chown -R 1000:1000 "$(pwd)/sites/default/config/staging"
+
+echo "Done"
+exit 0

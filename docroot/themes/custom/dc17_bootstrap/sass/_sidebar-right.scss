@@ -1,0 +1,133 @@
+//TODO Set overflow hidden to main container.
+.main-container {
+  padding-bottom: 34px;
+
+  overflow: hidden;
+}
+
+aside {
+  position: relative;
+  padding-top: 55px;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 9999px;
+    width: 100%;
+    background-color: $lightgrey;
+    z-index: -1;
+  }
+
+  // View block of sponsors.
+
+  .view-sponsors-sidebar {
+    .view-content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-items: center;
+
+      @media (max-width: $screen-xs-max) {
+        justify-content: inherit;
+      }
+
+      .views-row {
+        margin-bottom: 20px;
+
+        @media (max-width: $screen-xs-max) {
+          width: 50%; // For two columns.
+        }
+
+        @media (max-width: $screen-xs) {
+          padding: 15px;
+          margin-bottom: 0px;
+        }
+
+        a {
+          display: block;
+          max-width: 115px;
+
+          @media (max-width: $screen-lg) {
+            max-width: 90px;
+          }
+
+          @media (max-width: $screen-md) {
+            max-width: 90px;
+          }
+
+          @media (max-width: $screen-xs-max) {
+            max-width: 100%;
+          }
+
+          img {
+            margin: 0 auto;
+
+            // Grey filter for sponsors logos.
+
+            filter: grayscale(100%) brightness(135%) contrast(120%);
+            transition: filter 0.5s;
+          }
+
+          &:hover {
+            img {
+              filter: none;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Sponsors sidebar block styling headers.
+
+  section[class*="block-views-blocksponsors-sidebar-block"] {
+    h2 {
+      margin: 10px 0 22px;
+      padding-bottom: 10px;
+
+      border-bottom: 1px solid $grey-news;
+
+      font-size: 16px;
+
+      @media (max-width: $screen-xs-max) {
+        text-align: center;
+      }
+
+      @media (max-width: $screen-xs) {
+        margin: 20px 0 10px;
+      }
+    }
+
+    &[class*="-1"] {
+      h2 {
+        color: $grey;
+      }
+    }
+
+    &[class*="-2"] {
+      h2 {
+        color: $gold;
+      }
+    }
+
+    &[class*="-3"] {
+      h2 {
+        color: $silver;
+      }
+    }
+  }
+
+
+  // Facebook desktop.
+
+  #block-facebook-2,
+  #block-facebook {
+    display: block;
+    
+    @media screen and (max-width: $screen-sm-min - 1px) {
+      display: none;
+    }
+  }
+}

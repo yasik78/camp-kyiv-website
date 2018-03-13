@@ -1,0 +1,31 @@
+uuid: dda11c75-14c3-4262-8f0e-be9ef178a592
+langcode: uk
+status: true
+dependencies:
+  content:
+    - 'block_content:block_1_column_with_code:e6e38b07-74e3-4eed-9e8b-3df7af85c199'
+  module:
+    - block_content
+    - system
+  theme:
+    - dc17_bootstrap
+id: facebook_2
+theme: dc17_bootstrap
+region: sidebar_second
+weight: -15
+provider: null
+plugin: 'block_content:e6e38b07-74e3-4eed-9e8b-3df7af85c199'
+settings:
+  id: 'block_content:e6e38b07-74e3-4eed-9e8b-3df7af85c199'
+  label: 'Facebook for page /news'
+  provider: block_content
+  label_display: '0'
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    pages: /news
+    negate: false
+    context_mapping: {  }

@@ -1,0 +1,14 @@
+uuid: bb7d97c4-5511-4359-9fdc-7e9f3bfcde47
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: yBqw6UD3j0MM1yoDSVDif7nw4SNdoS2e385nw--3ysk
+id: front
+label: 'Front page'
+tags:
+  shortlink: '[site:url]'
+  keywords: 'conference, конференція, Drupal, DrupalCamp, Drupal conference, Kyiv Drupal, Kyiv Drupal Camp, конференція про Друпал, друпалісти, Drupal community'
+  description: 'DrupalCamp Kyiv 2017 is the main annual event in Ukrainian Drupal community will be held on June 10-11, 2017, in Kyiv, hotel "Bratislava"'
+  canonical_url: '[site:url]'
+  og_image: 'http://camp17.drupal.ua/themes/custom/dc17_bootstrap/images/image-for-meta-tags.png'

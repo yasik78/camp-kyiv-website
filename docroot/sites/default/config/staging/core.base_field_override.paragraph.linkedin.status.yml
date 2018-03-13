@@ -1,0 +1,22 @@
+uuid: e9854ca8-b20e-4d90-8d4a-dfafb761473f
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.linkedin
+id: paragraph.linkedin.status
+field_name: status
+entity_type: paragraph
+bundle: linkedin
+label: Published
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Увімкнено
+  off_label: Вимкнено
+field_type: boolean

@@ -1,0 +1,55 @@
+version: '2.0'
+
+services:
+  mariadb:
+    image: wodby/drupal-mariadb:1.0.0
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 1
+      MYSQL_DATABASE: dc2017_db
+      MYSQL_USER: dc2017_db
+      MYSQL_PASSWORD: dc2017_db
+    volumes:
+      - ~/.docker-runtime/dc2017/mariadb:/var/lib/mysql
+
+  php:
+    image: wodby/drupal-php:5.6-1.0.0 # Allowed: 7.0, 5.6.
+    environment:
+      PHP_SITE_NAME: dev
+      PHP_HOST_NAME: localhost:8000
+      PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S mailhog:1025
+      PHP_XDEBUG_ENABLED: 1
+      PHP_XDEBUG_AUTOSTART: 1
+      #PHP_XDEBUG_REMOTE_CONNECT_BACK: 0         # This is needed to respect remote.host setting bellow
+      #PHP_XDEBUG_REMOTE_HOST: "10.254.254.254"  # You will also need to 'sudo ifconfig lo0 alias 10.254.254.254'
+    volumes:
+      - ../docroot/:/var/www/html
+      - ./dump:/tmp/db
+
+  nginx:
+    image: wodby/drupal-nginx:1.10-1.1.0
+    environment:
+      NGINX_SERVER_NAME: localhost
+      NGINX_UPSTREAM_NAME: php
+      DRUPAL_VERSION: 8 # Allowed: 7, 8.
+    volumes_from:
+      - php
+    ports:
+      - 8000:80
+
+  pma:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: mariadb
+      PMA_USER: dc2017_db
+      PMA_PASSWORD: dc2017_db
+      PHP_UPLOAD_MAX_FILESIZE: 1G
+      PHP_MAX_INPUT_VARS: 1G
+    ports:
+     - 8001:80
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - 8002:8025
+
+    

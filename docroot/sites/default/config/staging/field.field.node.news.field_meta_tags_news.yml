@@ -1,0 +1,23 @@
+uuid: 5fd42247-a07f-4162-85f9-8bbfe39de234
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_meta_tags_news
+    - node.type.news
+  module:
+    - metatag
+id: node.news.field_meta_tags_news
+field_name: field_meta_tags_news
+entity_type: node
+bundle: news
+label: 'Meta tags News'
+description: "----------------------------------------------------------------------------------------------------------------------------<br>\r\nЩоб додати Meta tags News, необхідно в полі Meta tags відкрити вкладку Open Graph та додати в інпут поля Image -> {node:field_news_image} <br> \r\n-----------------------------------------------------------------------------------------------------------------------------<br>\r\n!!! замініть { } на [ ]\r\n-----------------------------------------------------------------------------------------------------------------------------<br>"
+required: false
+translatable: false
+default_value:
+  -
+    value: 'a:0:{}'
+default_value_callback: ''
+settings: {  }
+field_type: metatag

@@ -1,0 +1,36 @@
+uuid: 7047837c-2987-4e23-a6e1-e34b66ce536a
+langcode: uk
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: single_presentation_page
+label: 'Single presentation page'
+type: 'canonical_entities:node'
+pattern: '/speakers/[node:title]'
+selection_criteria:
+  6d0a6a99-33b0-44f4-89ec-8d8bad23466a:
+    id: node_type
+    bundles:
+      presentation: presentation
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 6d0a6a99-33b0-44f4-89ec-8d8bad23466a
+  163cef78-a264-446d-aa59-3bc90313fdca:
+    id: language
+    langcodes:
+      en: en
+      uk: uk
+      pl: pl
+      ru: ru
+    negate: false
+    context_mapping:
+      language: 'node:langcode:language'
+    uuid: 163cef78-a264-446d-aa59-3bc90313fdca
+selection_logic: and
+weight: -5
+relationships:
+  'node:langcode:language':
+    label: Language

@@ -1,0 +1,127 @@
+.gallery {
+  position: relative;
+  margin-top: 40px;
+  margin-bottom: 20px;
+
+  &__item {
+    width: 100%;
+  }
+
+  .slick-track {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .slick-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: block;
+    width: 50px;
+    height: 50px;
+    background: rgba($white, 0.1);
+    border: 0;
+    color: $white;
+    font-size: 0px;
+    z-index: 100;
+
+    @include transition(background 0.3s);
+
+    &:focus,
+    &:active {
+      outline: none;
+    }
+
+    &:hover {
+      background: rgba($softgrey, 0.2);
+    }
+  }
+
+  .slick-next {
+    right: 30px;
+    @include arrow(right);
+  }
+
+  .slick-prev {
+    left: 30px;
+    @include arrow(left);
+  }
+
+  .slick-slide {
+    text-align: center;
+
+    img {
+      display: inline;
+      vertical-align: middle;
+    }
+
+    &:focus,
+    &:hover {
+      outline: none;
+    }
+  }
+
+  &--nav {
+    margin-bottom: 30px;
+
+    @media (max-width: $screen-xs) {
+      display: none !important;
+      visibility: hidden;
+    }
+
+    .slick-list {
+      margin-left: -20px;
+    }
+
+    .slick-slide {
+      margin-left: 20px;
+      outline: none;
+    }
+
+    .slick-track {
+      max-height: 100px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+
+    &__item {
+      position: relative;
+      cursor: pointer;
+
+      &.slick-current {
+        &:before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          display: block;
+          background: $green;
+          opacity: 0.5;
+        }
+      }
+
+      &:before {
+        content: '';
+        @include transition(all 1s);
+      }
+
+      &:hover {
+        &:before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          display: block;
+          background: $green;
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+}

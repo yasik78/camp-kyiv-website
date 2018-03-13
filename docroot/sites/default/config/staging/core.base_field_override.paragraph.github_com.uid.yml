@@ -1,0 +1,20 @@
+uuid: 3907136a-a2b7-4403-8ab7-43a9121d5947
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.github_com
+id: paragraph.github_com.uid
+field_name: uid
+entity_type: paragraph
+bundle: github_com
+label: 'Authored by'
+description: 'The user ID of the paragraphs author.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: 'Drupal\paragraphs\Entity\Paragraph::getCurrentUserId'
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

@@ -1,0 +1,22 @@
+uuid: 757e13c7-dad1-4998-84c4-2f95b86c585a
+langcode: uk
+status: true
+dependencies:
+  config:
+    - node.type.sponsors
+id: node.sponsors.promote
+field_name: promote
+entity_type: node
+bundle: sponsors
+label: 'Винесено на головну сторінку'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: Увімкнено
+  off_label: Вимкнено
+field_type: boolean

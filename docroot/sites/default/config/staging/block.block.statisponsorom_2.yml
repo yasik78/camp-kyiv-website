@@ -1,0 +1,39 @@
+uuid: 6013ab03-357b-4ce7-a663-f5ca98120a60
+langcode: uk
+status: false
+dependencies:
+  content:
+    - 'block_content:block_with_3_columns:47871cee-dba7-4c66-9b7b-a16f458ebf84'
+  module:
+    - block_content
+    - ctools
+    - system
+  theme:
+    - dc17_bootstrap
+id: statisponsorom_2
+theme: dc17_bootstrap
+region: '-1'
+weight: -14
+provider: null
+plugin: 'block_content:47871cee-dba7-4c66-9b7b-a16f458ebf84'
+settings:
+  id: 'block_content:47871cee-dba7-4c66-9b7b-a16f458ebf84'
+  label: 'Стати спонсором'
+  provider: block_content
+  label_display: '0'
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    bundles:
+      page: page
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }

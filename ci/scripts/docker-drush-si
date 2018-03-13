@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+clear
+
+set -eo pipefail
+
+if [ ! -f "index.php" ]; then
+  echo 'Please run this script from "drupal8" directory.'
+  exit 1;
+fi
+
+if [ $(pwd) = '/var/www/html' ]; then
+  echo 'Please run this script only under LOCAL enviroment.'
+  exit 1;
+fi
+
+get_path() {
+  # $1 : file path.
+  if [ -d "$(dirname "$1")" ]; then
+    echo "$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"
+  fi
+}
+
+#$(echo $(pwd)"/scripts/project-branch");
+CURRENT_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && cd .. && pwd )
+# include file with settings
+. "$CURRENT_PATH"/settings.sh
+## ##############################################################################
+echo "Installing your site"
+
+## ##############################################################################
+PROJECT="$(cat "./.project-name" | tr -d '[:space:]')";
+DOCKER=$(get_path "$(pwd)/../ci");
+DOCKER_YML="${DOCKER}/docker-compose.yml";
+DOCKER_CMD="docker-compose -f ${DOCKER_YML} -p ${PROJECT} exec php sh -c";
+
+## ##############################################################################
+
+$DOCKER_CMD "drush si $INSTALATION_PROFILE_NAME --db-url=mysql://$DATABASE_USER_NAME:$DATABASE_PASSWORD@$DATABASE_HOST/$DATABASE_NAME --account-name=$ADMIN_ACCOUNT_NAME --account-pass=$ADMIN_ACCOUNT_PASSWORD --site-mail=$SITE_EMAIL --site-name=$SITE_NAME --yes";
+
+# TODO: add module list global variable
+#$DOCKER_CMD "drush en -y addanother,admin_toolbar,adminimal_admin_toolbar,backup_migrate,blazy,bootstrap,adminimal_theme,ckeditor_codemirror,ctools,dropzonejs,embed,entity,entity_browser,entity_embed,file_entity,image_widget_crop,inline_entity_form,libraries,media,media_entity,media_entity_document,media_entity_image,media_entity_instagram,media_entity_slideshow,media_entity_twitter,metatag,redirect,simple_sitemap,slick,slick_media,token,video_embed_field,views_slideshow,weight,pathauto"
+
+echo "Done"
+exit 0

@@ -1,0 +1,28 @@
+uuid: 59c0a527-ebfe-429a-aa5f-fe01b0fd876f
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_bitbucket_link
+    - paragraphs.paragraphs_type.bitbucket
+  module:
+    - link
+id: paragraph.bitbucket.field_bitbucket_link
+field_name: field_bitbucket_link
+entity_type: paragraph
+bundle: bitbucket
+label: 'bitbucket link'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    attributes: {  }
+    uri: 'http://bitbucket.org/'
+    title: ''
+    options: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 1
+field_type: link

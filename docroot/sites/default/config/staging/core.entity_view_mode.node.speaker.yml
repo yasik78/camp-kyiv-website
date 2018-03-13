@@ -1,0 +1,10 @@
+uuid: a66c8fe9-c18e-4df9-873a-1734f5ccf7ce
+langcode: uk
+status: true
+dependencies:
+  module:
+    - node
+id: node.speaker
+label: 'Speaker Photo'
+targetEntityType: node
+cache: true

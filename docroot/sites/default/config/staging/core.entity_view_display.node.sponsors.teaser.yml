@@ -1,0 +1,32 @@
+uuid: 0cb993e5-24af-4bbc-a059-76aad1cca4f9
+langcode: uk
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.sponsors.body
+    - node.type.sponsors
+  module:
+    - text
+    - user
+id: node.sponsors.teaser
+targetEntityType: node
+bundle: sponsors
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 101
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+  links:
+    weight: 100
+hidden:
+  field_e_mail: true
+  field_logo: true
+  field_sponsor_web_site: true
+  field_status: true
+  field_summury: true
+  langcode: true

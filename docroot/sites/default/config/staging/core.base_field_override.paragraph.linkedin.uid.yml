@@ -1,0 +1,20 @@
+uuid: 719fc050-0eb2-4bec-a3e1-54b098961b14
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.linkedin
+id: paragraph.linkedin.uid
+field_name: uid
+entity_type: paragraph
+bundle: linkedin
+label: 'Authored by'
+description: 'The user ID of the paragraphs author.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: 'Drupal\paragraphs\Entity\Paragraph::getCurrentUserId'
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

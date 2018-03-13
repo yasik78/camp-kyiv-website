@@ -1,0 +1,6 @@
+uuid: 275af72e-bcef-4765-80a3-1e655e70a215
+langcode: uk
+status: true
+dependencies: {  }
+id: block_background_picker
+label: 'Block background picker'

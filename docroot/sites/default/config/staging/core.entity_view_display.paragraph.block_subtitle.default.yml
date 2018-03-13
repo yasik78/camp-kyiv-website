@@ -1,0 +1,23 @@
+uuid: 7edf705c-2c8e-40bf-8d20-5d3609051c61
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.block_subtitle.field_subtitle
+    - paragraphs.paragraphs_type.block_subtitle
+  module:
+    - text
+id: paragraph.block_subtitle.default
+targetEntityType: paragraph
+bundle: block_subtitle
+mode: default
+content:
+  field_subtitle:
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+hidden:
+  created: true
+  uid: true

@@ -1,0 +1,23 @@
+uuid: 2fa5b65f-f45d-4530-aed6-aa85e432f5ef
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_meta_tags_basic_page
+    - node.type.page
+  module:
+    - metatag
+id: node.page.field_meta_tags_basic_page
+field_name: field_meta_tags_basic_page
+entity_type: node
+bundle: page
+label: 'Meta tags Basic Page'
+description: "----------------------------------------------------------------------------------------------------------------------------<br>\r\nЩоб додати Meta tags Basic Page, необхідно в полі Meta tags відкрити вкладку Open Graph та додати в інпут поля Image -> http://camp17.drupal.ua/themes/custom/dc17_bootstrap/images/image-for-meta-tags.png <br> \r\n-----------------------------------------------------------------------------------------------------------------------------<br>"
+required: false
+translatable: false
+default_value:
+  -
+    value: 'a:0:{}'
+default_value_callback: ''
+settings: {  }
+field_type: metatag

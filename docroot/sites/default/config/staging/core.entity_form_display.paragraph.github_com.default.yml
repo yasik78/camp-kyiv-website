@@ -1,0 +1,25 @@
+uuid: 6050d84b-a0d5-4ebd-867c-658e5e7211e7
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.github_com.field_github_link
+    - paragraphs.paragraphs_type.github_com
+  module:
+    - link
+id: paragraph.github_com.default
+targetEntityType: paragraph
+bundle: github_com
+mode: default
+content:
+  field_github_link:
+    weight: 0
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+hidden:
+  created: true
+  status: true
+  uid: true

@@ -1,0 +1,16 @@
+uuid: de85ab70-a92a-40d2-b5ab-42d0e2728f08
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.linkedin
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: false
+id: paragraph.linkedin
+target_entity_type_id: paragraph
+target_bundle: linkedin
+default_langcode: site_default
+language_alterable: false

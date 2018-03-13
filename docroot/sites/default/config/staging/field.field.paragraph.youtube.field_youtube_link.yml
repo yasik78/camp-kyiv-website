@@ -1,0 +1,28 @@
+uuid: ed4d193c-6bfd-4d45-af51-dcef0a3470dc
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_youtube_link
+    - paragraphs.paragraphs_type.youtube
+  module:
+    - link
+id: paragraph.youtube.field_youtube_link
+field_name: field_youtube_link
+entity_type: paragraph
+bundle: youtube
+label: 'youtube link'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    attributes: {  }
+    uri: 'http://www.youtube.com/'
+    title: ''
+    options: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 1
+field_type: link

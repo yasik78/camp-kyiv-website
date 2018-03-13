@@ -1,0 +1,10 @@
+display:
+  default:
+    display_options:
+      fields:
+        nothing:
+          alter:
+            text: DETAILED
+        field_double_speaker_image:
+          alter:
+            text: "<div class=\"wrapper-speaker\">\r\n<div class=\"wrapper-speaker-link\">\r\n{{ view_node }}\r\n</div>\r\n<div class=\"wrapper-speaker-image\">\r\n{{ field_double_speaker_image }}\r\n</div>\r\n<div class=\"wrapper-speaker-name\">\r\n{{ field_speakers }}\r\n</div>\r\n</div>"

@@ -1,0 +1,30 @@
+uuid: 3a910f5d-3b4f-4d66-a0bd-62f5fb7c38df
+langcode: en
+status: true
+dependencies:
+  module:
+    - language
+  theme:
+    - dc17_bootstrap
+id: languageswitcher
+theme: dc17_bootstrap
+region: navigation
+weight: -11
+provider: null
+plugin: 'language_block:language_interface'
+settings:
+  id: 'language_block:language_interface'
+  label: 'Language switcher'
+  provider: language
+  label_display: '0'
+visibility:
+  language:
+    id: language
+    langcodes:
+      en: en
+      uk: uk
+      pl: pl
+      ru: ru
+    negate: false
+    context_mapping:
+      language: '@language.current_language_context:language_interface'

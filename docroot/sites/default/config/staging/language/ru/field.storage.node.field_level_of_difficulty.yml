@@ -1,0 +1,8 @@
+settings:
+  allowed_values:
+    -
+      label: Углубленный
+    -
+      label: Средний
+    -
+      label: Начальный

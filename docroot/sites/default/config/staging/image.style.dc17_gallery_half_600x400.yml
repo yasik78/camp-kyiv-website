@@ -1,0 +1,15 @@
+uuid: f980d20b-0c5f-41f2-ad87-71afcf2018ca
+langcode: en
+status: true
+dependencies: {  }
+name: dc17_gallery_half_600x400
+label: dc17_GALLERY-half_600x400
+effects:
+  d25e5b24-f545-4559-a45e-c3a340c5260b:
+    uuid: d25e5b24-f545-4559-a45e-c3a340c5260b
+    id: image_scale
+    weight: 1
+    data:
+      width: 600
+      height: 400
+      upscale: true

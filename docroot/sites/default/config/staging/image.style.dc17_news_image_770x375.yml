@@ -1,0 +1,15 @@
+uuid: f9787a74-11bb-4b75-8f74-91921c05ec09
+langcode: en
+status: true
+dependencies: {  }
+name: dc17_news_image_770x375
+label: dc17_news_770x375
+effects:
+  ef65ae83-3d84-4dc4-aa50-9314c1616e86:
+    uuid: ef65ae83-3d84-4dc4-aa50-9314c1616e86
+    id: image_scale
+    weight: 1
+    data:
+      width: 770
+      height: 375
+      upscale: false

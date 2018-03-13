@@ -1,0 +1,8 @@
+settings:
+  allowed_values:
+    -
+      label: Украинская
+    -
+      label: Английский
+    -
+      label: Российская

@@ -1,0 +1,15 @@
+uuid: beb1b095-25e8-4876-864f-76605374c3b1
+langcode: en
+status: true
+dependencies: {  }
+name: dc17_ck_small_260
+label: dc17_CK-small_260
+effects:
+  73387969-2f0f-4cc2-9e5d-8e04d567d3a2:
+    uuid: 73387969-2f0f-4cc2-9e5d-8e04d567d3a2
+    id: image_scale
+    weight: 1
+    data:
+      width: 260
+      height: null
+      upscale: false

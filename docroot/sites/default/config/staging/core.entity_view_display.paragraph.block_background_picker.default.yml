@@ -1,0 +1,23 @@
+uuid: 552bc737-b9be-4aaa-920b-cd4e69cd79db
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.block_background_picker.field_backg
+    - paragraphs.paragraphs_type.block_background_picker
+  module:
+    - options
+id: paragraph.block_background_picker.default
+targetEntityType: paragraph
+bundle: block_background_picker
+mode: default
+content:
+  field_backg:
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
+hidden:
+  created: true
+  uid: true

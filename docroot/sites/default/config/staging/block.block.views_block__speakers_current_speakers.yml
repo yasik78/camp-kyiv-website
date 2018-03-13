@@ -1,0 +1,32 @@
+uuid: 5ab17429-83b3-40cb-b6a3-5a476c82585d
+langcode: uk
+status: true
+dependencies:
+  config:
+    - views.view.speakers
+  module:
+    - ctools
+    - views
+  theme:
+    - dc17_bootstrap
+id: views_block__speakers_current_speakers
+theme: dc17_bootstrap
+region: sidebar_second
+weight: 0
+provider: null
+plugin: 'views_block:speakers-current_speakers'
+settings:
+  id: 'views_block:speakers-current_speakers'
+  label: ''
+  provider: views
+  label_display: '0'
+  views_label: ''
+  items_per_page: none
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    bundles:
+      presentation: presentation
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'

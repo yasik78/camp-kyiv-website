@@ -1,0 +1,22 @@
+uuid: 0c504d95-5933-46a3-a590-a79a73e24640
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.bitbucket
+id: paragraph.bitbucket.status
+field_name: status
+entity_type: paragraph
+bundle: bitbucket
+label: Published
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Увімкнено
+  off_label: Вимкнено
+field_type: boolean

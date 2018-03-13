@@ -1,0 +1,23 @@
+uuid: 12460260-38c0-4dd6-bb0d-0dc39bf4d8de
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.ck_editor.field_editor
+    - paragraphs.paragraphs_type.ck_editor
+  module:
+    - text
+id: paragraph.ck_editor.default
+targetEntityType: paragraph
+bundle: ck_editor
+mode: default
+content:
+  field_editor:
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+hidden:
+  created: true
+  uid: true

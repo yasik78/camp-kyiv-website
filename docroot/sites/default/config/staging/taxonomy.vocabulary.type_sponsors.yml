@@ -1,0 +1,9 @@
+uuid: 0ae76f4f-3966-4f33-9884-84d136d63857
+langcode: uk
+status: true
+dependencies: {  }
+name: 'Типи спонсорів'
+vid: type_sponsors
+description: 'Типи спонсорів'
+hierarchy: 0
+weight: 0

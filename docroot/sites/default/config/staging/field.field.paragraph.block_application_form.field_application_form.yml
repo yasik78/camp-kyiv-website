@@ -1,0 +1,34 @@
+uuid: 958580f1-0a98-475b-980e-81a5cca077ad
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_application_form
+    - paragraphs.paragraphs_type.block_application_form
+    - webform.webform.application_form
+  module:
+    - webform
+id: paragraph.block_application_form.field_application_form
+field_name: field_application_form
+entity_type: paragraph
+bundle: block_application_form
+label: 'Application form'
+description: 'Application form'
+required: true
+translatable: true
+default_value:
+  -
+    default_data: ''
+    status: '1'
+    target_uuid: f5d8b64c-a78a-4ab2-bf4f-7aa6123d0d42
+default_value_callback: ''
+settings:
+  handler: 'default:webform'
+  handler_settings:
+    target_bundles: null
+    auto_create: false
+  default_data: ''
+  status: '1'
+  open: ''
+  close: ''
+field_type: webform

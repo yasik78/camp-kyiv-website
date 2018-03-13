@@ -1,0 +1,29 @@
+uuid: 9e20921b-9287-4054-a900-51a80234f4a7
+langcode: uk
+status: true
+dependencies:
+  config:
+    - contact.form.application_form
+    - field.field.contact_message.application_form.field_telephone
+  module:
+    - telephone
+id: contact_message.application_form.default
+targetEntityType: contact_message
+bundle: application_form
+mode: default
+content:
+  field_telephone:
+    weight: 1
+    label: above
+    settings:
+      title: ''
+    third_party_settings: {  }
+    type: telephone_link
+  message:
+    type: basic_string
+    weight: 0
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  langcode: true

@@ -1,0 +1,311 @@
+.page-node-type-presentation {
+  .main-container {
+
+    // Changing grid for this CT Presentation.
+    .col-md-9 {
+      @extend .col-md-7;
+      padding-right: 50px;
+
+      @media screen and (max-width: $screen-sm){
+        padding-right: 17px;
+      }
+    }
+
+    aside.col-md-3 {
+      @extend .col-md-5;
+
+      padding-left: 60px;
+
+      @media screen and (max-width: $screen-lg) {
+        padding-left: 40px;
+      }
+      
+      @media screen and (max-width: $screen-md) {
+        padding-left: 17px;
+      }
+
+      @media screen and (max-width: $screen-sm) {
+        padding-top: 30px;
+      }
+
+      @media screen and (max-width: $screen-xs) {
+        padding-left: 17px;
+      }
+      
+      &:before {
+        background: transparent;
+        border-left: 1px solid $grey-news;
+
+        height: calc(100% - 55px);
+        top: 55px;
+
+        @media screen and (max-width: $screen-sm){
+          border-left: 0;
+        }
+      }
+    }
+
+    // Common styles.
+    .page-header {
+      color: $darkgrey;
+      padding-bottom: 0;
+    }
+
+    .view-display-id-current_speakers {
+
+      .views-row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 26px;
+
+        @media screen and (max-width: $screen-md) {
+          flex-direction: column;
+        }
+
+        @media screen and (max-width: $screen-sm) {
+          flex-direction: row;
+        }
+
+        @media screen and (max-width: $screen-xs) {
+          flex-direction: column;
+        }
+
+        .views-field-field-image {
+          flex-basis: 180px;
+          max-width: 180px;
+
+          img {
+            max-width: 180px;
+            max-height: 180px;
+          }
+        }
+
+        .views-field-nothing {
+          flex-basis: calc(100% - 180px);
+          max-width: calc(100% - 180px);
+          padding-left: 26px;
+
+          @media screen and (max-width: $screen-md) {
+            flex-basis: 100%;
+            max-width: 100%;
+            padding-left: 0;
+          }
+
+          @media screen and (max-width: $screen-sm) {
+            flex-basis: calc(100% - 180px);
+            max-width: calc(100% - 180px);
+            padding-left: 26px;
+          }
+
+          @media screen and (max-width: $screen-xs) {
+            flex-basis: 100%;
+            max-width: 100%;
+            padding-left: 0;
+          }
+
+        }
+      }
+
+      .speaker-info {
+        line-height: 2em;
+      }
+
+      .speaker-info__work {
+        font-size: 14px;
+        line-height: 18px;
+        color: $grey-speaker-info;
+
+        div {
+          display: inline;
+        }
+
+        .speaker-info__company {
+          &:after {
+            content: '-';
+          }
+        }
+      }
+    }
+
+    // Social links styles.
+
+    .paragraph--type--s {
+      display: flex;
+      flex-wrap: wrap;
+
+      position: relative;
+
+      padding-top: 20px;
+
+      &:before {
+        content: '';
+        height: 1px;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        margin-top: 10px;
+
+        background: $grey-news;
+      }
+    }
+
+    .paragraph--view-mode--default {
+
+      .paragraph--view-mode--default {
+
+         a {
+           font-size: 0;
+           @extend .fa;
+
+           display: flex;
+           justify-content: center;
+           align-items: center;
+
+           height: 26px;
+           width: 26px;
+           margin-right: 3px;
+           margin-bottom: 5px;
+           background-color: $grey-speaker-info;
+
+           transition: background-color 0.3s ease-out;
+
+           &:hover,
+           &:active,
+           &:focus {
+             background-color: $darkblue;
+             text-decoration: none;
+           }
+
+           &:before {
+             font-size: 16px;
+             color: $white;
+             text-align: center;
+
+             transition: color 0.3s ease-in;
+             padding-right: 0;
+           }
+         }
+
+        &.paragraph--type--github-com {
+          a {
+            @extend .fa-github;
+          }
+        }
+
+        &.paragraph--type--fac {
+          a {
+            @extend .fa-facebook;
+          }
+        }
+
+        &.paragraph--type--linkedin {
+          a {
+            @extend .fa-ln;
+          }
+        }
+
+        &.paragraph--type--drupal-org {
+          a {
+            @extend .fa-drupal;
+          }
+        }
+
+        &.paragraph--type--youtube {
+          a {
+            @extend .fa-youtube;
+          }
+        }
+
+        &.paragraph--type--bitbucket {
+          a {
+            @extend .fa-bitbucket;
+          }
+        }
+      }
+    }
+  }
+
+  // Content.
+
+  .presentation--full {
+    &__info {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: column;
+
+      @media screen and (max-width: $screen-sm) {
+        flex-direction: column;
+      }
+
+      .field {
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: 20px;
+
+        color: $grey-pagination-color;
+        font-weight: 700;
+        font-size: 15px;
+
+        @media screen and (max-width: $screen-sm){
+          font-size: 14px;
+        }
+
+        &:last-child {
+          margin-right: 0;
+        }
+
+        .field__items {
+          display: flex;
+          flex-wrap: wrap;
+        }
+
+        a {
+          color: inherit;
+          font-weight: inherit;
+          font-size: inherit;
+        }
+        
+        .field--label {
+          margin-right: 5px;
+
+          &:after {
+            content: ':';
+            display: inline;
+          }
+        }
+      }
+    }
+
+    .presentation__return {
+      margin-top: 65px;
+
+      @media screen and (max-width: $screen-sm) {
+        margin-bottom: 25px;
+        display: none;
+      }
+
+      a {
+        padding-left: 35px;
+        padding-right: 35px;
+      }
+    }
+  }
+}
+
+.current-speakers {
+  .presentation__return {
+    display: none;
+
+    @media screen and (max-width: $screen-sm) {
+      display: block;
+      margin-top: 45px;
+    }
+
+    a {
+      padding-left: 35px;
+      padding-right: 35px;
+    }
+  }
+}

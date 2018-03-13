@@ -1,0 +1,19 @@
+uuid: 902d951f-05a2-4a16-a8b7-68f2dd357bcb
+langcode: uk
+status: true
+dependencies:
+  module:
+    - paragraphs
+    - text
+id: paragraph.field_editor
+field_name: field_editor
+entity_type: paragraph
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

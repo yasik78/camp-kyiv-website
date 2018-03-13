@@ -1,0 +1,48 @@
+uuid: ce31e136-f85f-421a-a14d-135fed29fece
+langcode: uk
+status: true
+dependencies:
+  config:
+    - block_content.type.block_with_2_columns_with_map
+    - field.storage.block_content.field_button
+    - paragraphs.paragraphs_type.block_button
+  module:
+    - entity_reference_revisions
+id: block_content.block_with_2_columns_with_map.field_button
+field_name: field_button
+entity_type: block_content
+bundle: block_with_2_columns_with_map
+label: Button
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      block_button: block_button
+    target_bundles_drag_drop:
+      block_background_picker:
+        weight: 8
+        enabled: false
+      block_body:
+        weight: 9
+        enabled: false
+      block_button:
+        enabled: true
+        weight: 10
+      block_image:
+        weight: 11
+        enabled: false
+      block_title:
+        weight: 12
+        enabled: false
+      ck_editor:
+        weight: 13
+        enabled: false
+      map:
+        weight: 14
+        enabled: false
+field_type: entity_reference_revisions

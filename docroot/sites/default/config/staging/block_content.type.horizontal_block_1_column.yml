@@ -1,0 +1,8 @@
+uuid: 4babe6cd-7c5b-4fc4-b67e-efce4b27f674
+langcode: uk
+status: true
+dependencies: {  }
+id: horizontal_block_1_column
+label: 'Horizontal block 1 column'
+revision: 0
+description: 'Horizontal block one column'

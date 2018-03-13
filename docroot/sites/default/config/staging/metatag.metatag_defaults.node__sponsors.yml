@@ -1,0 +1,11 @@
+uuid: 6f08b0c7-8edc-457a-9278-f016c912e00a
+langcode: uk
+status: true
+dependencies: {  }
+id: node__sponsors
+label: 'Content: Sponsors'
+tags:
+  abstract: '[node:content-type:description]'
+  title: '[node:title] | [site:name]'
+  description: '[node:summary]'
+  og_image: '[node:field_logo]'

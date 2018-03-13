@@ -1,0 +1,22 @@
+uuid: a1b779e2-02dc-4731-9836-1d6e5a2d566b
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.ck_editor
+id: paragraph.ck_editor.status
+field_name: status
+entity_type: paragraph
+bundle: ck_editor
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

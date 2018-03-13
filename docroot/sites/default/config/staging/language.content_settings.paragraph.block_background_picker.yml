@@ -1,0 +1,16 @@
+uuid: a2aa2676-99df-44ce-8b2c-d45878622f02
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.block_background_picker
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: paragraph.block_background_picker
+target_entity_type_id: paragraph
+target_bundle: block_background_picker
+default_langcode: site_default
+language_alterable: true

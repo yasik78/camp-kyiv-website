@@ -1,0 +1,15 @@
+uuid: 0a96d755-dc93-4911-bf01-cdf3314bf64b
+langcode: en
+status: true
+dependencies: {  }
+name: dc17_gallery_main_770x513
+label: dc17_GALLERY-main_770x513
+effects:
+  8ead4ebc-bc9f-4416-88e3-e92d23c8b924:
+    uuid: 8ead4ebc-bc9f-4416-88e3-e92d23c8b924
+    id: image_scale
+    weight: 1
+    data:
+      width: 770
+      height: 513
+      upscale: true

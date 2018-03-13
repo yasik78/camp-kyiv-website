@@ -1,0 +1,63 @@
+// Custom variables.
+@import "custom-variables";
+
+// Default variables.
+@import "default-variables";
+
+// Bootstrap Framework.
+@import '../bootstrap/assets/stylesheets/bootstrap';
+
+// Fontawesome icons.
+
+@import "font-awesome/fontawesome";
+
+// Base-theme overrides.
+@import 'overrides';
+
+// For Styleguide.
+@import 'stylegiude-sample';
+
+@import 'news';
+@import 'blocks/_block-content.scss';
+@import 'preloader.scss';
+@import 'blocks/_block-sponsor.scss';
+
+//Block with 3 columns on main page.
+@import 'info-block';
+
+// Block application form.
+@import 'blocks/block-application-form';
+
+//Frontpage welcome block.
+@import 'frontpage';
+
+// Basic page title and subtitle.
+@import 'basic-page';
+
+@import 'sidebar-right';
+
+// Sponsor full node.
+
+@import 'sponsor';
+
+@import 'footer';
+
+// CT presentation.
+@import "ct-presentation";
+
+// Speakers page.
+@import "speakers-page";
+
+@import "ct-presentation";
+// Sponsors blocks on the front page
+@import 'blocks/block-sponsors-front';
+
+//Front page slider.
+@import "fron-slider-presentation";
+
+//Schedule page.
+@import "page-schedule";
+
+//Alert messages.
+@import "alert";
+

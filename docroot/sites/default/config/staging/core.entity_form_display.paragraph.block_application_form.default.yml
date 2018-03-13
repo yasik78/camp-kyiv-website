@@ -1,0 +1,23 @@
+uuid: aac4de29-09e4-4036-9586-c6b692f65b76
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.block_application_form.field_application_form
+    - paragraphs.paragraphs_type.block_application_form
+  module:
+    - webform
+id: paragraph.block_application_form.default
+targetEntityType: paragraph
+bundle: block_application_form
+mode: default
+content:
+  field_application_form:
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+    type: webform_entity_reference_select
+hidden:
+  created: true
+  status: true
+  uid: true

@@ -1,0 +1,23 @@
+uuid: 247440da-6a1c-4d4c-99a7-fb2819a3f7f5
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_sponsor_web_site
+    - node.type.sponsors
+  module:
+    - link
+id: node.sponsors.field_sponsor_web_site
+field_name: field_sponsor_web_site
+entity_type: node
+bundle: sponsors
+label: 'Web site'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 1
+field_type: link

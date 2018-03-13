@@ -1,0 +1,8 @@
+uuid: e9186a57-351b-4a7e-9966-85bcd6888452
+langcode: und
+status: true
+dependencies: {  }
+id: camp17_news_date_format
+label: 'CAMP17 News date format'
+locked: false
+pattern: d.m.Y

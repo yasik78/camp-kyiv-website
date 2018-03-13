@@ -1,0 +1,65 @@
+uuid: cbee8711-302e-4937-9d33-d1790a7fb215
+langcode: uk
+status: true
+dependencies:
+  config:
+    - block_content.type.block_application_form
+    - field.field.block_content.block_application_form.field_application_form
+    - field.field.block_content.block_application_form.field_background_image
+    - field.field.block_content.block_application_form.field_subtitle
+    - field.field.block_content.block_application_form.field_title_block_form
+  module:
+    - paragraphs
+id: block_content.block_application_form.default
+targetEntityType: block_content
+bundle: block_application_form
+mode: default
+content:
+  field_background_image:
+    type: entity_reference_paragraphs
+    weight: 4
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+    third_party_settings: {  }
+  field_subtitle:
+    type: entity_reference_paragraphs
+    weight: 3
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+    third_party_settings: {  }
+  field_title_block_form:
+    type: entity_reference_paragraphs
+    weight: 2
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+    third_party_settings: {  }
+  info:
+    type: string_textfield
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+  translation:
+    weight: 5
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_application_form: true

@@ -1,0 +1,6 @@
+uuid: fa4459b2-bc52-44fa-8a8c-b05a09cc06a0
+langcode: uk
+status: true
+dependencies: {  }
+id: block_button_with_description
+label: 'Block button with description'

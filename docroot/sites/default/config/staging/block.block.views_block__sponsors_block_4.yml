@@ -1,0 +1,30 @@
+uuid: d91cf232-6881-4784-baee-6f6bde33537b
+langcode: uk
+status: true
+dependencies:
+  config:
+    - views.view.sponsors
+  module:
+    - system
+    - views
+  theme:
+    - dc17_bootstrap
+id: views_block__sponsors_block_4
+theme: dc17_bootstrap
+region: content
+weight: -21
+provider: null
+plugin: 'views_block:sponsors-block_4'
+settings:
+  id: 'views_block:sponsors-block_4'
+  label: ''
+  provider: views
+  label_display: visible
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    pages: /node/47
+    negate: false
+    context_mapping: {  }

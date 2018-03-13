@@ -1,0 +1,45 @@
+uuid: a2a1e4c7-7caf-4c5e-8f46-855bbb5c0027
+langcode: uk
+status: true
+dependencies:
+  config:
+    - block_content.type.block_with_2_columns_with_map
+    - field.storage.block_content.field_editor
+    - paragraphs.paragraphs_type.ck_editor
+  module:
+    - entity_reference_revisions
+id: block_content.block_with_2_columns_with_map.field_editor
+field_name: field_editor
+entity_type: block_content
+bundle: block_with_2_columns_with_map
+label: Editor
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      ck_editor: ck_editor
+    target_bundles_drag_drop:
+      block_background_picker:
+        weight: 7
+        enabled: false
+      block_body:
+        weight: 8
+        enabled: false
+      block_button:
+        weight: 9
+        enabled: false
+      block_image:
+        weight: 10
+        enabled: false
+      block_title:
+        weight: 11
+        enabled: false
+      ck_editor:
+        enabled: true
+        weight: 12
+field_type: entity_reference_revisions

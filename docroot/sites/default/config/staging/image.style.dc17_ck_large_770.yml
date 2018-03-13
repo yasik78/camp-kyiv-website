@@ -1,0 +1,15 @@
+uuid: c29af350-d2bb-4fa6-a7c7-0651570f38c4
+langcode: en
+status: true
+dependencies: {  }
+name: dc17_ck_large_770
+label: dc17_CK-large_770
+effects:
+  dcab3d1f-a5fc-42c5-92cb-f653f8ffb457:
+    uuid: dcab3d1f-a5fc-42c5-92cb-f653f8ffb457
+    id: image_scale
+    weight: 1
+    data:
+      width: 770
+      height: null
+      upscale: true

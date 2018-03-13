@@ -1,0 +1,15 @@
+uuid: 864d8388-08be-4a04-b8a1-bca02fddddc9
+langcode: en
+status: true
+dependencies: {  }
+name: dc17_basic_page_770x400
+label: dc17_basic_page_770x400
+effects:
+  dde399f7-2700-4dc5-b010-828ea706f1af:
+    uuid: dde399f7-2700-4dc5-b010-828ea706f1af
+    id: image_scale
+    weight: 1
+    data:
+      width: 770
+      height: 400
+      upscale: false

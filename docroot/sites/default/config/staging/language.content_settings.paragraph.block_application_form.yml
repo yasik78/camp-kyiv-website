@@ -1,0 +1,16 @@
+uuid: 703a397e-bcca-4f57-82c1-0795d2d7ce25
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.block_application_form
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: paragraph.block_application_form
+target_entity_type_id: paragraph
+target_bundle: block_application_form
+default_langcode: site_default
+language_alterable: true

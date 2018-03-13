@@ -1,0 +1,18 @@
+uuid: 13a0e455-861c-4771-b0e5-68e4fd1bc71d
+langcode: uk
+status: true
+dependencies:
+  config:
+    - block_content.type.block_application_form
+id: block_content.block_application_form.changed
+field_name: changed
+entity_type: block_content
+bundle: block_application_form
+label: Changed
+description: 'The time that the custom block was last edited.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

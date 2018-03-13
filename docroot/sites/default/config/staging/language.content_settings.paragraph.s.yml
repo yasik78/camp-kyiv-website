@@ -1,0 +1,16 @@
+uuid: cbdd0cf0-7a53-44e8-abd7-952f36555689
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.s
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: false
+id: paragraph.s
+target_entity_type_id: paragraph
+target_bundle: s
+default_langcode: site_default
+language_alterable: false

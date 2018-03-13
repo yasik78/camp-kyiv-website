@@ -1,0 +1,31 @@
+uuid: f45c7461-2b1b-4b26-92d0-114de391d96b
+langcode: uk
+status: true
+dependencies:
+  content:
+    - 'block_content:block_with_3_columns:1ae2b6e1-2e25-498a-ba0c-13b97c3b3326'
+  module:
+    - block_content
+    - system
+  theme:
+    - dc17_bootstrap
+id: statispikerom
+theme: dc17_bootstrap
+region: custom_region
+weight: -23
+provider: null
+plugin: 'block_content:1ae2b6e1-2e25-498a-ba0c-13b97c3b3326'
+settings:
+  id: 'block_content:1ae2b6e1-2e25-498a-ba0c-13b97c3b3326'
+  label: 'Стати спікером <front>'
+  provider: block_content
+  label_display: '0'
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }

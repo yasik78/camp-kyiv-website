@@ -1,0 +1,18 @@
+uuid: 4a32cf26-0cb5-40ec-89dc-96d97e7b4e6c
+langcode: uk
+status: true
+dependencies:
+  config:
+    - node.type.sponsors
+id: node.sponsors.created
+field_name: created
+entity_type: node
+bundle: sponsors
+label: 'Authored on'
+description: 'The time that the node was created.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

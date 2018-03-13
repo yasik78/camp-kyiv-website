@@ -1,0 +1,45 @@
+uuid: e1d5e030-82d3-45c8-ab80-dfe534263b9b
+langcode: uk
+status: true
+dependencies:
+  config:
+    - block_content.type.block_with_2_columns
+    - field.storage.block_content.field_image_2col
+    - paragraphs.paragraphs_type.block_image
+  module:
+    - entity_reference_revisions
+id: block_content.block_with_2_columns.field_image_2col
+field_name: field_image_2col
+entity_type: block_content
+bundle: block_with_2_columns
+label: Image
+description: image
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      block_image: block_image
+    target_bundles_drag_drop:
+      block_background_picker:
+        weight: 7
+        enabled: false
+      block_body:
+        weight: 8
+        enabled: false
+      block_button:
+        weight: 9
+        enabled: false
+      block_image:
+        enabled: true
+        weight: 10
+      block_title:
+        weight: 11
+        enabled: false
+      ck_editor:
+        weight: 12
+        enabled: false
+field_type: entity_reference_revisions

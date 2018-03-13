@@ -1,0 +1,24 @@
+.idea
+tmp
+# stage_file_proxy and devel modules shouldn't be downloaded to prod site.
+docroot/modules/contrib/stage_file_proxy
+docroot/modules/contrib/devel
+docroot/modules/contrib/coffee/
+docroot/sites/default/config/staging/coffee.configuration.yml
+docroot/sites/default/config/staging/devel.settings.yml
+docroot/sites/default/config/staging/stage_file_proxy.settings.yml
+docroot/sites/default/config/staging/kint.yml
+docroot/sites/default/config/staging/deve_kint.yml
+docroot/sites/default/config/staging/system.menu.devel.yml
+docroot/sites/default/config/staging/language/pl/system.menu.devel.yml
+docroot/sites/default/config/staging/language/ru/system.menu.devel.yml
+docroot/sites/default/config/staging/language/uk/system.menu.devel.yml
+
+docroot/sites/default/settings.local.php
+docroot/sites/default/files
+
+docroot/sites/default/hash_salt.txt
+
+docroot/themes/custom/dc17_bootstrap/node_modules
+docroot/themes/custom/dc17_bootstrap/.idea
+docroot/sites/default/services.yml

@@ -1,0 +1,23 @@
+uuid: f8134a27-5d31-438f-99c5-30032e12d703
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_block_button
+    - paragraphs.paragraphs_type.block_button_with_description
+  module:
+    - link
+id: paragraph.block_button_with_description.field_block_button
+field_name: field_block_button
+entity_type: paragraph
+bundle: block_button_with_description
+label: 'Block button'
+description: 'link for button'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 2
+field_type: link

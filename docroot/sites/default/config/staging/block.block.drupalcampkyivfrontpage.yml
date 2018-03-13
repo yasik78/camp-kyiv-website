@@ -1,0 +1,31 @@
+uuid: 993b6644-a96f-486a-8c4e-0b6a9bb7a84b
+langcode: uk
+status: true
+dependencies:
+  content:
+    - 'block_content:horizontal_block_1_column:62a94338-90a0-48b9-8a00-9553d4e88821'
+  module:
+    - block_content
+    - system
+  theme:
+    - dc17_bootstrap
+id: drupalcampkyivfrontpage
+theme: dc17_bootstrap
+region: header
+weight: 0
+provider: null
+plugin: 'block_content:62a94338-90a0-48b9-8a00-9553d4e88821'
+settings:
+  id: 'block_content:62a94338-90a0-48b9-8a00-9553d4e88821'
+  label: 'DRUPALCAMP KYIV front page'
+  provider: block_content
+  label_display: '0'
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }

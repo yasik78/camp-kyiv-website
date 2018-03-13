@@ -1,0 +1,12 @@
+uuid: 546dd9ab-4db4-48ec-ba9a-2f5c01cf87db
+langcode: uk
+status: true
+dependencies: {  }
+id: application_form
+label: 'Application form'
+recipients:
+  - org.drupalcamp.kyiv@gmail.com
+reply: ''
+weight: 0
+message: 'Fill in the fields for acceptance of your application for performance.'
+redirect: /

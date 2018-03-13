@@ -1,0 +1,18 @@
+uuid: 234595bf-0300-475e-9151-8d5fa888409f
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.github_com
+id: paragraph.github_com.created
+field_name: created
+entity_type: paragraph
+bundle: github_com
+label: 'Authored on'
+description: 'The time that the Paragraph was created.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

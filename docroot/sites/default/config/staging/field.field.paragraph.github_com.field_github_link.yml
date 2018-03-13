@@ -1,0 +1,28 @@
+uuid: 60eef5b4-9c8d-4b36-890e-d98098a405d3
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_github_link
+    - paragraphs.paragraphs_type.github_com
+  module:
+    - link
+id: paragraph.github_com.field_github_link
+field_name: field_github_link
+entity_type: paragraph
+bundle: github_com
+label: 'github link'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    attributes: {  }
+    uri: 'http://github.com/'
+    title: ''
+    options: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 1
+field_type: link

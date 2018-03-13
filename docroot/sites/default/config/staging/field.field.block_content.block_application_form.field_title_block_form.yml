@@ -1,0 +1,57 @@
+uuid: 174cd393-a0ac-45d1-a041-2faf550e9fc4
+langcode: uk
+status: true
+dependencies:
+  config:
+    - block_content.type.block_application_form
+    - field.storage.block_content.field_title_block_form
+    - paragraphs.paragraphs_type.block_title
+  module:
+    - entity_reference_revisions
+id: block_content.block_application_form.field_title_block_form
+field_name: field_title_block_form
+entity_type: block_content
+bundle: block_application_form
+label: Title
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      block_title: block_title
+    target_bundles_drag_drop:
+      block_application_form:
+        weight: 9
+        enabled: false
+      block_background_picker:
+        weight: 10
+        enabled: false
+      block_body:
+        weight: 11
+        enabled: false
+      block_button:
+        weight: 12
+        enabled: false
+      block_background_image:
+        weight: 12
+        enabled: false
+      block_image:
+        weight: 13
+        enabled: false
+      block_title:
+        enabled: true
+        weight: 14
+      ck_editor:
+        weight: 15
+        enabled: false
+      map:
+        weight: 16
+        enabled: false
+      block_subtitle:
+        weight: 17
+        enabled: false
+field_type: entity_reference_revisions

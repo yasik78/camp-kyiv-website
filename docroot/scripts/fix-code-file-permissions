@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+
+clear
+
+#set -eo pipefail
+
+if [ ! -f "index.php" ]; then
+  echo 'Please run this script from "drupal8" directory.'
+  exit 1;
+fi
+
+#$(echo $(pwd)"/scripts/project-branch");
+
+chmod -R -x+X ./ 2> /dev/null
+
+# Custom scripts.
+if [ -d "./scripts" ]; then
+  chmod -R +x ./scripts
+fi
+
+# Vendor BIN.
+if [ -d "./vendor/bin" ]; then
+  chmod -R +x ./vendor/bin
+fi
+
+# Drupal console
+if [ -f "./drupal" ]; then
+  chmod +x ./drupal
+fi
+if [ -f "./vendor/drupal/console/bin/drupal" ]; then
+  chmod +x ./vendor/drupal/console/bin/drupal
+fi
+
+# Drush.
+if [ -f "./drush" ]; then
+  chmod +x ./drush
+fi
+if [ -f "./vendor/drush/drush/drush" ]; then
+  chmod +x ./vendor/drush/drush/drush
+fi
+if [ -f "./vendor/drush/drush/drush.complete.sh" ]; then
+  chmod +x ./vendor/drush/drush/drush.complete.sh
+fi
+if [ -f "./vendor/drush/drush/drush.launcher" ]; then
+  chmod +x ./vendor/drush/drush/drush.launcher
+fi
+if [ -f "./vendor/drush/drush/drush.php" ]; then
+  chmod +x ./vendor/drush/drush/drush.php
+fi
+if [ -f "./vendor/drush/drush/unish.bat" ]; then
+  chmod +x ./vendor/drush/drush/unish.bat
+fi
+if [ -f "./vendor/drush/drush/unish.sh" ]; then
+  chmod +x ./vendor/drush/drush/unish.sh
+fi
+if [ -f "./vendor/drush/drush/dr.bat" ]; then
+  chmod +x ./vendor/drush/drush/dr.bat
+fi
+if [ -f "./vendor/nikic/php-parser/bin/php-parse" ]; then
+  chmod +x ./vendor/nikic/php-parser/bin/php-parse
+fi
+if [ -f "./vendor/phpunit/phpunit/phpunit" ]; then
+  chmod +x ./vendor/phpunit/phpunit/phpunit
+fi
+
+# CI
+if [ -f "../ci/install-docker-compose.sh" ]; then
+  chmod +x ../ci/install-docker-compose.sh
+fi
+
+# Theme
+if [ -f "./themes/grc_at/run.sh" ]; then
+  chmod +x ./themes/grc_at/run.sh
+fi
+
+echo "FIle permissions are fixed."
+
+exit 0

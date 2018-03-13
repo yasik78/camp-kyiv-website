@@ -1,0 +1,28 @@
+uuid: fc175dae-8970-4d4b-9585-beafe93005b0
+langcode: uk
+status: false
+dependencies:
+  module:
+    - system
+  theme:
+    - dc17_bootstrap
+id: becameaparticipant
+theme: dc17_bootstrap
+region: '-1'
+weight: -28
+provider: null
+plugin: 'block_content:c40bbccd-dcc4-4817-8aa4-7057ae8256cf'
+settings:
+  id: 'block_content:c40bbccd-dcc4-4817-8aa4-7057ae8256cf'
+  label: 'Became a participant'
+  provider: block_content
+  label_display: '0'
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    pages: /speakers
+    negate: false
+    context_mapping: {  }

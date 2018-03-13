@@ -1,0 +1,11 @@
+uuid: 6e7fa127-4cdc-4536-8f0c-861915e1cc0a
+langcode: uk
+status: true
+dependencies: {  }
+id: node__page
+label: 'Content: Basic page'
+tags:
+  abstract: '[node:content-type:description]'
+  title: '[node:title] | [site:name]'
+  description: '[node:summary]'
+  og_image: 'http://camp17.drupal.ua/themes/custom/dc17_bootstrap/images/image-for-meta-tags.png'

@@ -1,0 +1,8 @@
+uuid: 99b964df-df5b-45d2-a00d-7a1f90360c6c
+langcode: uk
+status: true
+dependencies: {  }
+id: block_with_3_columns
+label: 'Block with 3 columns'
+revision: 0
+description: 'block with 3 columns'

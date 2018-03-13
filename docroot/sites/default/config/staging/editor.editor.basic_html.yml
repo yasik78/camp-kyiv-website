@@ -1,0 +1,122 @@
+uuid: c64d3a69-5fea-4730-9485-05deceb4f3d9
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.basic_html
+  module:
+    - ckeditor
+_core:
+  default_config_hash: AqlPmO16LvJI4D0Ih6u4GFQIzqr5OnLgAUSjcUGWk2g
+format: basic_html
+editor: ckeditor
+settings:
+  toolbar:
+    rows:
+      -
+        -
+          name: Tools
+          items:
+            - Source
+        -
+          name: Media
+          items:
+            - Table
+            - DrupalImage
+            - SpecialChar
+            - media
+        -
+          name: File
+          items:
+            - Cut
+            - Copy
+            - '-'
+            - Paste
+            - PasteText
+            - PasteFromWord
+        -
+          name: Steps
+          items:
+            - Undo
+            - Redo
+        -
+          name: Tags
+          items:
+            - HorizontalRule
+            - ShowBlocks
+      -
+        -
+          name: Formatting
+          items:
+            - Bold
+            - Italic
+            - Underline
+            - '-'
+            - Superscript
+            - Subscript
+            - RemoveFormat
+        -
+          name: Lists
+          items:
+            - NumberedList
+            - BulletedList
+            - '-'
+            - Outdent
+            - Indent
+            - Blockquote
+        -
+          name: Linking
+          items:
+            - DrupalLink
+            - DrupalUnlink
+        -
+          name: Position
+          items:
+            - JustifyLeft
+            - JustifyCenter
+            - JustifyRight
+            - JustifyBlock
+      -
+        -
+          name: 'Block Formatting'
+          items:
+            - Format
+        -
+          name: Scale
+          items:
+            - Maximize
+  plugins:
+    stylescombo:
+      styles: ''
+    language:
+      language_list: un
+    codemirror:
+      enable: true
+      mode: htmlmixed
+      theme: default
+      lineNumbers: true
+      lineWrapping: true
+      matchBrackets: true
+      autoCloseTags: true
+      autoCloseBrackets: true
+      enableSearchTools: true
+      enableCodeFolding: true
+      enableCodeFormatting: true
+      autoFormatOnStart: true
+      autoFormatOnModeChange: true
+      autoFormatOnUncomment: true
+    video_embed:
+      defaults:
+        children:
+          autoplay: true
+          responsive: true
+          width: '854'
+          height: '480'
+image_upload:
+  status: true
+  scheme: public
+  directory: inline-images
+  max_size: ''
+  max_dimensions:
+    width: null
+    height: null

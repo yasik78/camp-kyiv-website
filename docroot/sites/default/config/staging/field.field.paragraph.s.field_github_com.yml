@@ -1,0 +1,81 @@
+uuid: f7756ce4-1568-4781-b06e-f460b94a1cbc
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_github_com
+    - paragraphs.paragraphs_type.github_com
+    - paragraphs.paragraphs_type.s
+  module:
+    - entity_reference_revisions
+id: paragraph.s.field_github_com
+field_name: field_github_com
+entity_type: paragraph
+bundle: s
+label: github.com
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      github_com: github_com
+    target_bundles_drag_drop:
+      s:
+        weight: 19
+        enabled: false
+      bitbucket:
+        weight: 20
+        enabled: false
+      block_application_form:
+        weight: 21
+        enabled: false
+      block_background_image:
+        weight: 22
+        enabled: false
+      block_background_picker:
+        weight: 23
+        enabled: false
+      block_body:
+        weight: 24
+        enabled: false
+      block_button:
+        weight: 25
+        enabled: false
+      block_button_with_description:
+        weight: 26
+        enabled: false
+      block_image:
+        weight: 27
+        enabled: false
+      block_subtitle:
+        weight: 28
+        enabled: false
+      block_title:
+        weight: 29
+        enabled: false
+      ck_editor:
+        weight: 30
+        enabled: false
+      drupal_org:
+        weight: 31
+        enabled: false
+      fac:
+        weight: 32
+        enabled: false
+      github_com:
+        enabled: true
+        weight: 33
+      linkedin:
+        weight: 34
+        enabled: false
+      map:
+        weight: 35
+        enabled: false
+      youtube:
+        weight: 36
+        enabled: false
+field_type: entity_reference_revisions

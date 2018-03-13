@@ -1,0 +1,6 @@
+uuid: 3b1f2e12-b81e-4498-abd8-c408938b5168
+langcode: uk
+status: true
+dependencies: {  }
+id: block_body
+label: 'Block body'

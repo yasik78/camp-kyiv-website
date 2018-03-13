@@ -1,0 +1,16 @@
+uuid: dae7517a-36b8-4cae-89e7-70d1c73a9650
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.github_com
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: false
+id: paragraph.github_com
+target_entity_type_id: paragraph
+target_bundle: github_com
+default_langcode: site_default
+language_alterable: false

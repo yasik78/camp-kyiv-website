@@ -1,0 +1,23 @@
+.sprite {
+    background-image: url(spritesheet.png);
+    background-repeat: no-repeat;
+    display: block;
+}
+
+.sprite-guest-desc {
+    width: 28px;
+    height: 32px;
+    background-position: -5px -5px;
+}
+
+.sprite-speak-desc {
+    width: 19px;
+    height: 32px;
+    background-position: -43px -5px;
+}
+
+.sprite-sponsor-desc {
+    width: 24px;
+    height: 32px;
+    background-position: -5px -47px;
+}

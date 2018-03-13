@@ -1,0 +1,11 @@
+uuid: d193a9b9-da9b-44c4-aeb2-a7c71d622d8c
+langcode: uk
+status: true
+dependencies: {  }
+id: node__presentation
+label: 'Content: Presentation'
+tags:
+  abstract: '[node:content-type:description]'
+  title: '[node:title] | [site:name]'
+  description: '[node:summary]'
+  og_image: '[node:field_speakers:0:entity:field_image]'

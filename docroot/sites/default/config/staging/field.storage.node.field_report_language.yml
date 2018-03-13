@@ -1,0 +1,30 @@
+uuid: 796178eb-22f8-45b8-a24e-58469c2fea47
+langcode: uk
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_report_language
+field_name: field_report_language
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: Українська
+      label: Українська
+    -
+      value: Англійська
+      label: Англійська
+    -
+      value: Російська
+      label: Російська
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

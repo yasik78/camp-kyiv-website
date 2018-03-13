@@ -1,0 +1,28 @@
+uuid: 9802f967-3cca-44d9-8b1c-de146d8e7d4a
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_drupal_org_link
+    - paragraphs.paragraphs_type.drupal_org
+  module:
+    - link
+id: paragraph.drupal_org.field_drupal_org_link
+field_name: field_drupal_org_link
+entity_type: paragraph
+bundle: drupal_org
+label: 'drupal.org link'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    attributes: {  }
+    uri: 'http://www.drupal.org/'
+    title: ''
+    options: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 1
+field_type: link

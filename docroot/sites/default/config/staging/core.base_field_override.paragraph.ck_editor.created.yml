@@ -1,0 +1,18 @@
+uuid: c9c2aade-3d2d-4a02-8d3d-f0d6b1100869
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.ck_editor
+id: paragraph.ck_editor.created
+field_name: created
+entity_type: paragraph
+bundle: ck_editor
+label: 'Authored on'
+description: 'The time that the Paragraph was created.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

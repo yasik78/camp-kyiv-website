@@ -1,0 +1,28 @@
+uuid: 33eea74e-5895-40e6-ae20-2a13f772904f
+langcode: uk
+status: false
+dependencies:
+  module:
+    - system
+  theme:
+    - dc17_bootstrap
+id: facebookmobileforpagenews
+theme: dc17_bootstrap
+region: '-1'
+weight: -25
+provider: null
+plugin: 'block_content:80f144a2-d533-43d3-a599-4de854be0954'
+settings:
+  id: 'block_content:80f144a2-d533-43d3-a599-4de854be0954'
+  label: 'Facebook mobile for page /news'
+  provider: block_content
+  label_display: '0'
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    pages: /news
+    negate: false
+    context_mapping: {  }

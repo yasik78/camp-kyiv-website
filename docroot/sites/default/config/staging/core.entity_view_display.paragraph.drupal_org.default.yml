@@ -1,0 +1,28 @@
+uuid: 93c74823-c26e-4007-8959-7619e8f07245
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.drupal_org.field_drupal_org_link
+    - paragraphs.paragraphs_type.drupal_org
+  module:
+    - link
+id: paragraph.drupal_org.default
+targetEntityType: paragraph
+bundle: drupal_org
+mode: default
+content:
+  field_drupal_org_link:
+    weight: 0
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: true
+      target: _blank
+      url_plain: false
+      rel: '0'
+    third_party_settings: {  }
+    type: link
+hidden:
+  created: true
+  uid: true

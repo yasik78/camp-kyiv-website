@@ -1,0 +1,18 @@
+uuid: 64a690e8-f771-409f-800d-0855d536d773
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.drupal_org
+id: paragraph.drupal_org.created
+field_name: created
+entity_type: paragraph
+bundle: drupal_org
+label: 'Authored on'
+description: 'The time that the Paragraph was created.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

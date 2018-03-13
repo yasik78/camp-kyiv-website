@@ -1,0 +1,31 @@
+uuid: 46b0f99d-e328-41f1-ab74-d1a562b95827
+langcode: uk
+status: true
+dependencies:
+  content:
+    - 'block_content:block_application_form:4c04b84d-744b-4a7d-92de-5748c4136006'
+  module:
+    - block_content
+    - system
+  theme:
+    - dc17_bootstrap
+id: applicationform_3
+theme: dc17_bootstrap
+region: custom_region
+weight: -22
+provider: null
+plugin: 'block_content:4c04b84d-744b-4a7d-92de-5748c4136006'
+settings:
+  id: 'block_content:4c04b84d-744b-4a7d-92de-5748c4136006'
+  label: 'Application form for page <front>'
+  provider: block_content
+  label_display: '0'
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    pages: "<front>\r\n/node/24\r\n/node/43"
+    negate: false
+    context_mapping: {  }

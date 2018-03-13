@@ -1,0 +1,14 @@
+uuid: 7c4a233b-d00d-4fc7-92d5-e1c4245449e1
+langcode: en
+status: true
+dependencies: {  }
+name: dc17_gallery_thumb_146x100
+label: dc17_GALLERY-thumb_146x100
+effects:
+  3a474305-de11-4e51-9374-b36ed1584003:
+    uuid: 3a474305-de11-4e51-9374-b36ed1584003
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 146
+      height: 100

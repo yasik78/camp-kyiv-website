@@ -1,0 +1,25 @@
+uuid: 36100758-6ce8-46c7-ad41-7611be456fee
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.block_subtitle.field_subtitle
+    - paragraphs.paragraphs_type.block_subtitle
+  module:
+    - text
+id: paragraph.block_subtitle.default
+targetEntityType: paragraph
+bundle: block_subtitle
+mode: default
+content:
+  field_subtitle:
+    weight: 0
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+hidden:
+  created: true
+  status: true
+  uid: true

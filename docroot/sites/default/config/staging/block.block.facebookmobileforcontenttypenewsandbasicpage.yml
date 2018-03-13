@@ -1,0 +1,31 @@
+uuid: 67907ae8-ffbf-4640-a380-0e954158edc9
+langcode: uk
+status: false
+dependencies:
+  module:
+    - node
+  theme:
+    - dc17_bootstrap
+id: facebookmobileforcontenttypenewsandbasicpage
+theme: dc17_bootstrap
+region: '-1'
+weight: -26
+provider: null
+plugin: 'block_content:e807cc12-268e-4bc2-8199-dfbef264a152'
+settings:
+  id: 'block_content:e807cc12-268e-4bc2-8199-dfbef264a152'
+  label: 'Facebook mobile for content type News and Basic page'
+  provider: block_content
+  label_display: '0'
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  node_type:
+    id: node_type
+    bundles:
+      news: news
+      page: page
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'

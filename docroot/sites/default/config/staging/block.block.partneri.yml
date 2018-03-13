@@ -1,0 +1,31 @@
+uuid: 8df4d97b-c107-4c98-83b3-4358c69d5cb8
+langcode: uk
+status: true
+dependencies:
+  content:
+    - 'block_content:block_with_3_columns:ce864e6c-e98a-4f3a-8d07-0c3c910ef759'
+  module:
+    - block_content
+    - system
+  theme:
+    - dc17_bootstrap
+id: partneri
+theme: dc17_bootstrap
+region: custom_region
+weight: -20
+provider: null
+plugin: 'block_content:ce864e6c-e98a-4f3a-8d07-0c3c910ef759'
+settings:
+  id: 'block_content:ce864e6c-e98a-4f3a-8d07-0c3c910ef759'
+  label: 'Партнери <front>'
+  provider: block_content
+  label_display: '0'
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }

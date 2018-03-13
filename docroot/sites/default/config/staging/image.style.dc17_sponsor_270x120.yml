@@ -1,0 +1,15 @@
+uuid: 84b5ebe6-da72-4a2b-96a2-4bae19a4e934
+langcode: en
+status: true
+dependencies: {  }
+name: dc17_sponsor_270x120
+label: dc17_sponsor_270x120
+effects:
+  0fb2f056-c22b-4b47-bf38-91e197e28237:
+    uuid: 0fb2f056-c22b-4b47-bf38-91e197e28237
+    id: image_scale
+    weight: 1
+    data:
+      width: 270
+      height: 120
+      upscale: false

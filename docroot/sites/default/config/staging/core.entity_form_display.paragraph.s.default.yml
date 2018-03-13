@@ -1,0 +1,83 @@
+uuid: d69d0e51-d4fa-41c1-b590-d359369a6e4f
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.s.field_bitbu
+    - field.field.paragraph.s.field_drupal_
+    - field.field.paragraph.s.field_facebook
+    - field.field.paragraph.s.field_github_com
+    - field.field.paragraph.s.field_linkedin
+    - field.field.paragraph.s.field_youtube
+    - paragraphs.paragraphs_type.s
+  module:
+    - paragraphs
+id: paragraph.s.default
+targetEntityType: paragraph
+bundle: s
+mode: default
+content:
+  field_bitbu:
+    type: entity_reference_paragraphs
+    weight: 5
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+    third_party_settings: {  }
+  field_drupal_:
+    type: entity_reference_paragraphs
+    weight: 3
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+    third_party_settings: {  }
+  field_facebook:
+    type: entity_reference_paragraphs
+    weight: 1
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+    third_party_settings: {  }
+  field_github_com:
+    type: entity_reference_paragraphs
+    weight: 0
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+    third_party_settings: {  }
+  field_linkedin:
+    type: entity_reference_paragraphs
+    weight: 2
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+    third_party_settings: {  }
+  field_youtube:
+    type: entity_reference_paragraphs
+    weight: 4
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

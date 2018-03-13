@@ -1,0 +1,21 @@
+uuid: 82ff32c2-1e94-4fa8-b488-a2b7fd7b23f2
+langcode: uk
+status: true
+dependencies:
+  module:
+    - block_content
+    - entity_reference_revisions
+    - paragraphs
+id: block_content.field_title_3_col
+field_name: field_title_3_col
+entity_type: block_content
+type: entity_reference_revisions
+settings:
+  target_type: paragraph
+module: entity_reference_revisions
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

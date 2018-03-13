@@ -1,0 +1,8 @@
+uuid: ac376e0c-2ce7-4d2d-a7e5-03df247b75c0
+langcode: uk
+status: true
+dependencies: {  }
+id: block_with_2_columns_with_map
+label: 'Block with 2 columns with map'
+revision: 0
+description: 'block with 2 columns with map'

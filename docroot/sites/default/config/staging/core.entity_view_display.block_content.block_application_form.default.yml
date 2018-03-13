@@ -1,0 +1,51 @@
+uuid: 2b40440a-c754-4b91-ac1a-0bc86b97ff60
+langcode: uk
+status: true
+dependencies:
+  config:
+    - block_content.type.block_application_form
+    - field.field.block_content.block_application_form.field_application_form
+    - field.field.block_content.block_application_form.field_background_image
+    - field.field.block_content.block_application_form.field_subtitle
+    - field.field.block_content.block_application_form.field_title_block_form
+  module:
+    - entity_reference_revisions
+id: block_content.block_application_form.default
+targetEntityType: block_content
+bundle: block_application_form
+mode: default
+content:
+  field_application_form:
+    type: entity_reference_revisions_entity_view
+    weight: 3
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+  field_background_image:
+    type: entity_reference_revisions_entity_view
+    weight: 2
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+  field_subtitle:
+    type: entity_reference_revisions_entity_view
+    weight: 1
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+  field_title_block_form:
+    type: entity_reference_revisions_entity_view
+    weight: 0
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+hidden:
+  langcode: true

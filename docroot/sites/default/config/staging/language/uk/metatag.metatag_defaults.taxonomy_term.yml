@@ -1,0 +1,4 @@
+label: 'Термін таксономії'
+tags:
+  title: '[term:name] | [site:name]'
+  description: '[term:description]'

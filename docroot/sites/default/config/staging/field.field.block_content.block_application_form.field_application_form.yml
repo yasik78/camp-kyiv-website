@@ -1,0 +1,62 @@
+uuid: 05281113-0f61-467b-a080-e16fdd0517d4
+langcode: uk
+status: true
+dependencies:
+  config:
+    - block_content.type.block_application_form
+    - field.storage.block_content.field_application_form
+    - paragraphs.paragraphs_type.block_application_form
+  content:
+    - 'paragraph:block_application_form:814f27d0-1c43-4ba9-a2a6-3f5de0a2b09a'
+  module:
+    - entity_reference_revisions
+id: block_content.block_application_form.field_application_form
+field_name: field_application_form
+entity_type: block_content
+bundle: block_application_form
+label: 'Application form'
+description: ''
+required: true
+translatable: true
+default_value:
+  -
+    target_uuid: 814f27d0-1c43-4ba9-a2a6-3f5de0a2b09a
+    target_revision_id: 9
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      block_application_form: block_application_form
+    target_bundles_drag_drop:
+      block_application_form:
+        enabled: true
+        weight: 9
+      block_background_picker:
+        weight: 10
+        enabled: false
+      block_body:
+        weight: 11
+        enabled: false
+      block_button:
+        weight: 12
+        enabled: false
+      block_background_image:
+        weight: 12
+        enabled: false
+      block_image:
+        weight: 13
+        enabled: false
+      block_title:
+        weight: 14
+        enabled: false
+      ck_editor:
+        weight: 15
+        enabled: false
+      map:
+        weight: 16
+        enabled: false
+      block_subtitle:
+        weight: 17
+        enabled: false
+field_type: entity_reference_revisions

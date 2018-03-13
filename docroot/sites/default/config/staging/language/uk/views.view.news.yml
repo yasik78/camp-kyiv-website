@@ -1,0 +1,14 @@
+label: Новини
+display:
+  default:
+    display_options:
+      pager:
+        options:
+          tags:
+            first: '« Перша'
+            last: 'Остання »'
+      fields:
+        field_news_image:
+          alter:
+            text: "<div class=\"news__wrapper\">\r\n\t<a href=\"{{ path }} \"> {{ 'More'|t }}</a>\r\n\r\n\t<a href=\"{{ path }}\"> \n\t{{ field_news_image }}\n</a>\r\n\r\n\t<div class=\"date\">\r\n\t\t<span class=\"day\">{{ field_news_date }}</span>\r\n\t\t<span class=\"month\">{{ field_news_date_1 }}</span>\r\n\t\t<span class=\"year\">{{ field_news_date_2 }}</span>\r\n\t</div>\r\n\t\r\n</div>\r\n"
+      title: Новини

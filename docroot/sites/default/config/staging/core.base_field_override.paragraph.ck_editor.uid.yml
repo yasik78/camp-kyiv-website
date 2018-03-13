@@ -1,0 +1,20 @@
+uuid: 87e53577-63e1-4486-bbbc-46ea1a718e03
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.ck_editor
+id: paragraph.ck_editor.uid
+field_name: uid
+entity_type: paragraph
+bundle: ck_editor
+label: 'Authored by'
+description: 'The user ID of the paragraphs author.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: 'Drupal\paragraphs\Entity\Paragraph::getCurrentUserId'
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

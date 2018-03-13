@@ -1,0 +1,41 @@
+#!/bin/bash
+
+sudo true
+
+SETTINGS_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+# include file with settings
+. "$SETTINGS_PATH"/settings.sh
+
+# Rewrite environment variables
+CURRENT_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )
+DATE_TIME=`date "+%Y-%m-%d_%H-%M-%S"`
+CURRENT_USER=$(whoami)
+
+echo "#####################################################"
+echo "#     IMPORTING DATABASE FROM THE STAGE SERVER...   #"
+echo "#####################################################"
+
+echo "create base dump on stage site"
+ssh -p $STAGE_REMOTE_PORT $STAGE_REMOTE_USER@$STAGE_REMOTE_SERVER "cd $STAGE_PATH_TO_DOCROOT; drush sql-dump --gzip --result-file=./${DATE_TIME}_base-dump.sql"
+echo "copy base dump"
+#TODO: change the place were temporary dump will be located
+scp -P $STAGE_REMOTE_PORT $STAGE_REMOTE_USER@$STAGE_REMOTE_SERVER:$STAGE_PATH_TO_DOCROOT/${DATE_TIME}_base-dump.sql.gz $CURRENT_PATH/
+echo "delete dump on remote"
+ssh -p $STAGE_REMOTE_PORT $STAGE_REMOTE_USER@$STAGE_REMOTE_SERVER "cd $STAGE_PATH_TO_DOCROOT; rm ${DATE_TIME}_base-dump.sql.gz"
+
+# cd ro site root
+cd "$DOCROOT"
+./scripts/docker-db-import ${DATE_TIME}_base-dump.sql.gz
+
+#remove local dump
+rm ${DATE_TIME}_base-dump.sql.gz
+
+espeak 'database was imported'
+notify-send "Database reinstall" "done" -i gtk-info
+
+
+#TODO: change location where temp db dump will be saved.
+#TODO: add global configuration file.
+#TODO: add global variables for settings all general configs.
+#TODO: port all configs to a config.yml file
+#TODO: create semilinks for all dockers commands

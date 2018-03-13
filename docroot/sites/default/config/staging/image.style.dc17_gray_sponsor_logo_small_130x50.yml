@@ -1,0 +1,15 @@
+uuid: 39478030-7c36-4569-a2c3-a430908ec9cc
+langcode: en
+status: true
+dependencies: {  }
+name: dc17_gray_sponsor_logo_small_130x50
+label: dc17_gray-sponsor-logo-small_130x50
+effects:
+  c2d08f4d-f6e6-4a30-9f34-5008a942b296:
+    uuid: c2d08f4d-f6e6-4a30-9f34-5008a942b296
+    id: image_scale
+    weight: 1
+    data:
+      width: 130
+      height: 50
+      upscale: true

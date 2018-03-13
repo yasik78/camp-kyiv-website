@@ -1,0 +1,14 @@
+uuid: 14b5a56d-7ab5-46e8-9cac-2047b0da08d5
+langcode: en
+status: true
+dependencies: {  }
+name: dc17_speaker_270x270
+label: dc17_Speaker_270x270
+effects:
+  fcf13a83-9ac2-40b5-9e0c-d9e83e717b1e:
+    uuid: fcf13a83-9ac2-40b5-9e0c-d9e83e717b1e
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 270
+      height: 270

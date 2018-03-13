@@ -1,0 +1,27 @@
+uuid: b75c7f9e-1561-4d79-9ebb-41d1ab60e62f
+langcode: en
+status: false
+dependencies:
+  module:
+    - system
+  theme:
+    - dc17_bootstrap
+_core:
+  default_config_hash: KHQIJ7Vfl25lTjzIc7qIvnuistt-Mw2O0kG4jCofmkI
+id: dc17_bootstrap_messages
+theme: dc17_bootstrap
+region: '-1'
+weight: -13
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: 'Status messages MSG for Form'
+  provider: system
+  label_display: '0'
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }

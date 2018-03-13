@@ -1,0 +1,57 @@
+uuid: f5356e05-5919-4dc4-8aa9-b3a99e090e39
+langcode: uk
+status: true
+dependencies:
+  config:
+    - block_content.type.block_application_form
+    - field.storage.block_content.field_subtitle
+    - paragraphs.paragraphs_type.block_subtitle
+  module:
+    - entity_reference_revisions
+id: block_content.block_application_form.field_subtitle
+field_name: field_subtitle
+entity_type: block_content
+bundle: block_application_form
+label: Subtitle
+description: 'Add subtitle if you need it.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      block_subtitle: block_subtitle
+    target_bundles_drag_drop:
+      block_subtitle:
+        enabled: true
+        weight: 11
+      block_application_form:
+        weight: 12
+        enabled: false
+      block_background_image:
+        weight: 13
+        enabled: false
+      block_background_picker:
+        weight: 14
+        enabled: false
+      block_body:
+        weight: 15
+        enabled: false
+      block_button:
+        weight: 16
+        enabled: false
+      block_image:
+        weight: 17
+        enabled: false
+      block_title:
+        weight: 18
+        enabled: false
+      ck_editor:
+        weight: 19
+        enabled: false
+      map:
+        weight: 20
+        enabled: false
+field_type: entity_reference_revisions

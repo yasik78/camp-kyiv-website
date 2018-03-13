@@ -1,0 +1,16 @@
+uuid: 6a14cd6a-822e-4d8f-b95b-dd1b9a7c4934
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.block_button
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: paragraph.block_button
+target_entity_type_id: paragraph
+target_bundle: block_button
+default_langcode: site_default
+language_alterable: true

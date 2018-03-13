@@ -1,0 +1,22 @@
+uuid: b0c5c808-5df1-45c2-acb4-e2c1af059880
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.speaker
+  module:
+    - text
+id: node.speaker.body
+field_name: body
+entity_type: node
+bundle: speaker
+label: Description
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+field_type: text_with_summary

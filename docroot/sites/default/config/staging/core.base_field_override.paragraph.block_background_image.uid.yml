@@ -1,0 +1,20 @@
+uuid: f2501b0f-c09d-441a-a296-7570b1ef7487
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.block_background_image
+id: paragraph.block_background_image.uid
+field_name: uid
+entity_type: paragraph
+bundle: block_background_image
+label: 'Authored by'
+description: 'The user ID of the paragraphs author.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: 'Drupal\paragraphs\Entity\Paragraph::getCurrentUserId'
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

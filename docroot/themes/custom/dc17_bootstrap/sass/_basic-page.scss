@@ -1,0 +1,109 @@
+.page-node-type-page {
+  .page-header {
+    display: none;
+  }
+}
+
+.node-full__header {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  p {
+    margin: 0;
+  }
+
+  @media (max-width: $screen-xs) {
+    display: block;
+  }
+
+  h1,
+  h2 {
+    color: $grey;
+  }
+  
+  h2 {
+    text-transform: none;
+  }
+
+  h1 {
+    &.has-subtitle {
+      width: 40%;
+
+      @media (max-width: $screen-md) {
+        width: 50%;
+      }
+
+      @media (max-width: $screen-sm) {
+        width: 40%;
+        padding: 0 10px;
+      }
+
+      @media (max-width: $screen-xs) {
+        width: 100%;
+      }
+    }
+  }
+
+  h2 {
+    &.has-subtitle {
+      width: 60%;
+      padding-left: 20px;
+      border-left: 3px solid $darkgrey;
+      margin-top: 51px;
+
+      @media (max-width: $screen-md) {
+        width: 50%;
+        padding: 0 10px;
+      }
+
+      @media (max-width: $screen-sm-max) {
+        margin-top: 50px;
+      }
+
+      @media (max-width: $screen-xs) {
+        width: 100%;
+        margin-top: 20px;
+        padding-left: 10px;
+      }
+    }
+  }
+}
+
+// images padding if align left/right.
+.page.full {
+  img {
+    &.align-left {
+      margin-right: 30px;
+      margin-bottom: 30px;
+
+      @media screen and (max-width: $screen-sm) {
+        margin-right: 20px;
+        margin-bottom: 20px;
+      }
+
+      @media screen and (max-width: $screen-xs) {
+        margin-right: 0;
+        margin-bottom: 10px;
+        float: none;
+      }
+    }
+
+    &.align-right {
+      margin-top: 24px;
+      margin-left: 30px;
+      margin-bottom: 30px;
+
+      @media screen and (max-width: $screen-sm) {
+        margin-left: 20px;
+        margin-bottom: 20px;
+      }
+
+      @media screen and (max-width: $screen-xs) {
+        margin-left: 0;
+        margin-bottom: 10px;
+        float: none;
+      }
+    }
+  }
+}

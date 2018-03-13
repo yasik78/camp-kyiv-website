@@ -1,0 +1,14 @@
+uuid: 22bee86a-ea40-46fe-966a-6256b27ffa82
+langcode: en
+status: true
+dependencies: {  }
+name: dc17_speaker_180x180
+label: dc17_speaker_180x180
+effects:
+  d0a96580-2e05-4a89-8d92-1226b0d273cf:
+    uuid: d0a96580-2e05-4a89-8d92-1226b0d273cf
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 180
+      height: 180

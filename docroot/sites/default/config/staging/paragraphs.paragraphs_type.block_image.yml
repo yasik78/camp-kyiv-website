@@ -1,0 +1,6 @@
+uuid: bdae7350-1c6b-4942-9fb5-2975a8caa832
+langcode: uk
+status: true
+dependencies: {  }
+id: block_image
+label: 'Block image'

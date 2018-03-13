@@ -1,0 +1,194 @@
+.styleguide {
+  .color-block {
+    width: 70px;
+    height: 70px;
+    border: 1px solid $black;
+
+    &.green {
+      background: $green;
+    }
+
+    &.darkgrey {
+      background: $darkgrey;
+    }
+    
+    &.grey {
+      background: $grey;
+    }
+
+    &.lightgrey {
+      background: $lightgrey;
+    }
+
+    &.white {
+      background: $white;
+
+    }
+
+    &.black {
+      background: $black;
+    }
+
+    &.gold {
+      background: $gold;
+    }
+
+    &.silver {
+      background: $silver;
+    }
+  }
+
+  table {
+    thead {
+      td {
+        text-align: center;
+      }
+    }
+
+    td {
+      padding: 10px;
+    }
+  }
+
+  .color-text {
+    font-size: 18px;
+    font-weight: bold;
+
+    &.green {
+      color: $green;
+    }
+
+    &.darkgrey {
+      color: $darkgrey;
+    }
+
+    &.grey {
+      color: $grey;
+    }
+
+    &.lightgrey {
+      color: $lightgrey;
+      text-shadow: 1px 1px 2px $black;
+    }
+
+    &.white {
+      color: $white;
+
+      text-shadow: 1px 1px 2px $black;
+    }
+
+    &.black {
+      color: $black;
+    }
+
+    &.gold {
+      color: $gold;
+    }
+
+    &.silver {
+      color: $silver;
+    }
+  }
+
+  .font {
+    &-regular {
+      font-weight: 400;
+    }
+
+    &-bold {
+      font-weight: 700;
+    }
+
+    &-italic {
+      font-style: italic;
+    }
+  }
+
+  &__button {
+
+    div {
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+  }
+
+  .info-icons {
+    padding-left: 40px;
+  }
+
+  p {
+    position: relative;
+
+    color: #202525;
+    font-size: 18px;
+    font-weight: 400;
+    text-align: left;
+
+    &.title {
+      margin: 0 0 10px;
+
+      text-transform: uppercase;
+      color: #888888;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 18px;
+      text-align: left;
+    }
+
+    &.adress {
+      &:after {
+        content: $fa-pin;
+
+        position: absolute;
+        top: -15px;
+        left: -45px;
+
+        font-family: 'FontAwesome-custom';
+        color: #888888;
+        font-size: 35px;
+      }
+    }
+
+    &.email {
+      &:after {
+        content: $fa-at;
+
+        position: absolute;
+        top: -15px;
+        left: -50px;
+
+        font-family: 'FontAwesome-custom';
+        color: #888888;
+        font-size: 40px;
+      }
+    }
+
+    &.phone {
+      &:after {
+        content: $fa-mobile;
+
+        position: absolute;
+        top: -15px;
+        left: -45px;
+
+        font-family: 'FontAwesome-custom';
+        color: #888888;
+        font-size: 40px;
+      }
+    }
+
+    &.social {
+      &:after {
+        content: $fa-share;
+
+        position: absolute;
+        top: -15px;
+        left: -50px;
+
+        font-family: 'FontAwesome-custom';
+        color: #888888;
+        font-size: 30px;
+      }
+    }
+  }
+}

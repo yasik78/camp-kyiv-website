@@ -1,0 +1,16 @@
+uuid: 52d73f2e-9801-4bf6-9a90-d751903fe9da
+langcode: uk
+status: true
+dependencies:
+  config:
+    - node.type.news
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: node.news
+target_entity_type_id: node
+target_bundle: news
+default_langcode: site_default
+language_alterable: true

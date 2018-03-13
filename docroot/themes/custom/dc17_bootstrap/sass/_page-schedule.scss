@@ -1,0 +1,287 @@
+.schedule-section {
+  width: 100%;
+}
+
+.page-schedule {
+
+  .rtecenter {
+    text-align: center;
+  }
+
+  .schedule-grid {
+    width:100%;
+
+    .codesprint,
+    .address {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .codesprint {
+      border-right: 1px solid $border-schedule-grey;
+    }
+    
+    .day-align {
+      display: flex;
+
+      tr {
+        border: 0;
+      }
+
+      td:first-child {
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: center;
+        border: 0;
+        border-right: 1px solid $border-schedule-grey;
+
+        @media screen and (max-width: $screen-xs) {
+          font-size: 11px;
+        }
+      }
+    }
+
+    .green-time {
+      flex-basis: 100%;
+      font-size: 15px;
+      line-height: 18px;
+      color: $green;
+      font-weight: bold;
+
+      @media screen and (max-width: $screen-xs) {
+        font-size: 11px;
+      }
+    }
+
+    .green-title {
+      margin-top: 24px;
+      margin-bottom: 24px;
+      font-size: 16px;
+      letter-spacing: 0;
+      color: $green;
+    }
+
+    .start-time {
+      font-size: 15px;
+      line-height: 18px;
+      color: $darkgrey;
+    }
+
+    .end-time {
+      font-size: 15px;
+      line-height: 18px;
+      color: $time-schedule-dark;
+    }
+
+    .start-time,
+    .end-time {
+      flex-basis: 100%;
+      @media screen and (max-width: $screen-xs) {
+        font-size: 11px;
+      }
+    }
+
+    tbody {
+
+      td:first-child {
+        border-right: 1px solid $border-schedule-grey;
+      }
+
+      td {
+        color: $td-schedule;
+        font-size: 15px;
+        padding: 15px 10px;
+
+        @media screen and (max-width: $screen-md) {
+          width: 88%;
+          font-size: 15px;
+          padding: 15px 10px;
+        }
+      }
+
+      tr {
+        box-shadow: 1px 1px 0 $border-schedule-grey;
+        border-width: 1px 0 0 1px;
+        display: flex;
+        border-style: solid;
+        border-color: $border-schedule-grey;
+
+        @media screen and (max-width: $screen-md) {
+          border-bottom: 0;
+        }
+
+        &:hover {
+          background-color: $tr-hover-light;
+        }
+
+        td:first-child {
+          width: 12%;
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+
+          @media screen and (max-width: $screen-md) {
+            padding: 15px 5px;
+          }
+
+          @media screen and (max-width: $screen-xs) {
+            padding: 15px 1px;
+          }
+        }
+      }
+
+      .reports {
+
+        flex-wrap: wrap;
+        justify-content: flex-end;
+
+        td:first-child {
+          width: 12%;
+
+          @media screen and (max-width: $screen-xs) {
+            width: 100%;
+            justify-content: space-around;
+            border-bottom: 1px solid $border-schedule-grey;
+            border-right: 0;
+          }
+        }
+
+        td {
+          width: 44%;
+
+          @media screen and (max-width: $screen-xs) {
+            width: 100%;
+          }
+        }
+
+        .report-wrapper {
+          box-shadow: -1px 1px 0px $border-schedule-grey;
+          position: relative;
+
+          &:last-child {
+            @media screen and (max-width: $screen-xs) {
+              border-width: 0;
+            }
+          }
+
+          strong {
+            display: block;
+            padding-bottom: 20px;
+            font-size: 14px;
+            letter-spacing: 0;
+            line-height: 18px;
+            color: $darkgrey;
+          }
+
+          .schedule-hall strong {
+              color: $td-schedule;
+          }
+
+          @media screen and (max-width: $screen-xs) {
+            border-width: 0 0 1px 0;
+          }
+        }
+      }
+    }
+
+    .info-wrapper {
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      display: flex;
+      width: 100%;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+
+      .author {
+        flex-basis: 100%;
+        margin-bottom: 0;
+        padding-left: 10px;
+        line-height: 15px;
+
+        @media screen and (max-width: $screen-lg) {
+          margin-bottom: 0;
+          padding-left: 10px;
+          line-height: 14px;
+        }
+      }
+
+      span {
+        flex-basis: 17%;
+        text-align: center;
+
+        @media screen and (max-width: $screen-xs) {
+          flex-basis: 15%;
+        }
+      }
+
+      p {
+        margin: 0 0 16px;
+      }
+
+      .advanced-icon,
+      .medium-icon,
+      .novice-icon {
+        position: relative;
+        order: 3;
+        display: inline-block;
+        height: 25px;
+        width: 14px;
+
+        &:before {
+          position: absolute;
+          top: 25%;
+          left: 25%;
+        }
+      }
+
+      .advanced-icon {
+        @include level-difficult(high);
+      }
+
+      .medium-icon {
+        @include level-difficult(medium);
+      }
+
+      .novice-icon {
+        @include level-difficult(low);
+      }
+
+      .lang {
+        display: inline-block;
+        order: 2;
+        line-height: 25px;
+      }
+    }
+
+    .schedule-hall {
+      margin: 0;
+    }
+  }
+
+  .schedule-grid.schedule-day {
+    border: 0;
+  }
+
+  .schedule-title {
+    display: none;
+    text-transform: uppercase;
+
+    th:first-of-type {
+      width: 12%;
+    }
+
+    th {
+      width: 22%;
+      text-align: center;
+      background-color: $tr-hover-light;
+      color: $darkgrey;
+      font-size: 14px;
+      line-height: 21px;
+      padding: 15px 10px;
+      border: 1px solid $border-schedule-grey;
+    }
+  }
+}

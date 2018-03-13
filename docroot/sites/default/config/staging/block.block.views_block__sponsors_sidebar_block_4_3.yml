@@ -1,0 +1,30 @@
+uuid: c26c2a14-ec18-48e4-ba58-4d701509f351
+langcode: uk
+status: true
+dependencies:
+  config:
+    - views.view.sponsors_sidebar
+  module:
+    - system
+    - views
+  theme:
+    - dc17_bootstrap
+id: views_block__sponsors_sidebar_block_4_3
+theme: dc17_bootstrap
+region: sidebar_second
+weight: -17
+provider: null
+plugin: 'views_block:sponsors_sidebar-block_4'
+settings:
+  id: 'views_block:sponsors_sidebar-block_4'
+  label: ''
+  provider: views
+  label_display: visible
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    pages: /news
+    negate: false
+    context_mapping: {  }

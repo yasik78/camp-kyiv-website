@@ -1,0 +1,31 @@
+uuid: 15a90630-03ed-4858-ae4e-430cdd3e04b3
+langcode: uk
+status: true
+dependencies:
+  content:
+    - 'block_content:horizontal_block_1_column:c7440a0d-38fe-48d4-9dcb-f5b13ce207f7'
+  module:
+    - block_content
+    - system
+  theme:
+    - dc17_bootstrap
+id: blocksubcribe
+theme: dc17_bootstrap
+region: custom_region
+weight: -19
+provider: null
+plugin: 'block_content:c7440a0d-38fe-48d4-9dcb-f5b13ce207f7'
+settings:
+  id: 'block_content:c7440a0d-38fe-48d4-9dcb-f5b13ce207f7'
+  label: 'Block Subcribe <front>'
+  provider: block_content
+  label_display: '0'
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }

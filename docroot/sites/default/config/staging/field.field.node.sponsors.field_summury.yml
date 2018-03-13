@@ -1,0 +1,22 @@
+uuid: cdd065b2-3249-4fb7-bc6e-5a188d0a3e00
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_summury
+    - node.type.sponsors
+  module:
+    - text
+id: node.sponsors.field_summury
+field_name: field_summury
+entity_type: node
+bundle: sponsors
+label: Summury
+description: 'Brief information about the sponsor'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: false
+field_type: text_with_summary

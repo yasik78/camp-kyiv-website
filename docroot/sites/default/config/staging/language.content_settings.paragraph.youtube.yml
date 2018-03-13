@@ -1,0 +1,16 @@
+uuid: be820510-b685-4e3e-b1d5-a5621cf7690b
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.youtube
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: false
+id: paragraph.youtube
+target_entity_type_id: paragraph
+target_bundle: youtube
+default_langcode: site_default
+language_alterable: false

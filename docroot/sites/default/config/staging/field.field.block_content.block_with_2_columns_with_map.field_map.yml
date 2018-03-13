@@ -1,0 +1,60 @@
+uuid: d96aac4e-1c2a-4559-b1ae-06474ba42075
+langcode: uk
+status: true
+dependencies:
+  config:
+    - block_content.type.block_with_2_columns_with_map
+    - field.storage.block_content.field_map
+    - paragraphs.paragraphs_type.ck_editor
+  module:
+    - entity_reference_revisions
+id: block_content.block_with_2_columns_with_map.field_map
+field_name: field_map
+entity_type: block_content
+bundle: block_with_2_columns_with_map
+label: Map
+description: map
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      ck_editor: ck_editor
+    target_bundles_drag_drop:
+      map:
+        weight: 8
+        enabled: false
+      block_background_picker:
+        weight: 9
+        enabled: false
+      block_body:
+        weight: 10
+        enabled: false
+      block_button:
+        weight: 11
+        enabled: false
+      block_application_form:
+        weight: 12
+        enabled: false
+      block_image:
+        weight: 12
+        enabled: false
+      block_title:
+        weight: 13
+        enabled: false
+      block_background_image:
+        weight: 13
+        enabled: false
+      ck_editor:
+        enabled: true
+        weight: 14
+      block_button_with_description:
+        weight: 17
+        enabled: false
+      block_subtitle:
+        weight: 19
+        enabled: false
+field_type: entity_reference_revisions

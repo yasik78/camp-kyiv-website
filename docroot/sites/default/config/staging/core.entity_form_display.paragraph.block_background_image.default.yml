@@ -1,0 +1,26 @@
+uuid: 58a091f3-5292-48ac-8a4c-8e97712dfbeb
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.block_background_image.field_background_image
+    - image.style.thumbnail
+    - paragraphs.paragraphs_type.block_background_image
+  module:
+    - image
+id: paragraph.block_background_image.default
+targetEntityType: paragraph
+bundle: block_background_image
+mode: default
+content:
+  field_background_image:
+    weight: 0
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
+hidden:
+  created: true
+  status: true
+  uid: true

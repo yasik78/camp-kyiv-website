@@ -1,0 +1,19 @@
+uuid: 5086a236-1f4f-4698-b995-34d8ef26d161
+langcode: uk
+status: true
+dependencies:
+  module:
+    - link
+    - paragraphs
+id: paragraph.field_github_link
+field_name: field_github_link
+entity_type: paragraph
+type: link
+settings: {  }
+module: link
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

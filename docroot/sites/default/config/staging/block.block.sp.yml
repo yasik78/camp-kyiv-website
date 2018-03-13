@@ -1,0 +1,26 @@
+uuid: 51734d14-f9ad-44f4-8c83-353b7a3c8b45
+langcode: uk
+status: true
+dependencies:
+  module:
+    - dc2017_master
+    - system
+  theme:
+    - dc17_bootstrap
+id: sp
+theme: dc17_bootstrap
+region: custom_region
+weight: -25
+provider: null
+plugin: sponsors_block
+settings:
+  id: sponsors_block
+  label: Sponsors
+  provider: dc2017_master
+  label_display: '0'
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }

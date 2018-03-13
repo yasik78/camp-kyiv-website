@@ -1,0 +1,18 @@
+default_button: true
+default_message: true
+default_tab: true
+default_tab_edit: true
+_core:
+  default_config_hash: ffjwyOkkEGJcHRBGwLlGLtdWUcTvXx8Dclcq43MZrT8
+button:
+  article: true
+  page: true
+message:
+  article: true
+  page: true
+tab:
+  article: true
+  page: true
+tab_edit:
+  article: true
+  page: true

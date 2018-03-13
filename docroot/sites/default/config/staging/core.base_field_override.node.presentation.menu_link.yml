@@ -1,0 +1,20 @@
+uuid: bdfd7677-af49-4b32-956b-bdb90bb9350c
+langcode: uk
+status: true
+dependencies:
+  config:
+    - node.type.presentation
+id: node.presentation.menu_link
+field_name: menu_link
+entity_type: node
+bundle: presentation
+label: 'Menu link'
+description: 'Computed menu link for the node (only available during node saving).'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

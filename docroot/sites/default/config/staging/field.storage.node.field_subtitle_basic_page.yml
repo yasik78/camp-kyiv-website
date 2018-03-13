@@ -1,0 +1,19 @@
+uuid: 50535df7-452a-4f79-a1c7-30f2fc55144b
+langcode: uk
+status: true
+dependencies:
+  module:
+    - node
+    - text
+id: node.field_subtitle_basic_page
+field_name: field_subtitle_basic_page
+entity_type: node
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

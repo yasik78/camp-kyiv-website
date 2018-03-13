@@ -1,0 +1,22 @@
+uuid: acd8912f-df8d-42a5-b8e8-8a5888da1698
+langcode: en
+status: false
+dependencies:
+  module:
+    - search
+  theme:
+    - dc17_bootstrap
+_core:
+  default_config_hash: za-39d5WDUg6XvbyqSnuVYEeq6QM4qKJxW8MnoAha5A
+id: dc17_bootstrap_search
+theme: dc17_bootstrap
+region: '-1'
+weight: -18
+provider: null
+plugin: search_form_block
+settings:
+  id: search_form_block
+  label: Search
+  provider: search
+  label_display: visible
+visibility: {  }

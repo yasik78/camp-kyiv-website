@@ -1,0 +1,17 @@
+uuid: c7011309-139f-4494-9919-9f23b0048879
+langcode: uk
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Presentation
+type: presentation
+description: 'all the information about presentations'
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: false

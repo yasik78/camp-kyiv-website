@@ -1,0 +1,18 @@
+uuid: 6178be5b-b6f9-4875-b457-405b65d948f7
+langcode: uk
+status: true
+dependencies:
+  config:
+    - node.type.presentation
+id: node.presentation.title
+field_name: title
+entity_type: node
+bundle: presentation
+label: Title
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

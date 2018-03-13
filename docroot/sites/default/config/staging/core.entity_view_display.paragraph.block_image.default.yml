@@ -1,0 +1,25 @@
+uuid: 58405c8b-3497-41d1-8ddc-ca9c286a86a9
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.block_image.field_block_image
+    - paragraphs.paragraphs_type.block_image
+  module:
+    - image
+id: paragraph.block_image.default
+targetEntityType: paragraph
+bundle: block_image
+mode: default
+content:
+  field_block_image:
+    weight: 0
+    label: hidden
+    settings:
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+hidden:
+  created: true
+  uid: true

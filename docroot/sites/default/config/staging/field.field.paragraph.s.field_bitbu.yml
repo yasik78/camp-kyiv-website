@@ -1,0 +1,81 @@
+uuid: d11def38-da5d-411b-86d7-abd5fcf45ca0
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_bitbu
+    - paragraphs.paragraphs_type.bitbucket
+    - paragraphs.paragraphs_type.s
+  module:
+    - entity_reference_revisions
+id: paragraph.s.field_bitbu
+field_name: field_bitbu
+entity_type: paragraph
+bundle: s
+label: bitbucket
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      bitbucket: bitbucket
+    target_bundles_drag_drop:
+      s:
+        weight: 19
+        enabled: false
+      bitbucket:
+        enabled: true
+        weight: 20
+      block_application_form:
+        weight: 21
+        enabled: false
+      block_background_image:
+        weight: 22
+        enabled: false
+      block_background_picker:
+        weight: 23
+        enabled: false
+      block_body:
+        weight: 24
+        enabled: false
+      block_button:
+        weight: 25
+        enabled: false
+      block_button_with_description:
+        weight: 26
+        enabled: false
+      block_image:
+        weight: 27
+        enabled: false
+      block_subtitle:
+        weight: 28
+        enabled: false
+      block_title:
+        weight: 29
+        enabled: false
+      ck_editor:
+        weight: 30
+        enabled: false
+      drupal_org:
+        weight: 31
+        enabled: false
+      fac:
+        weight: 32
+        enabled: false
+      github_com:
+        weight: 33
+        enabled: false
+      linkedin:
+        weight: 34
+        enabled: false
+      map:
+        weight: 35
+        enabled: false
+      youtube:
+        weight: 36
+        enabled: false
+field_type: entity_reference_revisions

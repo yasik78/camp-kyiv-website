@@ -1,0 +1,18 @@
+uuid: e8e0f7e6-4139-4619-b2d5-a69083e508d0
+langcode: uk
+status: true
+dependencies:
+  config:
+    - node.type.sponsors
+id: node.sponsors.title
+field_name: title
+entity_type: node
+bundle: sponsors
+label: Sponsors
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

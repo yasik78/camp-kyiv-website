@@ -1,0 +1,39 @@
+<{{ ds_content_wrapper }}{{ attributes.addClass('ds-1col', 'clearfix', 'presentation--full') }}>
+
+  {{ title_suffix.contextual_links }}
+
+{% if ds_content.body == true %}
+  <div class="presentation--full__body">
+    {{ ds_content.links }}
+    {{ ds_content.body }}
+  </div>
+{% endif %}
+
+{% if ds_content.field_report_language == true or
+      ds_content.field_level_of_difficulty == true or
+      ds_content.field_areas == true %}
+
+  <div class="presentation--full__info">
+    {{ ds_content.field_report_language }}
+    {{ ds_content.field_level_of_difficulty }}
+    {{ ds_content.field_areas }}
+  </div>
+{% endif %}
+
+{% if ds_content.field_video == true %}
+  <div class="presentation--full__video">
+    {{ ds_content.field_video }}
+  </div>
+{% endif %}
+
+{% if ds_content.field_speaker_image == true %}
+  <div class="presentation--full__images">
+    {{ ds_content.field_speaker_image }}
+  </div>
+{% endif %}
+
+<div class="presentation__return">
+  <a href="{{ path('entity.node.canonical', {'node': 43 }) }}" class="btn btn-default btn-inverse">{{ 'Presentations and speakers'|t }}</a>
+</div>
+
+</{{ ds_content_wrapper }}>

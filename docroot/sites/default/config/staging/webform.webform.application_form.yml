@@ -1,0 +1,138 @@
+uuid: f5d8b64c-a78a-4ab2-bf4f-7aa6123d0d42
+langcode: uk
+status: open
+dependencies:
+  enforced:
+    module:
+      - webform
+_core:
+  default_config_hash: 9-0qAAB04ZXB-lll5r1fNyVVnMWW4GvIaAtU-FimtTk
+open: null
+close: null
+uid: null
+template: false
+id: application_form
+title: 'Application form'
+description: 'Basic email contact webform.'
+category: ''
+elements: "name:\n  '#type': textfield\n  '#title': 'Your Name'\n  '#default_value': '[webform-authenticated-user:display-name]'\n  '#title_display': invisible\n  '#placeholder': 'Ім''я'\n  '#required': true\nsubject:\n  '#type': textfield\n  '#title': Subject\n  '#title_display': invisible\n  '#placeholder': Тема\n  '#required': true\n  '#test': 'Testing contact webform from [site:name]'\ntelephone:\n  '#type': tel\n  '#title': Telephone\n  '#title_display': invisible\n  '#placeholder': Телефон\n  '#required': true\n  '#pattern': '[0-9]*'\nemail:\n  '#type': email\n  '#title': 'Your Email'\n  '#default_value': '[webform-authenticated-user:mail]'\n  '#title_display': invisible\n  '#placeholder': E-mail\n  '#required': true\nmessage:\n  '#type': textarea\n  '#title': Message\n  '#title_display': invisible\n  '#placeholder': 'Кілька слів про себе та свій досвід'\n  '#required': true\n  '#test': 'Please ignore this email.'\n"
+css: ''
+javascript: ''
+settings:
+  page: true
+  page_submit_path: ''
+  page_confirm_path: ''
+  form_submit_label: Надіслати
+  form_submit_once: false
+  form_submit_attributes: {  }
+  form_exception_message: ''
+  form_open_message: ''
+  form_close_message: ''
+  form_previous_submissions: true
+  form_confidential: false
+  form_confidential_message: ''
+  form_convert_anonymous: false
+  form_prepopulate: false
+  form_prepopulate_source_entity: false
+  form_disable_autocomplete: false
+  form_novalidate: false
+  form_unsaved: false
+  form_disable_back: false
+  form_autofocus: false
+  form_details_toggle: false
+  submission_log: false
+  wizard_progress_bar: true
+  wizard_progress_pages: false
+  wizard_progress_percentage: false
+  wizard_next_button_label: ''
+  wizard_next_button_attributes: {  }
+  wizard_prev_button_label: ''
+  wizard_prev_button_attributes: {  }
+  wizard_start_label: ''
+  wizard_complete: true
+  wizard_complete_label: ''
+  preview: 0
+  preview_next_button_label: ''
+  preview_next_button_attributes: {  }
+  preview_prev_button_label: ''
+  preview_prev_button_attributes: {  }
+  preview_message: ''
+  draft: ''
+  draft_auto_save: false
+  draft_button_label: ''
+  draft_button_attributes: {  }
+  draft_saved_message: ''
+  draft_loaded_message: ''
+  confirmation_type: url_message
+  confirmation_title: ''
+  confirmation_message: "Дякуємо!<br />\r\nВаш запит було відправлено.<br />\r\nМи зв&#39;яжемося з Вами найближчим часом."
+  confirmation_url: '<front>'
+  confirmation_attributes: {  }
+  confirmation_back: true
+  confirmation_back_label: ''
+  confirmation_back_attributes: {  }
+  limit_total: null
+  limit_total_message: ''
+  limit_user: null
+  limit_user_message: ''
+  purge: none
+  purge_days: null
+  entity_limit_total: null
+  entity_limit_user: null
+  results_disabled: false
+  results_disabled_ignore: false
+  token_update: false
+access:
+  create:
+    roles:
+      - anonymous
+      - authenticated
+    users: {  }
+  view_any:
+    roles: {  }
+    users: {  }
+  update_any:
+    roles: {  }
+    users: {  }
+  delete_any:
+    roles: {  }
+    users: {  }
+  purge_any:
+    roles: {  }
+    users: {  }
+  view_own:
+    roles: {  }
+    users: {  }
+  update_own:
+    roles: {  }
+    users: {  }
+  delete_own:
+    roles: {  }
+    users: {  }
+handlers:
+  email_notification:
+    id: email
+    label: 'Email notification'
+    handler_id: email_notification
+    status: true
+    weight: 1
+    settings:
+      to_mail: org.drupalcamp.kyiv@gmail.com
+      cc_mail: ''
+      bcc_mail: ''
+      from_mail: default
+      from_name: 'DRUPALCAMP KYIV`17'
+      subject: 'Заявка від спікера: [webform_submission:values:name:value]'
+      body: "Name: [webform_submission:values:name:value]<br />\r\nMail: [webform_submission:values:email:raw]<br />\r\nTheme: [webform_submission:values:subject:value]<br />\r\nTelephone: [webform_submission:values:telephone:value]<br />\r\nAbout me: [webform_submission:values:message:value]"
+      excluded_elements: {  }
+      html: true
+      attachments: false
+      debug: false
+      states:
+        - completed
+      to_options: {  }
+      cc_options: {  }
+      bcc_options: {  }
+      from_options: {  }
+      reply_to: ''
+      return_path: ''

@@ -1,0 +1,40 @@
+uuid: 918ec2aa-570d-4532-8e32-d58450530f2c
+langcode: uk
+status: true
+dependencies:
+  content:
+    - 'block_content:block_1_column_with_code:e6e38b07-74e3-4eed-9e8b-3df7af85c199'
+  module:
+    - block_content
+    - ctools
+    - system
+  theme:
+    - dc17_bootstrap
+id: facebook
+theme: dc17_bootstrap
+region: sidebar_second
+weight: -16
+provider: null
+plugin: 'block_content:e6e38b07-74e3-4eed-9e8b-3df7af85c199'
+settings:
+  id: 'block_content:e6e38b07-74e3-4eed-9e8b-3df7af85c199'
+  label: 'Facebook for content type News and Basic page'
+  provider: block_content
+  label_display: '0'
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    bundles:
+      news: news
+      page: page
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+  request_path:
+    id: request_path
+    pages: /speakers
+    negate: true
+    context_mapping: {  }

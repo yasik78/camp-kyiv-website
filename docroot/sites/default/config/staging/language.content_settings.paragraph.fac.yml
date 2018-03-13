@@ -1,0 +1,16 @@
+uuid: 99a29d03-5bc9-411f-86a6-db1ce4f2538e
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.fac
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: false
+id: paragraph.fac
+target_entity_type_id: paragraph
+target_bundle: fac
+default_langcode: site_default
+language_alterable: false

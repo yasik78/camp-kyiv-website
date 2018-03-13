@@ -1,0 +1,19 @@
+uuid: ab1cb2c4-1afc-405b-b419-b1875a2273f8
+langcode: uk
+status: true
+dependencies:
+  module:
+    - link
+    - paragraphs
+id: paragraph.field_drupal_org_link
+field_name: field_drupal_org_link
+entity_type: paragraph
+type: link
+settings: {  }
+module: link
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

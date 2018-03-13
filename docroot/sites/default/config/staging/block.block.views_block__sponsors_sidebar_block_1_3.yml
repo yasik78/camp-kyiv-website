@@ -1,0 +1,30 @@
+uuid: bad2ff05-4c8e-4312-9e18-e8c94b5dddef
+langcode: uk
+status: false
+dependencies:
+  config:
+    - views.view.sponsors_sidebar
+  module:
+    - system
+    - views
+  theme:
+    - dc17_bootstrap
+id: views_block__sponsors_sidebar_block_1_3
+theme: dc17_bootstrap
+region: '-1'
+weight: -21
+provider: null
+plugin: 'views_block:sponsors_sidebar-block_1'
+settings:
+  id: 'views_block:sponsors_sidebar-block_1'
+  label: ''
+  provider: views
+  label_display: visible
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }

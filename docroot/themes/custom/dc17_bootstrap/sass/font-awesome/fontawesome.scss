@@ -1,0 +1,252 @@
+@import "fa-custom-variables";
+
+$fa-path: '../font/fontawesome-custom/icomoon';
+
+$arrow-path: '../font/fontawesome-custom/carousel-arrows';
+
+$custom-main-icons-path: '../font/fontawesome-custom/main-page-icon-sprite/spritesheet.png';
+
+$pagination-path: '../font/fontawesome-custom/pagination/pagination-sprite.svg';
+
+$level-path: '../font/fontawesome-custom/level/sprite-level.png';
+
+@font-face {
+  font-family: 'FontAwesome-custom';
+  src: url('#{$fa-path}.eot');
+  src: url('#{$fa-path}.woff') format('woff'),
+  url('#{$fa-path}.ttf') format('truetype'),
+  url('#{$fa-path}.svg') format('svg');
+}
+
+.fa {
+  &:before {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    display: inline-block;
+    font-family: 'FontAwesome-custom';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding-right: 5px;
+  }
+
+  // Project icons.
+
+  &-user-o {
+    &:before {
+      content: $fa-user-o;
+    }
+  }
+
+  &-at {
+    &:before {
+      content: $fa-at;
+    }
+  }
+
+  &-microphone {
+    &:before {
+      content: $fa-microphone;
+    }
+  }
+
+  &-mobile {
+    &:before {
+      content: $fa-mobile;
+    }
+  }
+
+  &-pin {
+    &:before {
+      content: $fa-pin;
+      color: $white;
+      text-shadow: 1px 1px 0px $black,
+                  -1px -1px 0px $black,
+                  1px 0px 0px $black,
+                  0px 1px 0px $black,
+                  -1px 0px 0px $black,
+                  0px -1px 0px $black;
+    }
+  }
+
+  &-evelope-o {
+    &:before {
+      content: $fa-evelope-o;
+    }
+  }
+
+  &-phone {
+    &:before {
+      content: $fa-phone;
+    }
+  }
+
+  &-share2 {
+    &:before {
+      content: $fa-share2;
+      color: $white;
+      text-shadow: 1px 1px 0px $black,
+      -1px -1px 0px $black,
+      1px 0px 0px $black,
+      0px 1px 0px $black,
+      -1px 0px 0px $black,
+      0px -1px 0px $black;
+    }
+  }
+
+  &-share {
+    &:before {
+      content: $fa-share;
+    }
+  }
+
+  &-drupal {
+    &:before {
+      content: $fa-drupal;
+    }
+  }
+
+  &-facebook {
+    &:before {
+      content: $fa-facebook;
+    }
+  }
+
+  &-ln {
+    &:before {
+      content: $fa-ln;
+    }
+  }
+
+  &-youtube {
+    &:before {
+      content: $fa-youtube;
+    }
+  }
+
+  &-bitbucket {
+    &:before {
+      content: $fa-bitbucket;
+    }
+  }
+
+  &-github {
+    &:before {
+      content: $fa-github;
+    }
+  }
+
+  &-refresh {
+    &:before {
+      content: $fa-refresh;
+    }
+  }
+}
+
+@mixin arrow($direction) {
+  &:before {
+    content: '';
+    display: block;
+    width: 38px;
+    height: 48px;
+    background-position-y: center;
+    background-repeat: no-repeat;
+  }
+
+  @if $direction == left {
+    &:before {
+      background-image: url('#{$arrow-path}/arrow-green-left-gallery.png');
+      background-position-x: 46%;
+    }
+  }
+
+  @if $direction == right {
+    &:before {
+      background-image: url('#{$arrow-path}/arrow-green-right-gallery.png');
+      background-position-x: 56%;
+    }
+  }
+}
+
+@mixin custom-icon($icon) {
+  &:before {
+    content: '';
+    display: inline-block;
+    background-image: url('#{$custom-main-icons-path}');
+    background-repeat: no-repeat;
+  }
+
+  @if $icon == guest {
+    &:before {
+      width: 28px;
+      height: 32px;
+      background-position: -5px -5px;
+    }
+  }
+
+  @if $icon == sponsor {
+    &:before {
+      width: 24px;
+      height: 32px;
+      background-position: -5px -47px;
+    }
+  }
+
+  @if $icon == speaker {
+    &:before {
+      width: 19px;
+      height: 32px;
+      background-position: -43px -5px;
+    }
+  }
+}
+
+@mixin pagination-icon($direction) {
+  &:before {
+    content: '';
+    display: block;
+    height: 12px;
+    width: 12px;
+    background-image: url('#{$pagination-path}');
+    background-repeat: no-repeat;
+    
+    @if $direction == next {
+      background-position: 0 -12px
+    }
+
+    @if $direction == prev {
+      background-position: 0 0;
+    }
+  }
+}
+
+
+@mixin level-difficult($level) {
+  &:before {
+    content: '';
+    display: block;
+    width: 13px;
+    height: 11px;
+    background-position-y: center;
+    background-repeat: no-repeat;
+    background-image: url('#{$level-path}');
+
+    @if $level == low {
+      background-position: -28px -5px;
+    }
+
+    @if $level == medium {
+      background-position: -5px -26px;
+    }
+
+    @if $level == high {
+      background-position: -5px -5px;
+    }
+  }
+}

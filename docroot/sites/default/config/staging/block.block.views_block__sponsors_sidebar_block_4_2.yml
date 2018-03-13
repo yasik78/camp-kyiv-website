@@ -1,0 +1,39 @@
+uuid: d3e18fad-0ffe-4b48-8f18-4446940ac4aa
+langcode: uk
+status: true
+dependencies:
+  config:
+    - views.view.sponsors_sidebar
+  module:
+    - node
+    - system
+    - views
+  theme:
+    - dc17_bootstrap
+id: views_block__sponsors_sidebar_block_4_2
+theme: dc17_bootstrap
+region: sidebar_second
+weight: -21
+provider: null
+plugin: 'views_block:sponsors_sidebar-block_4'
+settings:
+  id: 'views_block:sponsors_sidebar-block_4'
+  label: ''
+  provider: views
+  label_display: visible
+  views_label: ''
+  items_per_page: '20'
+visibility:
+  node_type:
+    id: node_type
+    bundles:
+      news: news
+      page: page
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+  request_path:
+    id: request_path
+    pages: "/node/43\r\n<front>"
+    negate: true
+    context_mapping: {  }

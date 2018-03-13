@@ -1,0 +1,18 @@
+uuid: 89d92920-0231-488a-80ac-ff58c71a87f4
+langcode: uk
+status: true
+dependencies:
+  config:
+    - block_content.type.block_1_column_with_code
+id: block_content.block_1_column_with_code.info
+field_name: info
+entity_type: block_content
+bundle: block_1_column_with_code
+label: 'Block description'
+description: 'A brief description of your block.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,13 @@
+uuid: bfd09152-7fff-417d-a645-f1325396e9a7
+langcode: uk
+status: true
+dependencies:
+  enforced:
+    module:
+      - webform
+_core:
+  default_config_hash: vDwaQMB485SRDS5QUFJf8awBp0DdlOYSMnYsLiw1l5s
+id: languages
+label: Languages
+category: Language
+options: ''

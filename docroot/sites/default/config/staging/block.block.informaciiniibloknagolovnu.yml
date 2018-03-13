@@ -1,0 +1,31 @@
+uuid: 16b59d4b-bd1e-4e93-a3f4-d28fe30bc38b
+langcode: uk
+status: true
+dependencies:
+  content:
+    - 'block_content:main_page_info_block_with_3_colu:b790abaa-eca4-467c-8a77-7a1c2a0dcb0e'
+  module:
+    - block_content
+    - system
+  theme:
+    - dc17_bootstrap
+id: informaciiniibloknagolovnu
+theme: dc17_bootstrap
+region: custom_region
+weight: -28
+provider: null
+plugin: 'block_content:b790abaa-eca4-467c-8a77-7a1c2a0dcb0e'
+settings:
+  id: 'block_content:b790abaa-eca4-467c-8a77-7a1c2a0dcb0e'
+  label: 'Інформаційний блок на головну <front>'
+  provider: block_content
+  label_display: '0'
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }

@@ -1,0 +1,5 @@
+name: dc2017_master
+type: module
+description: 'Drupal Camp 2017 project module. Module to work with the database.'
+core: 8.x
+package: Custom

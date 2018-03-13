@@ -1,0 +1,30 @@
+uuid: ce48c94f-f18a-4f3d-8b3f-81233172b5bf
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.presentation
+  module:
+    - system
+    - views
+  theme:
+    - dc17_bootstrap
+id: views_block__presentation_block_presentation
+theme: dc17_bootstrap
+region: content
+weight: -24
+provider: null
+plugin: 'views_block:presentation-block_presentation'
+settings:
+  id: 'views_block:presentation-block_presentation'
+  label: ''
+  provider: views
+  label_display: '0'
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    pages: /node/43
+    negate: false
+    context_mapping: {  }

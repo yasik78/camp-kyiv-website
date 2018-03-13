@@ -1,0 +1,8 @@
+uuid: 6515ebd7-70d1-4e7d-88a4-fe035121b36e
+langcode: uk
+status: true
+dependencies: {  }
+id: main_page_info_block_with_3_colu
+label: 'Main page info block with 3 columns'
+revision: 0
+description: 'info block with 3 columns for main page'

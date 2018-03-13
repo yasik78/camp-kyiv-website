@@ -1,0 +1,6 @@
+uuid: 1321cbd9-77f8-445e-ac8a-2cbe8ef71288
+langcode: uk
+status: true
+dependencies: {  }
+id: block_button
+label: 'Block button'

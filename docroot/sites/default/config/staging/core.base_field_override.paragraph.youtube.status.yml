@@ -1,0 +1,22 @@
+uuid: 9dc01d7c-2b43-4542-9f38-bc09bb6da5f0
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.youtube
+id: paragraph.youtube.status
+field_name: status
+entity_type: paragraph
+bundle: youtube
+label: Published
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Увімкнено
+  off_label: Вимкнено
+field_type: boolean

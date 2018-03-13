@@ -1,0 +1,22 @@
+uuid: 52b6092d-ab72-4965-b4a5-962f69be0ce2
+langcode: uk
+status: true
+dependencies:
+  config:
+    - node.type.sponsors
+id: node.sponsors.status
+field_name: status
+entity_type: node
+bundle: sponsors
+label: 'Publishing status'
+description: 'A boolean indicating whether the node is published.'
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Увімкнено
+  off_label: Вимкнено
+field_type: boolean

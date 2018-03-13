@@ -1,0 +1,20 @@
+uuid: eb8a3a5f-baff-4f70-9e42-b64d2dfd5df9
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.bitbucket
+id: paragraph.bitbucket.uid
+field_name: uid
+entity_type: paragraph
+bundle: bitbucket
+label: 'Authored by'
+description: 'The user ID of the paragraphs author.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: 'Drupal\paragraphs\Entity\Paragraph::getCurrentUserId'
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

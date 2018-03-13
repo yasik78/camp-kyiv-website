@@ -1,0 +1,284 @@
+.speakers-main {
+  background: $lightgrey;
+
+  .container {
+    max-width: 1200px;
+  }
+
+  article {
+    width: 75%;
+    float: left;
+
+    @media screen and (max-width: $screen-sm) {
+      width: 100%;
+    }
+  }
+
+  #block-becameaparticipant-2 {
+    width: 25%;
+    float: left;
+
+    @media screen and (max-width: $screen-sm) {
+      width: 100%;
+    }
+  }
+
+  .block-views-blockpresentation-block-presentation {
+    width: 100%;
+    float: left;
+  }
+}
+
+.view-presentation {
+
+  .view-content {
+    > div.clearfix {
+      &:before {
+        display: none;
+      }
+
+      &:after {
+        display: none;
+      }
+    }
+  }
+
+  .view-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
+    padding-top: 30px;
+
+    @media screen and (max-width: $screen-lg) {
+
+    }
+
+    @media screen and (max-width: $screen-sm) {
+      padding-top: 5px;
+    }
+
+    @media screen and (max-width: $semi-tablet) {
+      justify-content: center;
+    }
+
+    .views-row {
+      flex-basis: 25%;
+      margin-bottom: 30px;
+
+      display: flex;
+
+      @media screen and (max-width: $screen-lg) {
+        flex-basis: 33%;
+      }
+
+      @media screen and (max-width: $sub-desktop) {
+        flex-basis: 50%;
+      }
+
+      @media screen and (max-width: $semi-tablet) {
+        flex-basis: 100%;
+      }
+
+      .speaker__block {
+        position: relative;
+        max-width: 270px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        background: $white;
+        padding-bottom: 45px;
+
+        @media screen and (max-width: $semi-tablet) {
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .views-field-view-node {
+
+          a {
+            position: absolute;
+            display: block;
+            width: 100%;
+            height: 100%;
+            z-index: 12;
+
+            font-size: 0;
+          }
+
+          a {
+            color: $white;
+          }
+        }
+      }
+
+      // Image block.
+      .views-field-field-double-speaker-image {
+
+        .wrapper-speaker-link {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background: rgba($green, 0.8);
+
+          z-index: 11;
+          opacity: 0;
+
+          transition: opacity 0.3s ease-in;
+
+          &.hovered {
+            opacity: 1;
+          }
+
+          a {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+
+            color: $white;
+            text-transform: uppercase;
+            font-weight: 700;
+
+            display: block;
+
+            border-radius: 50px;
+            border: 2px solid $white;
+            padding: 5px 30px;
+          }
+        }
+
+        .wrapper-speaker {
+          position: relative;
+        }
+
+        .wrapper-speaker-name {
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+
+          z-index: 11;
+
+          ul {
+            list-style: none;
+            display: flex;
+
+            padding-left: 0;
+            margin-bottom: 0;
+          }
+
+          li {
+            list-style: none;
+            flex-basis: 50%;
+            max-width: 50%;
+            padding: 12px 10px;
+
+            font-size:14px;
+            line-height: 16px;
+            color: $white;
+
+            background: $green;
+          }
+        }
+      }
+
+      .views-field-title {
+        margin-top: 12px;
+        padding-left: 17px;
+
+        color: $dark--text;
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 700;
+      }
+
+      .views-field-field-report-language {
+        position: absolute;
+        bottom: 12px;
+        right: 45px;
+
+        color: $grey-pagination-color;
+        font-size: 14px;
+      }
+
+      .views-field-field-level-of-difficulty {
+        position: absolute;
+        bottom: 16px;
+        right: 18px;
+
+        .junior {
+          @include level-difficult(low);
+        }
+
+        .middle {
+          @include level-difficult(medium);
+        }
+
+        .senior {
+          @include level-difficult(high);
+        }
+      }
+    }
+  }
+
+  .js-pager__items {
+    a {
+      @extend .btn;
+      @extend .btn-default;
+
+      @extend .fa;
+      @extend .fa-refresh;
+
+      padding-left: 25px;
+      padding-right: 30px;
+
+      &:before {
+        position: relative;
+        top: 1px;
+
+        padding-right: 10px;
+      }
+    }
+  }
+}
+
+// Button.
+.speakers--became-participant {
+  position: relative;
+
+  @media screen and (max-width: $screen-sm) {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  &__button {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+
+    background: url('../#{images}/speak-ico.png') center bottom no-repeat;
+    background-size: 130px;
+
+    padding-top: 130px;
+
+    @media screen and (max-width: $screen-sm) {
+      position: relative;
+      padding-top: 125px;
+    }
+
+    a[href^="#"] {
+      border-bottom-style: solid;
+      border-bottom-width: 2px;
+
+      &:hover,
+      &:active,
+      &:focus {
+        border-bottom-style: solid;
+        border-bottom-width: 2px;
+      }
+    }
+  }
+}

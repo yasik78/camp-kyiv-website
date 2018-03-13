@@ -1,0 +1,19 @@
+uuid: 86311fca-c74d-4313-9fc3-ea53fa0a85db
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_position
+    - node.type.speaker
+id: node.speaker.field_position
+field_name: field_position
+entity_type: node
+bundle: speaker
+label: Position
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,21 @@
+uuid: 0e9f26e8-69e2-465b-855e-0836afa0cc08
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.block_title.field_block_title
+    - paragraphs.paragraphs_type.block_title
+id: paragraph.block_title.default
+targetEntityType: paragraph
+bundle: block_title
+mode: default
+content:
+  field_block_title:
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+hidden:
+  created: true
+  uid: true

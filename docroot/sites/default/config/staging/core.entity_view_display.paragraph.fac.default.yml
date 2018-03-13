@@ -1,0 +1,28 @@
+uuid: 86251185-3928-4450-93cb-9b524c417798
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.fac.field_facebook_link
+    - paragraphs.paragraphs_type.fac
+  module:
+    - link
+id: paragraph.fac.default
+targetEntityType: paragraph
+bundle: fac
+mode: default
+content:
+  field_facebook_link:
+    weight: 0
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: true
+      target: _blank
+      url_plain: false
+      rel: '0'
+    third_party_settings: {  }
+    type: link
+hidden:
+  created: true
+  uid: true

@@ -1,0 +1,21 @@
+uuid: e32821d6-d46b-4420-8406-d180c1c4302c
+langcode: uk
+status: true
+dependencies:
+  config:
+    - block_content.type.basic
+    - field.storage.block_content.field_body_basic
+  module:
+    - text
+id: block_content.basic.field_body_basic
+field_name: field_body_basic
+entity_type: block_content
+bundle: basic
+label: 'Body basic'
+description: body
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

@@ -1,0 +1,28 @@
+uuid: 3d3cfc6f-657d-4930-9aa2-2a16d258cb14
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_facebook_link
+    - paragraphs.paragraphs_type.fac
+  module:
+    - link
+id: paragraph.fac.field_facebook_link
+field_name: field_facebook_link
+entity_type: paragraph
+bundle: fac
+label: 'facebook link'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    attributes: {  }
+    uri: 'http://www.facebook.com/'
+    title: ''
+    options: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 1
+field_type: link

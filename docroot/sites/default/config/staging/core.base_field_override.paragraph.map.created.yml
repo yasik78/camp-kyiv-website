@@ -1,0 +1,18 @@
+uuid: cecad390-53e8-4e9a-8a22-350efac775d5
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.map
+id: paragraph.map.created
+field_name: created
+entity_type: paragraph
+bundle: map
+label: 'Authored on'
+description: 'The time that the Paragraph was created.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

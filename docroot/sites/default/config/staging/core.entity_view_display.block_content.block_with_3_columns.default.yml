@@ -1,0 +1,42 @@
+uuid: dab3bb3b-2d13-4d18-a891-453a3df53385
+langcode: uk
+status: true
+dependencies:
+  config:
+    - block_content.type.block_with_3_columns
+    - field.field.block_content.block_with_3_columns.field_body_col_3
+    - field.field.block_content.block_with_3_columns.field_button_3col
+    - field.field.block_content.block_with_3_columns.field_title_3_col
+  module:
+    - entity_reference_revisions
+id: block_content.block_with_3_columns.default
+targetEntityType: block_content
+bundle: block_with_3_columns
+mode: default
+content:
+  field_body_col_3:
+    type: entity_reference_revisions_entity_view
+    weight: 1
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+  field_button_3col:
+    type: entity_reference_revisions_entity_view
+    weight: 2
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+  field_title_3_col:
+    type: entity_reference_revisions_entity_view
+    weight: 0
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+hidden:
+  langcode: true

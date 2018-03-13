@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+
+clear
+
+set -eo pipefail
+
+if [ ! -f "index.php" ]; then
+  echo 'Please run this script from "drupal8" directory.'
+  exit 1;
+fi
+
+if [ $(pwd) = '/var/www/html' ]; then
+  echo 'Please run this script only under LOCAL enviroment.'
+  exit 1;
+fi
+
+get_path() {
+  # $1 : file path.
+  if [ -d "$(dirname "$1")" ]; then
+    echo "$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"
+  fi
+}
+
+#$(echo $(pwd)"/scripts/project-branch");
+
+## #############################################################################
+echo 'Reinstalling ...'
+
+DB_FILE=$(get_path "$1")
+
+if [ $# -ne 1 ]
+then
+	echo "Usage: $0 {DB_FILE}"
+	exit 1
+fi
+
+# ##############################################################################
+echo "Drop all tables"
+drush sql-drop -y > /dev/null 2>&1
+
+echo "Import new DB"
+if file --mime-type "$DB_FILE" | grep -q gzip$;
+then
+  gunzip -c $DB_FILE | drush sqlc
+else
+  drush sqlc < $DB_FILE
+fi
+
+# ##############################################################################
+echo "Clear cache tables"
+CACHE_TABLES=($(echo "$(drush sqlq "SHOW TABLES LIKE 'cache\_%';")" ))
+TRUNCATE_CACHE_TABLES=$(printf "TRUNCATE %s; " "${CACHE_TABLES[@]}")
+drush sqlq "$TRUNCATE_CACHE_TABLES" > /dev/null 2>&1
+
+## #############################################################################
+echo "Clean compiled files"
+sudo rm -fr ./sites/default/files/php
+sudo rm -fr ./sites/default/files/js
+sudo rm -fr ./sites/default/files/cs
+sudo rm -fr ./sites/default/files/languages
+sudo chmod -R -x+X ./sites/default/files
+
+# ##############################################################################
+echo "CI/CD"
+echo "$(date +"%Y%m%d%H%M%S")1" > ./sites/default/hash_salt.txt
+drush rebuild
+drush sqlq "$TRUNCATE_CACHE_TABLES" > /dev/null 2>&1
+drush cim -y
+drush updb -y
+echo "$(date +"%Y%m%d%H%M%S")2" > ./sites/default/hash_salt.txt
+drush sqlq "$TRUNCATE_CACHE_TABLES" > /dev/null 2>&1
+drush rebuild
+
+## #############################################################################
+echo "Re-install DB is DONE!"
+drush uli --no-browser --uid=1
+exit 0

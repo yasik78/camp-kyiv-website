@@ -1,0 +1,25 @@
+uuid: bfcc3b49-2987-41b0-be11-fd86785b2ce5
+langcode: uk
+status: true
+dependencies:
+  content:
+    - 'block_content:block_with_2_columns_with_map:6b5cde87-031c-4115-aa5d-911e02398bb3'
+  module:
+    - block_content
+  theme:
+    - dc17_bootstrap
+id: kartakontaktynew
+theme: dc17_bootstrap
+region: footer
+weight: 0
+provider: null
+plugin: 'block_content:6b5cde87-031c-4115-aa5d-911e02398bb3'
+settings:
+  id: 'block_content:6b5cde87-031c-4115-aa5d-911e02398bb3'
+  label: 'Карта + контакты new'
+  provider: block_content
+  label_display: '0'
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

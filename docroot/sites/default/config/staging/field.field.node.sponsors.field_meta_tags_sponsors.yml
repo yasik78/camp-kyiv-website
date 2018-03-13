@@ -1,0 +1,23 @@
+uuid: 6266df4c-454e-47fb-9338-80810520b64b
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_meta_tags_sponsors
+    - node.type.sponsors
+  module:
+    - metatag
+id: node.sponsors.field_meta_tags_sponsors
+field_name: field_meta_tags_sponsors
+entity_type: node
+bundle: sponsors
+label: 'Meta tags Sponsors'
+description: "----------------------------------------------------------------------------------------------------------------------------<br>\r\nЩоб додати Meta tags Sponsors, необхідно в полі Meta tags відкрити вкладку Open Graph та додати в інпут поля Image ->  {node:field_logo} <br>\r\n!!! замініть { } на [ ]\r\n-----------------------------------------------------------------------------------------------------------------------------<br>"
+required: false
+translatable: false
+default_value:
+  -
+    value: 'a:0:{}'
+default_value_callback: ''
+settings: {  }
+field_type: metatag

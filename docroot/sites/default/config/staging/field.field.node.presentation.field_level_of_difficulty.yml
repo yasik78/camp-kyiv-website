@@ -1,0 +1,23 @@
+uuid: 885c5773-a5a1-4d27-a6d2-408461da91ac
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_level_of_difficulty
+    - node.type.presentation
+  module:
+    - options
+id: node.presentation.field_level_of_difficulty
+field_name: field_level_of_difficulty
+entity_type: node
+bundle: presentation
+label: Рівень
+description: ''
+required: true
+translatable: true
+default_value:
+  -
+    value: Junior
+default_value_callback: ''
+settings: {  }
+field_type: list_string

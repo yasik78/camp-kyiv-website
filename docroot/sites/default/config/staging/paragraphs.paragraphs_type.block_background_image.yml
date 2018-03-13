@@ -1,0 +1,6 @@
+uuid: f8b7b73e-bdd3-491e-b768-320c1729464b
+langcode: uk
+status: true
+dependencies: {  }
+id: block_background_image
+label: 'Block background image'

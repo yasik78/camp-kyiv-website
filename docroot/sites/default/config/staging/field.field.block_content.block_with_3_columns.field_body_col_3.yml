@@ -1,0 +1,57 @@
+uuid: eda8c29e-9855-4346-930d-793888362583
+langcode: uk
+status: true
+dependencies:
+  config:
+    - block_content.type.block_with_3_columns
+    - field.storage.block_content.field_body_col_3
+    - paragraphs.paragraphs_type.block_body
+  module:
+    - entity_reference_revisions
+id: block_content.block_with_3_columns.field_body_col_3
+field_name: field_body_col_3
+entity_type: block_content
+bundle: block_with_3_columns
+label: Body
+description: 'body for block with 3 columns'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      block_body: block_body
+    target_bundles_drag_drop:
+      block_application_form:
+        weight: 11
+        enabled: false
+      block_background_image:
+        weight: 12
+        enabled: false
+      block_background_picker:
+        weight: 13
+        enabled: false
+      block_body:
+        enabled: true
+        weight: 14
+      block_button:
+        weight: 15
+        enabled: false
+      block_image:
+        weight: 16
+        enabled: false
+      block_subtitle:
+        weight: 17
+        enabled: false
+      block_title:
+        weight: 18
+        enabled: false
+      ck_editor:
+        weight: 19
+        enabled: false
+      map:
+        weight: 20
+        enabled: false
+field_type: entity_reference_revisions

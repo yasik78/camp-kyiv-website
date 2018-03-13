@@ -1,0 +1,22 @@
+uuid: 5051eae1-0454-448a-a6fb-5c1234e17cc6
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.fac
+id: paragraph.fac.status
+field_name: status
+entity_type: paragraph
+bundle: fac
+label: Published
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Увімкнено
+  off_label: Вимкнено
+field_type: boolean

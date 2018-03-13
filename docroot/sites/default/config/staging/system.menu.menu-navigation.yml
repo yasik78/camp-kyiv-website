@@ -1,0 +1,8 @@
+uuid: 8d5cd93d-58d7-471d-b6a9-1829c8816e18
+langcode: uk
+status: true
+dependencies: {  }
+id: menu-navigation
+label: 'Menu navigation'
+description: 'Menu navigation'
+locked: false

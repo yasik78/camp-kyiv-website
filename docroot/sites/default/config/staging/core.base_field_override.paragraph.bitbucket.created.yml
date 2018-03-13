@@ -1,0 +1,18 @@
+uuid: f09c65c9-ebaa-427d-afc7-e84c1337da12
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.bitbucket
+id: paragraph.bitbucket.created
+field_name: created
+entity_type: paragraph
+bundle: bitbucket
+label: 'Authored on'
+description: 'The time that the Paragraph was created.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

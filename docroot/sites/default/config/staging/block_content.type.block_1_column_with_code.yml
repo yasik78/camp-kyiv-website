@@ -1,0 +1,8 @@
+uuid: e1de65f0-46c4-47ad-8542-3bdd09958a41
+langcode: uk
+status: true
+dependencies: {  }
+id: block_1_column_with_code
+label: 'Block 1 column with code'
+revision: 0
+description: 'block with code'

@@ -1,0 +1,50 @@
+uuid: 617c4593-97ca-4979-8e8e-343a9ef2bebf
+langcode: uk
+status: true
+dependencies:
+  config:
+    - block_content.type.block_with_2_columns_with_map
+    - field.field.block_content.block_with_2_columns_with_map.field_background_picker
+    - field.field.block_content.block_with_2_columns_with_map.field_button
+    - field.field.block_content.block_with_2_columns_with_map.field_editor
+    - field.field.block_content.block_with_2_columns_with_map.field_map
+  module:
+    - entity_reference_revisions
+    - options
+id: block_content.block_with_2_columns_with_map.default
+targetEntityType: block_content
+bundle: block_with_2_columns_with_map
+mode: default
+content:
+  field_background_picker:
+    weight: 5
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
+  field_button:
+    weight: 3
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_entity_view
+  field_editor:
+    weight: 2
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_entity_view
+  field_map:
+    type: entity_reference_revisions_entity_view
+    weight: 4
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+hidden:
+  langcode: true

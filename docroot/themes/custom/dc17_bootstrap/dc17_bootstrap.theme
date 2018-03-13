@@ -1,0 +1,286 @@
+<?php
+/**
+ * @file
+ * Bootstrap sub-theme.
+ * Place your custom PHP code in this file.
+ */
+
+// Custom hook suggestion for views templates.
+function dc17_bootstrap_theme_suggestions_alter(array &$suggestions, array $variables, $hook) {
+  $view_id = \Drupal::routeMatch()->getRouteObject()->getDefault('view_id');
+  if (!empty($view_id)) {
+    $suggestions[] = $hook . '__' . $view_id;
+  }
+}
+
+/**
+ * Implements hook_preprocess_block().
+ */
+function dc17_bootstrap_preprocess_block(&$variables) {
+  $content = $variables['elements']['content'];
+  if (isset($content['#block_content']) && $content['#block_content'] instanceof \Drupal\block_content\BlockContentInterface) {
+    $variables['elements']['#configuration']['bundle'] = $content['#block_content']->bundle();
+  }
+
+  //load current node
+  if ($node = \Drupal::routeMatch()->getParameter('node')) {
+
+    // if current node is a 'page'
+    if ($node->type->entity->label() == "Basic page") {
+
+      // and block is a 'page_title_block'
+      if ($variables['plugin_id'] == 'page_title_block') {
+        $variables['subtitle'] = $node->get('field_subtitle_basic_page')->value;
+      }
+    }
+  }
+
+  //change format title for block switcher
+  if ($variables['elements']['#id'] == 'languageswitcher') {
+    $variables['content']['#links']['en']['title'] = 'EN';
+    $variables['content']['#links']['uk']['title'] = 'UA';
+    unset($variables['content']['#links']['pl']);
+    unset($variables['content']['#links']['ru']);
+  }
+
+  if (\Drupal::routeMatch()->getRouteName() == 'view.news.page_1') {
+    unset($variables['content']['#links']['pl']);
+    unset($variables['content']['#links']['ru']);
+  }
+
+  if ($variables['base_plugin_id'] == 'language_block' && $node = \Drupal::routeMatch()
+      ->getParameter('node')
+  ) {
+    foreach ($variables['content']['#links'] as $langcode => $link) {
+      if (!array_key_exists($langcode, $node->getTranslationLanguages(TRUE))) {
+        unset($variables['content']['#links'][$langcode]);
+      }
+    }
+  }
+
+  //
+  if (isset($content['#block_content']->field_background_picker)) {
+    $variables['elements']['#configuration']['background_color'] = $variables['content']['#block_content']->field_background_picker->value;
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter() for form templates.
+ *
+ * @param array $suggestions
+ * @param array $variables
+ */
+function dc17_bootstrap_theme_suggestions_block_alter(array &$suggestions, array $variables) {
+  // Block suggestions for custom block bundles.
+  if (isset($variables['elements']['content']['#block_content'])) {
+    array_splice($suggestions, 1, 0, 'block__type__' . $variables['elements']['content']['#block_content']->bundle());
+  }
+}
+
+/**
+ * Implements hook_html_head_alter().
+ */
+function dc17_bootstrap_page_attachments_alter(array &$attachments) {
+
+  $theme_path = \Drupal::service('theme.manager')->getActiveTheme()->getPath();
+  $theme_path = '/' . $theme_path . '/images';
+
+  $attachments['#attached']['html_head'][] = array(
+    array(
+      '#type' => 'html_tag',
+      '#tag' => 'link',
+      '#attributes' => array(
+        'rel' => 'apple-touch-icon',
+        'sizes' => '180x180',
+        'href' => $theme_path . '/favicons/apple-touch-icon.png',
+      ),
+    ),
+    'apple-touch-icon',
+  );
+
+  $attachments['#attached']['html_head'][] = array(
+    array(
+      '#type' => 'html_tag',
+      '#tag' => 'link',
+      '#attributes' => array(
+        'rel' => 'icon',
+        'type' => 'image/png',
+        'sizes' => '32x32',
+        'href' => $theme_path . '/favicons/favicon-32x32.png',
+      ),
+    ),
+    'favicon-32x32',
+  );
+
+  $attachments['#attached']['html_head'][] = array(
+    array(
+      '#type' => 'html_tag',
+      '#tag' => 'link',
+      '#attributes' => array(
+        'rel' => 'icon',
+        'type' => 'image/png',
+        'sizes' => '192x192',
+        'href' => $theme_path . '/favicons/favicon-192x192.png',
+      ),
+    ),
+    'favicon-194x194',
+  );
+
+  $attachments['#attached']['html_head'][] = array(
+    array(
+      '#type' => 'html_tag',
+      '#tag' => 'link',
+      '#attributes' => array(
+        'rel' => 'icon',
+        'type' => 'image/png',
+        'sizes' => '16x16',
+        'href' => $theme_path . '/favicons/favicon-16x16.png',
+      ),
+    ),
+    'favicon-16x16',
+  );
+
+  $attachments['#attached']['html_head'][] = array(
+    array(
+      '#type' => 'html_tag',
+      '#tag' => 'link',
+      '#attributes' => array(
+        'rel' => 'manifest',
+        'href' => $theme_path . '/favicons/manifest.json',
+      ),
+    ),
+    'manifest',
+  );
+
+  $attachments['#attached']['html_head'][] = array(
+    array(
+      '#type' => 'html_tag',
+      '#tag' => 'link',
+      '#attributes' => array(
+        'rel' => 'mask-icon',
+        'href' => $theme_path . '/favicons/safari-pinned-tab.svg',
+        'color' => '#41ad4d',
+      ),
+    ),
+    'mask-icon',
+  );
+
+  $attachments['#attached']['html_head'][] = array(
+    array(
+      '#type' => 'html_tag',
+      '#tag' => 'link',
+      '#attributes' => array(
+        'rel' => 'shortcut icon',
+        'href' => $theme_path . '/favicons/favicon.ico',
+      ),
+    ),
+    'shortcut-icon',
+  );
+
+  $attachments['#attached']['html_head'][] = array(
+    array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'msapplication-TileColor',
+        'content' => '#2a9f37',
+      ),
+    ),
+    'msapplication-TileColor',
+  );
+
+  $attachments['#attached']['html_head'][] = array(
+    array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'msapplication-TileImage',
+        'content' => $theme_path . '/favicons/mstile-144x144.png',
+      ),
+    ),
+    'msapplication-TileImage',
+  );
+  $attachments['#attached']['html_head']['msapplication-config'] = array(
+    array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'msapplication-config',
+        'content' => $theme_path . '/favicons/browserconfig.xml',
+      ),
+    ),
+    'msapplication-TileImage',
+  );
+
+  $attachments['#attached']['html_head'][] = array(
+    array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'theme-color',
+        'content' => '#ffffff',
+      ),
+    ),
+    'theme-color',
+  );
+
+  $attachments['#attached']['html_head'][] = array(
+    array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'application-name',
+        'content' => 'Drupal Camp',
+      ),
+    ),
+    'application-name',
+  );
+
+  $attachments['#attached']['html_head'][] = array(
+    array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'apple-mobile-web-app-title',
+        'content' => 'Drupal Camp',
+      ),
+    ),
+    'apple-mobile-web-app-title',
+  );
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter() for form templates.
+ *
+ * @param array $suggestions
+ * @param array $variables
+ */
+function dc17_bootstrap_theme_suggestions_views_view_unformatted_alter(array &$suggestions, array $variables) {
+  if ($variables['view']->current_display == 'block_presentation'){
+    $suggestions[] = 'views-view-unformatted--presentation';
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter() for form templates.
+ *
+ * @param array $suggestions
+ * @param array $variables
+ */
+function dc17_bootstrap_theme_suggestions_views_view_fields_alter(array &$suggestions, array $variables) {
+  if ($variables['view']->current_display == 'block_presentation'){
+    $suggestions[] = 'views-view-fields--presentation';
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter() for form templates.
+ *
+ * @param array $suggestions
+ * @param array $variables
+ */
+function dc17_bootstrap_theme_suggestions_views_view_field_alter(array &$suggestions, array $variables) {
+  if ($variables['view']->current_display == 'block_presentation'){
+    $suggestions[] = 'views-view-field--' . $variables['field']->field;
+  }
+}

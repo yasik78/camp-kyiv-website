@@ -1,0 +1,67 @@
+// Image pathes.
+
+$images: '../images';
+
+// Colors.
+
+$green: #65bd6a; //0.9 and 0.7
+
+$dark--text: #202525;
+$darkgrey: #484848;
+$grey: #555555;
+$grey-pagination: #cecece;
+$grey-pagination-color: #8d8d8d;
+$softgrey: #9b9b9b;
+$grey-news: #e8e8e8;
+$lightgrey: #f5f5f5;
+$grey-speaker-info: #aeaeae;
+
+$black: #000000;
+
+$white: #ffffff;
+
+$platinum: #555555;
+$gold: #FAC42B;
+$silver: #C0C0C0;
+
+
+$darkblue: #002766;
+
+$grey-sponsor-title: #e1e1e1;
+$border-schedule-grey: #e6e6e7;
+$time-schedule-dark: #9c9c9c;
+$td-schedule: #888888;
+$tr-hover-light: #fcfcfc;
+
+// Typography.
+
+$fontPath: '../font/clearsans';
+
+@each $fontName, $weight in (ClearSans-Bold: bold,
+                            ClearSans-Italic: italic,
+                            ClearSans-Regular: normal) {
+  @font-face {
+    font-family: 'Clear Sans';
+    src: url('#{$fontPath}/EOT/#{$fontName}.eot');
+    src: url('#{$fontPath}/WOFF/#{$fontName}.woff') format('woff'),
+        url('#{$fontPath}/TTF/#{$fontName}.ttf') format('truetype'),
+        url('#{$fontPath}/SVG/#{$fontName}.svg') format('svg');
+    @if ($weight == italic) {
+      font-style: $weight;
+    } @else {
+      font-weight: $weight;
+    }
+  }
+}
+
+//Custom medias:
+
+$semi-tablet: 630px;
+$screen-lg2: 1105px;
+$screen-lg3: 1014px;
+
+$sub-desktop: 991px;
+$screen-md-custom: 960px;
+
+$screen-sm2: 600px;
+$screen-sm3: 570px;

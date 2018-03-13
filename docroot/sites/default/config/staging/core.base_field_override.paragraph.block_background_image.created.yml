@@ -1,0 +1,18 @@
+uuid: f869606c-c1a5-4c9c-81ac-d2bfce49e630
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.block_background_image
+id: paragraph.block_background_image.created
+field_name: created
+entity_type: paragraph
+bundle: block_background_image
+label: 'Authored on'
+description: 'The time that the Paragraph was created.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

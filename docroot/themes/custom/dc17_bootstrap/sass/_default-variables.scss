@@ -1,0 +1,73 @@
+/**
+ * Default Variables.
+ *
+ * Modify this file to provide default Bootstrap Framework variables. The
+ * Bootstrap Framework will not override any variables defined here because it
+ * uses the `!default` flag which will only set their default if not already
+ * defined here.
+ *
+ * You can copy existing variables directly from the following file:
+ * ./THEMENAME/bootstrap/assets/stylesheets/_variables.scss
+ */
+
+// Set the proper directory for the Bootstrap Glyphicon font.
+$icon-font-path: '../bootstrap/assets/fonts/bootstrap/';
+
+// Layout.
+
+$grid-gutter-width: 34px; // 34/2 = 17.
+
+// Typography.
+$font-family-base: 'Clear Sans';
+$font-size-base: 16px;
+$font-size-h1: 35px;
+$font-size-h2: 18px;
+$font-size-h3: 16px;
+$font-size-h4: 16px;
+$font-size-h5: 16px;
+$font-size-h6: 16px;
+$line-height-computed: 48px; //margin-bottom of paragraph.
+$link-color: $green;
+
+// Buttons.
+$btn-default-color: $white;
+$btn-default-bg: $green;
+$btn-default-border: $green;
+$btn-border-radius-base: 35px;
+$padding-base-vertical: 7px;
+$padding-base-horizontal: 20px;
+$padding-small-horizontal: 25px;
+$padding-small-vertical: 6px;
+$btn-border-radius-small: 25px;
+$font-size-small: 12px;
+
+// Custom btn with white borders and transparent bg.
+$btn-action-color: $white;
+$btn-action-bg: transparent;
+$btn-action-border: $white;
+
+// Form.
+$input-height-base: 40px;
+$input-group-addon-bg: $white;
+$nav-link-hover-bg: transparent;
+
+// Menu.
+$navbar-default-link-color: $white;
+$navbar-default-link-hover-color: $white;
+$navbar-default-link-active-color: $white;
+$dropdown-bg: $grey;
+$navbar-default-brand-hover-color: $white;
+$navbar-default-brand-color: $white;
+$navbar-margin-bottom: 0;
+$navbar-default-toggle-hover-bg: rgba($green, 0.8);
+
+// Pagination.
+
+$pagination-bg: transparent;
+$pagination-active-bg: transparent;
+$pagination-disabled-bg: transparent;
+$pagination-active-color: $green;
+$pagination-hover-color: $green;
+$pagination-hover-bg: transparent;
+$pagination-color: $grey-pagination-color;
+

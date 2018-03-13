@@ -1,0 +1,6 @@
+uuid: 02ef3f4a-912b-4f57-b585-c998ba7109e3
+langcode: uk
+status: true
+dependencies: {  }
+id: block_title
+label: 'Block title'

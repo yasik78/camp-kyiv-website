@@ -1,0 +1,16 @@
+uuid: 1a8347c0-810f-484b-99aa-f299f95cb25c
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.ck_editor
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: paragraph.ck_editor
+target_entity_type_id: paragraph
+target_bundle: ck_editor
+default_langcode: site_default
+language_alterable: true

@@ -1,0 +1,13 @@
+display:
+  block_1:
+    display_options:
+      title: 'PLATINUM SPONSOR'
+  block_2:
+    display_options:
+      title: 'GOLD SPONSOR'
+  block_3:
+    display_options:
+      title: 'SILVER SPONSOR'
+  block_4:
+    display_options:
+      title: PARTNER

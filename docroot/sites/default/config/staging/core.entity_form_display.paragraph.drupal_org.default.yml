@@ -1,0 +1,25 @@
+uuid: 4f8e2125-b8aa-423e-83f8-ea9addc24404
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.drupal_org.field_drupal_org_link
+    - paragraphs.paragraphs_type.drupal_org
+  module:
+    - link
+id: paragraph.drupal_org.default
+targetEntityType: paragraph
+bundle: drupal_org
+mode: default
+content:
+  field_drupal_org_link:
+    weight: 0
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+hidden:
+  created: true
+  status: true
+  uid: true

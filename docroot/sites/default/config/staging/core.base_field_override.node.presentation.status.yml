@@ -1,0 +1,22 @@
+uuid: 63b21eb7-73f3-486b-8f88-d10b2ed90d08
+langcode: uk
+status: true
+dependencies:
+  config:
+    - node.type.presentation
+id: node.presentation.status
+field_name: status
+entity_type: node
+bundle: presentation
+label: 'Publishing status'
+description: 'A boolean indicating whether the node is published.'
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Увімкнено
+  off_label: Вимкнено
+field_type: boolean

@@ -1,0 +1,19 @@
+uuid: 2b12675e-2fdd-4683-a6fc-ddd32939a0a9
+langcode: uk
+status: true
+dependencies:
+  module:
+    - link
+    - paragraphs
+id: paragraph.field_block_button
+field_name: field_block_button
+entity_type: paragraph
+type: link
+settings: {  }
+module: link
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

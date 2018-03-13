@@ -1,0 +1,5 @@
+label: Content
+tags:
+  title: '[node:title] | [site:name]'
+  abstract: '[node:content-type:description]'
+  description: '[node:summary]'

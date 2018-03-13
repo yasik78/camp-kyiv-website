@@ -1,0 +1,69 @@
+label: Pliki
+display:
+  default:
+    display_title: Główny
+    display_options:
+      exposed_form:
+        options:
+          submit_button: Filtr
+          reset_button_label: Resetuj
+          exposed_sorts_label: 'Sortuj po'
+          sort_asc_label: Rosnąco
+          sort_desc_label: Malejąco
+      pager:
+        options:
+          expose:
+            items_per_page_label: 'Elementów na stronę'
+            items_per_page_options_all_label: '- Wszystko -'
+            offset_label: Przesunięcie
+      fields:
+        filename:
+          label: Nazwa
+        filemime:
+          label: 'typ MIME'
+        filesize:
+          label: Rozmiar
+        status:
+          label: Status
+        created:
+          label: 'Data wysłania'
+        changed:
+          label: 'Data modyfikacji'
+        count:
+          label: 'Użyte w'
+      filters:
+        filename:
+          expose:
+            label: 'Nazwa pliku'
+        filemime:
+          expose:
+            label: 'typ MIME'
+        status:
+          expose:
+            label: Status
+      title: Pliki
+  page_1:
+    display_options:
+      menu:
+        title: Pliki
+  page_2:
+    display_title: 'Wykorzystanie plików'
+    display_options:
+      pager:
+        options:
+          expose:
+            items_per_page_label: 'Elementów na stronę'
+            items_per_page_options_all_label: '- Wszystko -'
+            offset_label: Przesunięcie
+      fields:
+        entity_label:
+          label: Encja
+        type:
+          label: 'Typ encji'
+        count:
+          label: 'Ilość wystąpień'
+      title: 'Wykorzystanie plików'
+      arguments:
+        fid:
+          exception:
+            title: Wszystko

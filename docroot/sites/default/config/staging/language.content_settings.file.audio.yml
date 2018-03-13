@@ -1,0 +1,11 @@
+uuid: bd2a05d7-ba6c-4dc1-bc1f-34a0f815dbb0
+langcode: uk
+status: true
+dependencies:
+  config:
+    - file_entity.type.audio
+id: file.audio
+target_entity_type_id: file
+target_bundle: audio
+default_langcode: site_default
+language_alterable: false

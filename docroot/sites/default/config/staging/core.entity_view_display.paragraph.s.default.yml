@@ -1,0 +1,70 @@
+uuid: a4915805-210a-4827-99bf-606cd1cd81cd
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.s.field_bitbu
+    - field.field.paragraph.s.field_drupal_
+    - field.field.paragraph.s.field_facebook
+    - field.field.paragraph.s.field_github_com
+    - field.field.paragraph.s.field_linkedin
+    - field.field.paragraph.s.field_youtube
+    - paragraphs.paragraphs_type.s
+  module:
+    - entity_reference_revisions
+id: paragraph.s.default
+targetEntityType: paragraph
+bundle: s
+mode: default
+content:
+  field_bitbu:
+    type: entity_reference_revisions_entity_view
+    weight: 5
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+  field_drupal_:
+    type: entity_reference_revisions_entity_view
+    weight: 3
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+  field_facebook:
+    type: entity_reference_revisions_entity_view
+    weight: 1
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+  field_github_com:
+    type: entity_reference_revisions_entity_view
+    weight: 0
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+  field_linkedin:
+    type: entity_reference_revisions_entity_view
+    weight: 2
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+  field_youtube:
+    type: entity_reference_revisions_entity_view
+    weight: 4
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  uid: true

@@ -1,0 +1,48 @@
+display:
+  default:
+    display_options:
+      fields:
+        view_node:
+          text: DETAILED
+  block_1:
+    display_options:
+      title: 'PLATINUM SPONSOR'
+      fields:
+        nothing:
+          alter:
+            text: "<div class=\"views-field views-field-view-node\">\r\n  <span class=\"views-field views-field-view-node\">\r\n    <a href=\"{{ path }}\">{{ 'Detailed'|t }}</a>\r\n  </span>\r\n</div>"
+  block_2:
+    display_options:
+      title: 'GOLD SPONSOR'
+      fields:
+        nothing:
+          alter:
+            text: "<div class=\"views-field views-field-view-node\">\r\n  <span class=\"views-field views-field-view-node\">\r\n    <a href=\"{{ path }}\">{{ 'Detailed'|t }}</a>\r\n  </span>\r\n</div>"
+  block_3:
+    display_options:
+      title: 'SILVER SPONSOR'
+      fields:
+        nothing:
+          alter:
+            text: "<div class=\"views-field views-field-view-node\">\r\n  <span class=\"views-field views-field-view-node\">\r\n    <a href=\"{{ path }}\">{{ 'Detailed'|t }}</a>\r\n  </span>\r\n</div>"
+  block_4:
+    display_options:
+      title: 'INDIVIDUAL SPONSOR'
+      fields:
+        nothing:
+          alter:
+            text: "<div class=\"views-field views-field-view-node\">\r\n  <span class=\"views-field views-field-view-node\">\r\n    <a href=\"{{ path }}\">{{ 'Detailed'|t }}</a>\r\n  </span>\r\n</div>"
+  block_5:
+    display_options:
+      title: PARTNER
+      fields:
+        nothing:
+          alter:
+            text: "<div class=\"views-field views-field-view-node\">\r\n  <span class=\"views-field views-field-view-node\">\r\n    <a href=\"{{ path }}\">{{ 'Detailed'|t }}</a>\r\n  </span>\r\n</div>"
+  block_6:
+    display_options:
+      title: INFO-PARTNER
+      fields:
+        nothing:
+          alter:
+            text: "<div class=\"views-field views-field-view-node\">\r\n  <span class=\"views-field views-field-view-node\">\r\n    <a href=\"{{ path }}\">{{ 'Detailed'|t }}</a>\r\n  </span>\r\n</div>"

@@ -1,0 +1,57 @@
+uuid: 887efe82-79bb-4e89-ae02-e916305d043d
+langcode: uk
+status: true
+dependencies:
+  config:
+    - block_content.type.main_page_info_block_with_3_colu
+    - field.storage.block_content.field_ib_left_title
+    - paragraphs.paragraphs_type.block_title
+  module:
+    - entity_reference_revisions
+id: block_content.main_page_info_block_with_3_colu.field_ib_left_title
+field_name: field_ib_left_title
+entity_type: block_content
+bundle: main_page_info_block_with_3_colu
+label: 'IB left title'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      block_title: block_title
+    target_bundles_drag_drop:
+      block_application_form:
+        weight: 11
+        enabled: false
+      block_background_image:
+        weight: 12
+        enabled: false
+      block_background_picker:
+        weight: 13
+        enabled: false
+      block_body:
+        weight: 14
+        enabled: false
+      block_button:
+        weight: 15
+        enabled: false
+      block_image:
+        weight: 16
+        enabled: false
+      block_subtitle:
+        weight: 17
+        enabled: false
+      block_title:
+        enabled: true
+        weight: 18
+      ck_editor:
+        weight: 19
+        enabled: false
+      map:
+        weight: 20
+        enabled: false
+field_type: entity_reference_revisions

@@ -1,0 +1,19 @@
+uuid: 8071d5c3-db92-4fe4-ad30-8b358a8ad5a7
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_block_body
+    - paragraphs.paragraphs_type.block_body
+id: paragraph.block_body.field_block_body
+field_name: field_block_body
+entity_type: paragraph
+bundle: block_body
+label: 'Block body'
+description: 'block''s body'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

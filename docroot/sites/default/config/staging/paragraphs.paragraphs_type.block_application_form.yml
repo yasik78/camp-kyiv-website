@@ -1,0 +1,6 @@
+uuid: ba1b44a1-8547-44b5-b8b9-7a1e20ea187c
+langcode: uk
+status: true
+dependencies: {  }
+id: block_application_form
+label: 'Block Aplication form for speakers'

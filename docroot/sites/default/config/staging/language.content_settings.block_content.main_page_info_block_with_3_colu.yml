@@ -1,0 +1,16 @@
+uuid: 56d3d0b2-60b3-433f-8af6-5a9cefa0d2b5
+langcode: uk
+status: true
+dependencies:
+  config:
+    - block_content.type.main_page_info_block_with_3_colu
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: block_content.main_page_info_block_with_3_colu
+target_entity_type_id: block_content
+target_bundle: main_page_info_block_with_3_colu
+default_langcode: site_default
+language_alterable: true

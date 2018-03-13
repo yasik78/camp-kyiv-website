@@ -1,0 +1,10 @@
+label: 'Gallery media library'
+widgets:
+  c1df873e-9e41-41c0-b22f-f4b56d51d9c0:
+    label: 'Upload images'
+  3da26b3a-8d09-4270-a0a8-a89691b0b73a:
+    label: 'All media'
+  297329aa-dcf8-4ec3-aac2-dd4f46c89d83:
+    label: 'My media'
+  6cf9f4b5-d1b8-4325-96ef-a48da34e4ea7:
+    label: 'Add video'

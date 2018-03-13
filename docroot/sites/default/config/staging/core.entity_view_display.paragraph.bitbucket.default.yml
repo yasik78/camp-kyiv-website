@@ -1,0 +1,28 @@
+uuid: 4fe15c03-bbf6-49c0-b893-a4fb5b4b7965
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.bitbucket.field_bitbucket_link
+    - paragraphs.paragraphs_type.bitbucket
+  module:
+    - link
+id: paragraph.bitbucket.default
+targetEntityType: paragraph
+bundle: bitbucket
+mode: default
+content:
+  field_bitbucket_link:
+    weight: 0
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: true
+      target: _blank
+      url_plain: false
+      rel: '0'
+    third_party_settings: {  }
+    type: link
+hidden:
+  created: true
+  uid: true

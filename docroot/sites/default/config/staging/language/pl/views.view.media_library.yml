@@ -1,0 +1,123 @@
+display:
+  default:
+    display_title: Główny
+    display_options:
+      exposed_form:
+        options:
+          submit_button: Zastosuj
+          reset_button_label: Resetuj
+          exposed_sorts_label: 'Sortuj po'
+          sort_asc_label: Rosnąco
+          sort_desc_label: Malejąco
+      pager:
+        options:
+          expose:
+            items_per_page_label: 'Elementów na stronę'
+            items_per_page_options_all_label: '- Wszystko -'
+            offset_label: Przesunięcie
+          tags:
+            previous: ‹‹
+            next: ››
+      filters:
+        bundle:
+          expose:
+            label: Pakiet
+        status:
+          expose:
+            label: 'Status opublikowania'
+      sorts:
+        created:
+          expose:
+            label: Utworzono
+  gallery_media_select_modal:
+    display_options:
+      filters:
+        bundle:
+          expose:
+            label: Pakiet
+        bundle_1:
+          expose:
+            label: Pakiet
+        status:
+          expose:
+            label: 'Status opublikowania'
+  gallery_user_media_select_modal:
+    display_options:
+      filters:
+        bundle:
+          expose:
+            label: Pakiet
+        bundle_1:
+          expose:
+            label: Pakiet
+        status:
+          expose:
+            label: 'Status opublikowania'
+      arguments:
+        uid:
+          exception:
+            title: Wszystko
+  global_media_library_page:
+    display_options:
+      menu:
+        title: Media
+      fields:
+        bundle:
+          label: Typ
+        status:
+          label: Status
+      filters:
+        bundle:
+          expose:
+            label: Pakiet
+        status:
+          expose:
+            label: 'Status opublikowania'
+        langcode:
+          expose:
+            label: Język
+  media_select_modal:
+    display_options:
+      filters:
+        bundle:
+          expose:
+            label: Pakiet
+        status:
+          expose:
+            label: 'Status opublikowania'
+  user_media_library:
+    display_options:
+      menu:
+        title: Media
+      arguments:
+        uid:
+          exception:
+            title: Wszystko
+      fields:
+        bundle:
+          label: Typ
+        status:
+          label: Status
+      filters:
+        bundle:
+          expose:
+            label: Pakiet
+        status:
+          expose:
+            label: 'Status opublikowania'
+        langcode:
+          expose:
+            label: Język
+  user_media_select_modal:
+    display_options:
+      filters:
+        bundle:
+          expose:
+            label: Pakiet
+        status:
+          expose:
+            label: 'Status opublikowania'
+      arguments:
+        uid:
+          exception:
+            title: Wszystko

@@ -1,0 +1,23 @@
+uuid: a7732588-0c17-46e2-9643-9cc2d8131912
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_backg
+    - paragraphs.paragraphs_type.block_background_picker
+  module:
+    - options
+id: paragraph.block_background_picker.field_backg
+field_name: field_backg
+entity_type: paragraph
+bundle: block_background_picker
+label: 'Background picker'
+description: 'pick your background color'
+required: false
+translatable: true
+default_value:
+  -
+    value: Light
+default_value_callback: ''
+settings: {  }
+field_type: list_string

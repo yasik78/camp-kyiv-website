@@ -1,0 +1,23 @@
+uuid: 0a327380-a94e-4053-8543-3dca8d27a01b
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_map
+    - paragraphs.paragraphs_type.map
+  module:
+    - link
+id: paragraph.map.field_map
+field_name: field_map
+entity_type: paragraph
+bundle: map
+label: Map
+description: map
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 0
+field_type: link

@@ -1,0 +1,22 @@
+uuid: 8abf2f60-123f-47de-a090-80ecec53e352
+langcode: uk
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.block_application_form
+id: paragraph.block_application_form.status
+field_name: status
+entity_type: paragraph
+bundle: block_application_form
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

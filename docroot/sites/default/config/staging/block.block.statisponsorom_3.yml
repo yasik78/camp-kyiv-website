@@ -1,0 +1,31 @@
+uuid: cc47edf3-09ea-4e02-9aa6-057b9a8511fa
+langcode: uk
+status: true
+dependencies:
+  content:
+    - 'block_content:block_with_3_columns:47871cee-dba7-4c66-9b7b-a16f458ebf84'
+  module:
+    - block_content
+    - system
+  theme:
+    - dc17_bootstrap
+id: statisponsorom_3
+theme: dc17_bootstrap
+region: custom_region
+weight: -27
+provider: null
+plugin: 'block_content:47871cee-dba7-4c66-9b7b-a16f458ebf84'
+settings:
+  id: 'block_content:47871cee-dba7-4c66-9b7b-a16f458ebf84'
+  label: 'Стати спонсором for page <front>'
+  provider: block_content
+  label_display: '0'
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }

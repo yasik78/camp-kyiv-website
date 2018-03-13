@@ -1,0 +1,935 @@
+// @todo these should be their own CSS files and only included when
+// specific Drupal libraries are used.
+@import "component/alert";
+@import "component/ajax";
+@import "component/field";
+@import "component/file";
+@import "component/filter";
+@import "component/form";
+@import "component/icon";
+@import "component/navbar";
+@import "component/node";
+@import "component/panel";
+@import "component/progress-bar";
+@import "component/table-drag";
+@import "component/tabs";
+@import "component/toolbar";
+
+// jQuery UI style overrides.
+@import "jquery-ui/autocomplete";
+
+body {
+
+  // To make sticky footer.
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  height: 100%;
+
+  > header {
+    width: 100% !important;
+  }
+
+  > div[role='main'],
+  > div[class='container-fluid'] {
+    width: 100% !important;
+    flex: 1;
+  }
+
+  @media (min-width: $screen-sm) {
+    margin-top: 0;
+  }
+}
+
+// Typography.
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-weight: 700;
+}
+
+h2, h3, h5, h6,
+.h2, .h3, .h5, .h6 {
+  text-transform: uppercase;
+  letter-spacing: 0.035em;
+  line-height: 24px;
+}
+
+
+h1, h2, h3, h4,
+.h1, .h2, .h3, .h4 {
+  color: $dark--text;
+}
+
+h3, h4, h5, h6,
+.h3, .h4, .h5, .h6 {
+  @media (max-width: $screen-sm) {
+    font-size: 14px;
+    line-height: 16px;
+  }
+
+  @media (max-width: $screen-xs) {
+    font-size: 14px;
+    line-height: 16px;
+  }
+}
+
+h1, .h1 {
+  line-height: 46px;
+
+  @media (max-width: $screen-sm) {
+    font-size: 24px;
+    line-height: 26px;
+  }
+
+  @media (max-width: $screen-xs) {
+    font-size: 20px;
+    line-height: 22px;
+  }
+}
+
+h2, .h2 {
+  @media (max-width: $screen-sm) {
+    font-size: 16px;
+    line-height: 22px;
+    margin-top: 20px;
+  }
+
+  @media (max-width: $screen-xs) {
+    font-size: 16px;
+    line-height: 22px;
+    margin-top: 20px;
+  }
+}
+
+h5, .h5 {
+  color: $grey;
+}
+
+h6, .h6 {
+  color: $softgrey;
+}
+
+p {
+  line-height: 24px;
+
+  @media (max-width: $screen-sm) {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+
+a {
+  @include transition(color 0.3s);
+
+  outline: none;
+}
+
+a[href^='#'] {
+  position: relative;
+  border-bottom: 1px dashed $green;
+
+  &:hover,
+  &:active {
+    text-decoration: none;
+  }
+}
+
+.page-header {
+  border-bottom: 0;
+}
+
+article {
+  ol, ul {
+    padding-left: 1.5em;
+
+    li {
+      margin-bottom: 10px;
+      padding-left: 10px;
+    }
+
+    .popover &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+article {
+  ul {
+    padding-left: 0;
+
+    @media screen and (max-width: $screen-sm) {
+      font-size: 14px;
+    }
+
+    li {
+      list-style-type: none;
+
+      &:before {
+        content: '';
+        position: relative;
+        top: -1px;
+        display: inline-block;
+        width: 5px;
+        height: 5px;
+        margin-right: 20px;
+        border-radius: 50%;
+        background: $softgrey;
+        vertical-align: middle;
+      }
+
+      p {
+        display: inline; // Fix if ckeditor adds p within li element.
+      }
+    }
+  }
+}
+
+//
+//  HEADER STYLES (INCLUDING LANGUAGE AND BURGER MENU BLOCKS)
+//
+
+.path-frontpage {
+  .header,
+  header,
+  .navbar {
+    overflow: hidden;
+  }
+}
+
+.header,
+header,
+.navbar {
+
+  @include gradient-vertical(#50525a, #393942);
+
+  // New block-menu styles.
+
+  nav {
+    display: inline-flex;
+    order: 2;
+    justify-content: flex-end;
+    flex-grow: 100;
+
+    @media (max-width: 767px) {
+      order: 1;
+      justify-content: flex-start;
+      flex-grow: initial;
+    }
+  }
+
+  .container-fluid {
+    position: relative;
+    
+    width: auto;
+    max-width: 1200px;
+    //min-width: 320px; No, we don't need it because of mobile bugs.
+  }
+
+  .region-navigation {
+    display: block;
+
+    @media screen and (max-width: 767px) {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  .navbar-brand {
+    order: 1;
+
+    @media screen and (max-width: 767px) {
+      order: 2;
+    }
+  }
+
+  .header-menu {
+    order: 1;
+    flex-grow: 1;
+
+    @media screen and (min-width: 768px) {
+      display: flex;
+      flex-direction: row-reverse;
+    }
+
+    @media screen and (max-width: 767px) {
+      flex-grow: initial;
+    }
+  }
+
+  .language-block__text {
+    position: relative;
+
+    color: $green;
+    font-weight: 700;
+    font-size: 14px;
+
+    &:after {
+      content: "";
+
+      position: absolute;
+      right: -12px;
+      top: 50%;
+
+      border-top: 4px solid $green;
+      border-right: 4px solid transparent;
+      border-left: 4px solid transparent;
+    }
+  }
+
+
+  .navbar-brand {
+    height: auto;
+    padding: 0 17px;
+
+    line-height: 60px;
+
+    @media screen and (max-width: 1060px) and (min-width: 768px) {
+      padding-top: 24px;
+
+      line-height: 1.1;
+    }
+  }
+
+  .navbar-toggle {
+    margin-right: 0;
+
+    border: none;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: transparent;
+    }
+
+    &:hover .icon-bar,
+    &:active .icon-bar,
+    &:focus .icon-bar {
+      background-color: $green;
+    }
+
+    .icon-bar {
+      background-color: $white;
+    }
+
+  }
+
+  .navbar-nav {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+
+    @media screen and (max-width: 767px) {
+      position: absolute;
+      top: 77px;
+      left: 17px;
+
+      display: none;
+      flex-direction: column;
+      width: 50%;
+      z-index: 9;
+
+      @include gradient-vertical(#50525a, #393942);
+    }
+
+    @media screen and (max-width: $screen-xs) {
+      width: 100%;
+
+      text-align: center;
+    }
+
+    & > .active > a {
+      color: $green;
+
+      background-color: transparent;
+
+      cursor: default;
+    }
+
+    &.menu {
+      @media screen and (max-width: 960px) {
+        padding: 6px 10px;
+      }
+    }
+
+    &.show-list {
+      display: flex;
+    }
+
+    .open .dropdown-menu > .active a,
+    .menu.dropdown-menu > .active a {
+      padding: 6px 0;
+
+      background-color: transparent;
+      border-bottom: 2px solid #65bd6a;
+
+      &.is-active {
+        cursor: default;
+      }
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+
+  .menu > li {
+    flex-grow: 1;
+    margin-right: 20px;
+
+    @media screen and (max-width: 1060px) {
+      margin-right: 10px;
+    }
+
+    &.dropdown {
+      a {
+        white-space: nowrap;
+      }
+    }
+  }
+
+  .block-language {
+    display: flex;
+    flex-direction: row-reverse;
+    flex-grow: 1;
+    order: 3;
+
+    @media screen and (max-width: 767px) {
+      flex-grow: 0;
+    }
+
+    .language-block {
+      position: relative;
+      padding-left: 60px;
+
+      @media screen and (max-width: 1060px) {
+        padding-left: 45px;
+      }
+
+      @media screen and (max-width: 767px) {
+        padding-left: 0;
+      }
+
+      &:after {
+        content: '';
+
+        position: absolute;
+        top: 50%;
+        left: 0;
+
+        display: block;
+        width: 21px;
+        border-bottom: 2px solid $white;
+
+        @media screen and (max-width: 767px) {
+          width: 0;
+        }
+      }
+    }
+
+    .language-block__button {
+      display: none;
+      padding: 21px 0;
+      margin: 0;
+
+      cursor: pointer;
+
+      @media screen and (max-width: 960px) {
+        display: flex;
+      }
+    }
+
+    .language-block__list {
+      position: relative;
+
+      display: none;
+
+
+      @media screen and (min-width: 961px) {
+        display: inline-block;
+      }
+
+      &.show-list {
+        display: block;
+      }
+    }
+
+    .links {
+      position: relative;
+
+      display: inline-block;
+      padding: 19px 0;
+      margin: 0;
+
+      list-style: none;
+      z-index: 10;
+
+      @media screen and (max-width: 960px) {
+        background-color: rgba($grey, 0.9);
+
+        position: absolute;
+        top: -20px;
+        left: -10px;
+
+        display: flex;
+        padding: 0 10px;
+        flex-direction: column;
+
+        text-align: center;
+      }
+
+      li {
+        display: inline-block;
+        margin-right: 15px;
+
+        @media screen and (max-width: 960px) {
+          margin-right: 0;
+        }
+
+        &:last-child {
+          margin-right: 0;
+        }
+
+        &.is-active a {
+          color: $green;
+
+          &:hover {
+            color: $green;
+            text-decoration: none;
+            cursor: default;
+          }
+        }
+
+        a {
+          color: $white;
+          font-size: 14px;
+          font-weight: 700;
+
+          &:hover {
+            color: $green;
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+.navbar {
+  border: 0;
+  border-radius: 0;
+
+  .region-navigation {
+    display: flex;
+
+    @media all and (max-width: 1060px) and (min-width: 768px) {
+      align-items: flex-start;
+    }
+  }
+
+  &-brand {
+    font-size: 14px;
+    color: $white;
+    font-weight: 700;
+
+    .text-green {
+      color: $green;
+    }
+
+    a {
+      font-size: 14px;
+    }
+  }
+}
+
+.navbar-nav.menu {
+  padding: 6px 20px;
+
+  @media (max-width: 767px) {
+    background-color: rgba($grey, 0.9);
+    background-image: none;
+  }
+
+  > li {
+    margin-bottom: 0;
+
+    &:before {
+      display: none;
+    }
+
+    > a {
+      display: inline;
+      border: 0;
+      color: $white;
+      border-top: 2px solid transparent;
+      border-bottom: 2px solid transparent;
+      padding: 20px 0;
+      @include transition(0.3s ease);
+      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: 700;
+
+      &:hover {
+        border-top: 2px solid $green;
+        border-bottom: 2px solid $green;
+        padding: 6px 0;
+        color: $white;
+      }
+    }
+
+    &.dropdown {
+
+      @media (min-width: $screen-sm) {
+        &:hover .dropdown-toggle + .dropdown-menu {
+          display: block;
+        }
+      }
+
+      ul {
+        opacity: 0.85;
+
+        li {
+          margin: 10px 20px 15px 0;
+
+          @media (max-width: $screen-sm) {
+            margin: 0 20px 0 10px;
+          }
+
+          @media (max-width: $screen-xs) {
+            margin: 0 10px;
+            text-align: center;
+          }
+
+          a {
+            display: inline;
+            padding: 20px 0px;
+            border-bottom: 2px solid transparent;
+            @include transition(all 0.3s ease-in);
+
+            color: $white;
+            background: transparent;
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 700;
+
+            @media (max-width: $screen-sm-max) {
+              color: $white;
+            }
+
+            &:hover,
+            &:focus {
+              border-bottom: 2px solid $green;
+              padding: 6px 0;
+            }
+          }
+        }
+      }
+
+      .dropdown-menu {
+        padding-left: 10px;
+        padding-right: 50px;
+        padding-bottom: 10px;
+
+        &:hover {
+          display: block;
+        }
+
+        &.menu {
+
+          @media screen and (max-width: 767px) {
+            position: static;
+            float: none;
+            width: auto;
+            margin-top: 0;
+            background-color: transparent;
+            border: 0;
+            box-shadow: none;
+          }
+        }
+
+        & > li > a {
+          @media screen and (max-width: 767px) {
+            line-height: 48px;
+          }
+        }
+
+        @media (max-width: $screen-xs) {
+          padding-right: 10px;
+        }
+      }
+    }
+  }
+}
+
+// Overriding dropdown.
+
+.navbar-default {
+
+  .navbar-nav {
+    >.open,
+    >.active {
+      >a {
+        background: transparent;
+        color: $white;
+
+        &:hover,
+        &:focus {
+          background-color: transparent;
+          color: $white;
+          padding: 6px 0;
+        }
+      }
+    }
+    >.active {
+      >a {
+        border-top: 2px solid $green;
+        border-bottom: 2px solid $green;
+        padding: 6px 0;
+        color: $white;
+      }
+    }
+  }
+}
+
+// Buttons.
+
+.btn {
+  border-width: 2px;
+  text-transform: uppercase;
+  font-weight: 700;
+
+  &-default {
+
+    @include transition(background 0.3s ease-in);
+
+    &:hover,
+    &:active,
+    &:focus {
+      background: $white;
+      color: $green;
+      border-color: $btn-default-bg;
+    }
+
+    &.btn-inverse {
+      background: $btn-default-color;
+      color: $btn-default-bg;
+
+      &:hover,
+      &:active,
+      &:focus {
+        background: $btn-default-bg;
+        color: $btn-default-color;
+        border-color: $btn-default-bg;
+      }
+    }
+
+    @media (max-width: $screen-xs) {
+      font-size: 12px;
+    }
+  }
+
+  &-action {
+    @include button-variant($btn-action-color, $btn-action-bg, $btn-action-border);
+
+    &:hover,
+    &:active,
+    &:focus {
+      background: $btn-action-bg;
+      color: $btn-action-color;
+      border-color: $btn-action-border;
+    }
+  }
+
+  &.btn-sm {
+    @media (max-width: $screen-xs) {
+      padding: 4px 16px;
+    }
+  }
+}
+
+// Form control.
+
+.form-control {
+  @include form-control-focus($green);
+
+  &.subscribe {
+    display: inline-block;
+    width: 40%;
+    vertical-align: middle;
+
+    @media (max-width: $screen-xs) {
+      width: 100%;
+      margin: 0 auto;
+    }
+  }
+}
+
+.btn-submit {
+  @include border-left-radius(0);
+
+  position: relative;
+  left: -7px;
+  
+  @media (max-width: $screen-xs) {
+    @include border-left-radius(35px);
+
+    display: block;
+    width: 200px;
+    margin: 20px auto;
+  }
+}
+
+// Label icons.
+
+.input-group {
+  margin-bottom: 10px;
+
+  &:focus {
+    outline: 0px; // Override user agent stylesheets.
+  }
+
+  .input-group-addon {
+    &.focused {
+      border: 1px solid $green;
+      border-right: 0;
+      box-shadow: 0 0 8px lighten($green, 20%);
+
+      &:before {
+        color: $green;
+      }
+    }
+  }
+}
+
+// Page header.
+.page-header {
+  margin-top: 40px;
+}
+
+// Footer.
+.footer {
+  margin-bottom: 0px;
+}
+
+// Paragraphs.
+.form-group:last-child,
+.panel:last-child {
+  margin-bottom: 0;
+}
+
+// Help region.
+.region-help {
+  > .glyphicon {
+    font-size: $font-size-large;
+    float: left;
+    margin: -0.05em 0.5em 0 0;
+  }
+  .block {
+    overflow: hidden;
+  }
+}
+
+.help-block, .control-group .help-inline {
+  color: $gray-light;
+  font-size: 12px;
+  margin: 5px 0 10px;
+  padding: 0;
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+// Search aside block.
+
+.search-block-form {
+  .input-group-btn:last-child > .btn {
+    height: 34px;
+  }
+}
+
+
+// Pagination.
+
+.pagination {
+  > li {
+    > a,
+    > span {
+      border: 0;
+      padding: $padding-base-vertical 13px;
+    }
+
+    &.is-active {
+      > a,
+      > span {
+        &:after {
+          content: '';
+          display: block;
+          width: 18px;
+          height: 1px;
+          margin: 6px auto 0;
+          background: $green;
+        }
+      }
+    }
+
+    &.pager__item--next,
+    &.pager__item--previous {
+      > a {
+        width: 36px;
+        height: 36px;
+
+        margin-right: 15px;
+        margin-left: 15px;
+
+        border: 1px solid $grey-pagination;
+        border-radius: 50%;
+
+        @include transition(border-color 0.3s);
+
+        &:hover,
+        &:active {
+          border-color: $green;
+        }
+
+        span {
+          &:before {
+            position: relative;
+            top: 4px;
+          }
+        }
+      }
+    }
+
+    .icon-next {
+      @include pagination-icon(next);
+
+      &:before {
+        left: 2px;
+      }
+    }
+
+    .icon-prev {
+      @include pagination-icon(prev);
+    }
+  }
+}
+
+
+// Fixing bug with admin loggin and mobile menu.
+
+body.adminimal-admin-toolbar {
+  header {
+    .navbar-nav {
+      @media screen and (max-width: $screen-sm){
+        width: 410px;
+      }
+
+      @media screen and (max-width: $screen-xs) {
+        width: 260px;
+      }
+    }
+  }
+}

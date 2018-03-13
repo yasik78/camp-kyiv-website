@@ -1,0 +1,23 @@
+uuid: ae6c582f-9f3b-4513-a6a9-63ac6f297423
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_meta_tags_presentation
+    - node.type.presentation
+  module:
+    - metatag
+id: node.presentation.field_meta_tags_presentation
+field_name: field_meta_tags_presentation
+entity_type: node
+bundle: presentation
+label: 'Meta tags Presentation'
+description: "----------------------------------------------------------------------------------------------------------------------------<br>\r\nЩоб додати Meta tags Presentation, необхідно в полі Meta tags відкрити вкладку Open Graph та додати в інпут поля Image <br>\r\n----------------------------------------------------------------------------------------------------------------------------<br>\r\n-> для презентації з одним спікером    -> {node:field_speakers:0:entity:field_image} <br> \r\n-> для презентації з двума спікерами  -> {node:field_double_speaker_image} <br>\r\n!!! замініть { } на [ ]\r\n-----------------------------------------------------------------------------------------------------------------------------<br>"
+required: false
+translatable: false
+default_value:
+  -
+    value: 'a:0:{}'
+default_value_callback: ''
+settings: {  }
+field_type: metatag

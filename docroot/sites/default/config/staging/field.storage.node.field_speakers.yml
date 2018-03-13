@@ -1,0 +1,19 @@
+uuid: e3350765-69bb-4da1-9903-ec0e96959c7a
+langcode: uk
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_speakers
+field_name: field_speakers
+entity_type: node
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: 2
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

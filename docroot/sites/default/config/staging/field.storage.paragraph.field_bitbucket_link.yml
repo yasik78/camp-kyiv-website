@@ -1,0 +1,19 @@
+uuid: 1f287968-4b75-48f5-9914-176c0784503e
+langcode: uk
+status: true
+dependencies:
+  module:
+    - link
+    - paragraphs
+id: paragraph.field_bitbucket_link
+field_name: field_bitbucket_link
+entity_type: paragraph
+type: link
+settings: {  }
+module: link
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

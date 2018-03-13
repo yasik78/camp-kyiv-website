@@ -1,0 +1,16 @@
+uuid: fde3b735-dd77-420d-9721-915ad771a470
+langcode: uk
+status: true
+dependencies:
+  config:
+    - node.type.presentation
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: node.presentation
+target_entity_type_id: node
+target_bundle: presentation
+default_langcode: site_default
+language_alterable: true

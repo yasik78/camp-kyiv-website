@@ -1,0 +1,18 @@
+uuid: 23cf8b10-2b1f-41ec-90cb-7185b7f89632
+langcode: uk
+status: true
+dependencies:
+  config:
+    - media_entity.bundle.gallery
+id: media.gallery.created
+field_name: created
+entity_type: media
+bundle: gallery
+label: Created
+description: 'The time that the media was created.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

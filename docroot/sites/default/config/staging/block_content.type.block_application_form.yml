@@ -1,0 +1,8 @@
+uuid: ea7dc210-5378-418e-b70d-7d71a50f6210
+langcode: uk
+status: true
+dependencies: {  }
+id: block_application_form
+label: 'Block Aplication form for speakers'
+revision: 0
+description: 'Block for Application form. When the block form is automatically added =  Application form.'

@@ -1,0 +1,34 @@
+uuid: b25fb9bd-6f08-4fe1-b48b-00d7d96f9de2
+langcode: uk
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.block_button_with_description.field_block_button
+    - field.field.paragraph.block_button_with_description.field_button_s_signature
+    - paragraphs.paragraphs_type.block_button_with_description
+  module:
+    - link
+    - text
+id: paragraph.block_button_with_description.default
+targetEntityType: paragraph
+bundle: block_button_with_description
+mode: default
+content:
+  field_block_button:
+    weight: 0
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+  field_button_s_signature:
+    weight: 1
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+hidden:
+  created: true
+  status: true
+  uid: true
