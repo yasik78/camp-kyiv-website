@@ -31,11 +31,13 @@ content:
       summary_rows: 3
       placeholder: ''
     third_party_settings: {  }
+    region: content
   created:
     type: datetime_timestamp
     weight: 9
     settings: {  }
     third_party_settings: {  }
+    region: content
   field_e_mail:
     weight: 7
     settings:
@@ -43,6 +45,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: email_default
+    region: content
   field_logo:
     weight: 2
     settings:
@@ -50,11 +53,13 @@ content:
       preview_image_style: thumbnail
     third_party_settings: {  }
     type: image_image
+    region: content
   field_meta_tags_sponsors:
     weight: 26
     settings: {  }
     third_party_settings: {  }
     type: metatag_firehose
+    region: content
   field_sponsor_web_site:
     weight: 6
     settings:
@@ -62,11 +67,13 @@ content:
       placeholder_title: ''
     third_party_settings: {  }
     type: link_default
+    region: content
   field_status:
     weight: 3
     settings: {  }
     third_party_settings: {  }
     type: options_select
+    region: content
   field_summury:
     weight: 4
     settings:
@@ -75,28 +82,41 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: text_textarea_with_summary
+    region: content
   langcode:
     type: language_select
     weight: 1
-    settings: {  }
+    settings:
+      include_locked: true
     third_party_settings: {  }
+    region: content
   path:
     type: path
     weight: 12
     settings: {  }
     third_party_settings: {  }
+    region: content
   promote:
     type: boolean_checkbox
     settings:
       display_label: true
     weight: 10
     third_party_settings: {  }
+    region: content
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 121
+    third_party_settings: {  }
+    region: content
   sticky:
     type: boolean_checkbox
     settings:
       display_label: true
     weight: 11
     third_party_settings: {  }
+    region: content
   title:
     type: string_textfield
     weight: 0
@@ -104,8 +124,10 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+    region: content
   translation:
     weight: 10
+    region: content
   uid:
     type: entity_reference_autocomplete
     weight: 8
@@ -114,4 +136,5 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+    region: content
 hidden: {  }

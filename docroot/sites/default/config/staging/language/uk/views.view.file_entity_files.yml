@@ -35,7 +35,7 @@ display:
           separator: ', '
         count:
           label: 'Використано в'
-          format_plural_string: "@count місце\x03@count місця\x03@count місць"
+          format_plural_string: !!binary QGNvdW50INC80ZbRgdGG0LUDQGNvdW50INC80ZbRgdGG0Y8DQGNvdW50INC80ZbRgdGG0Yw=
         operations:
           label: Операції
       filters:
@@ -75,7 +75,7 @@ display:
           label: 'Реєстрація модуля'
         count:
           label: 'Підрахунок використань'
-          format_plural_string: "@count місце\x03@count місця\x03@count місць"
+          format_plural_string: !!binary QGNvdW50INC80ZbRgdGG0LUDQGNvdW50INC80ZbRgdGG0Y8DQGNvdW50INC80ZbRgdGG0Yw=
       title: 'Використання файла'
       arguments:
         fid:

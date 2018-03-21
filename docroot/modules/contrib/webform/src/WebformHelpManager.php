@@ -12,7 +12,9 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Path\PathMatcherInterface;
 use Drupal\Core\Url;
 use Drupal\webform\Element\WebformMessage;
+use Drupal\webform\Plugin\WebformElementManagerInterface;
 use Drupal\webform\Utility\WebformArrayHelper;
+use Drupal\webform\Utility\WebformDialogHelper;
 
 /**
  * Webform help manager.
@@ -20,6 +22,13 @@ use Drupal\webform\Utility\WebformArrayHelper;
 class WebformHelpManager implements WebformHelpManagerInterface {
 
   use StringTranslationTrait;
+
+  /**
+   * Groups applied to help and videos.
+   *
+   * @var array
+   */
+  protected $groups;
 
   /**
    * Help for the Webform module.
@@ -34,6 +43,13 @@ class WebformHelpManager implements WebformHelpManagerInterface {
    * @var array
    */
   protected $videos;
+
+  /**
+   * The current version number of the Webform module.
+   *
+   * @var string
+   */
+  protected $version;
 
   /**
    * The current user.
@@ -71,7 +87,7 @@ class WebformHelpManager implements WebformHelpManagerInterface {
   protected $pathMatcher;
 
   /**
-   * The Webform addo-ns manager.
+   * The Webform add-ons manager.
    *
    * @var \Drupal\webform\WebformAddonsManagerInterface
    */
@@ -87,7 +103,7 @@ class WebformHelpManager implements WebformHelpManagerInterface {
   /**
    * Webform element manager.
    *
-   * @var \Drupal\webform\WebformElementManagerInterface
+   * @var \Drupal\webform\Plugin\WebformElementManagerInterface
    */
   protected $elementManager;
 
@@ -95,7 +111,7 @@ class WebformHelpManager implements WebformHelpManagerInterface {
    * Constructs a WebformHelpManager object.
    *
    * @param \Drupal\Core\Session\AccountInterface $current_user
-   *   Current user.
+   *   The current user.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration object factory.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
@@ -105,10 +121,10 @@ class WebformHelpManager implements WebformHelpManagerInterface {
    * @param \Drupal\Core\Path\PathMatcherInterface $path_matcher
    *   The path matcher.
    * @param \Drupal\webform\WebformAddOnsManagerInterface $addons_manager
-   *   The Webform add-ons manager.
+   *   The webform add-ons manager.
    * @param \Drupal\webform\WebformLibrariesManagerInterface $libraries_manager
-   *   The Webform libraries manager.
-   * @param \Drupal\webform\WebformElementManagerInterface $element_manager
+   *   The webform libraries manager.
+   * @param \Drupal\webform\Plugin\WebformElementManagerInterface $element_manager
    *   The webform element manager.
    */
   public function __construct(AccountInterface $current_user, ConfigFactoryInterface $config_factory, ModuleHandlerInterface $module_handler, StateInterface $state, PathMatcherInterface $path_matcher, WebformAddOnsManagerInterface $addons_manager, WebformLibrariesManagerInterface $libraries_manager, WebformElementManagerInterface $element_manager) {
@@ -121,8 +137,21 @@ class WebformHelpManager implements WebformHelpManagerInterface {
     $this->librariesManager = $libraries_manager;
     $this->elementManager = $element_manager;
 
+    $this->groups = $this->initGroups();
     $this->help = $this->initHelp();
     $this->videos = $this->initVideos();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getGroup($id = NULL) {
+    if ($id !== NULL) {
+      return (isset($this->groups[$id])) ? $this->groups[$id] : NULL;
+    }
+    else {
+      return $this->groups;
+    }
   }
 
   /**
@@ -168,6 +197,7 @@ class WebformHelpManager implements WebformHelpManagerInterface {
         'message_id' => '',
         'message_storage' => '',
         'video_id' => '',
+        'attached' => [],
       ];
 
       if (!$help['access']) {
@@ -192,6 +222,7 @@ class WebformHelpManager implements WebformHelpManagerInterface {
             '#theme' => 'webform_help',
             '#info' => $help,
           ],
+          '#attached' => $help['attached'],
         ];
         if ($help['message_close']) {
           $build['#cache']['max-age'] = 0;
@@ -203,8 +234,13 @@ class WebformHelpManager implements WebformHelpManagerInterface {
           '#info' => $help,
         ];
       }
-
     }
+
+    // Disable caching when Webform editorial module is enabled.
+    if ($this->moduleHandler->moduleExists('webform_editorial') && $build) {
+      $build['#cache']['max-age'] = 0;
+    }
+
     return $build;
   }
 
@@ -212,220 +248,113 @@ class WebformHelpManager implements WebformHelpManagerInterface {
    * {@inheritdoc}
    */
   public function buildIndex() {
-    $build = [
-      '#prefix' => '<div class="webform-help-accordion">',
-      '#suffix' => '</div>',
-    ];
-    $build['about'] = $this->buildAbout();
-    if ($this->configFactory->get('webform.settings')->get('ui.video_display') !== 'hidden') {
-      $build['videos'] = $this->buildVideos();
-    }
-    $build['uses'] = $this->buildUses();
-    $build['elements'] = $this->buildElements();
-    $build['addons'] = $this->buildAddOns();
-    $build['libraries'] = $this->buildLibraries();
-    $build['#attached']['library'][] = 'webform/webform.help';
-    return $build;
+    return $this->buildVideos();
   }
 
-  /****************************************************************************/
+  /***************************************************************************/
   // Index sections.
-  /****************************************************************************/
-
-  /**
-   * {@inheritdoc}
-   */
-  public function buildAbout() {
-    return [
-      'title' => [
-        '#markup' => $this->t('About the Webform module'),
-        '#prefix' => '<h3 id="about">',
-        '#suffix' => '</h3>',
-      ],
-      'content' => [
-        '#markup' => '<p>' . $this->t('The Webform module is a webform builder and submission manager for Drupal 8.') . '</p>',
-        '#prefix' => '<div>',
-        '#suffix' => '</div>',
-      ],
-    ];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function buildElements($docs = FALSE) {
-    $build = [
-      'title' => [
-        '#markup' => $this->t('Form elements'),
-        '#prefix' => '<h3 id="elements">',
-        '#suffix' => '</h3>',
-      ],
-      'content' => [
-        '#markup' => '<p>' . $this->t('Below is a list of all available form and render elements.') . '</p>',
-        '#prefix' => '<div>',
-        '#suffix' => '</div>',
-      ],
-    ];
-
-    $definitions = $this->elementManager->getDefinitions();
-    $definitions = $this->elementManager->getSortedDefinitions($definitions, 'category');
-    $grouped_definitions = $this->elementManager->getGroupedDefinitions($definitions);
-    unset($grouped_definitions['Other elements']);
-    foreach ($grouped_definitions as $category_name => $elements) {
-      $build['content'][$category_name]['title'] = [
-        '#markup' => $category_name,
-        '#prefix' => '<h2>',
-        '#suffix' => '</h2>',
-      ];
-      $build['content'][$category_name]['elements'] = [
-        '#prefix' => '<dl>',
-        '#suffix' => '</dl>',
-      ];
-      foreach ($elements as $element_name => $element) {
-        /** @var \Drupal\webform\WebformElementInterface $webform_element */
-        $webform_element = $this->elementManager->createInstance($element_name);
-
-        if ($webform_element->isHidden()) {
-          continue;
-        }
-
-        if ($api_url = $webform_element->getPluginApiUrl()) {
-          $build['content'][$category_name]['elements'][$element_name]['title'] = [
-            '#type' => 'link',
-            '#title' => $element['label'],
-            '#url' => $api_url,
-          ];
-        }
-        else {
-          $build['content'][$category_name]['elements'][$element_name]['title'] = [
-            '#markup' => $element['label'],
-          ];
-        }
-        $build['content'][$category_name]['elements'][$element_name]['title'] += [
-          '#prefix' => '<dt>',
-          '#suffix' => '</dt>',
-        ];
-
-        $build['content'][$category_name]['elements'][$element_name]['description'] = [
-          '#markup' => $element['description'],
-          '#prefix' => '<dd>',
-          '#suffix' => '</dd>',
-        ];
-      }
-    }
-    return $build;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function buildUses($docs = FALSE) {
-    $build = [
-      'title' => [
-        '#markup' => $this->t('Uses'),
-        '#prefix' => '<h3 id="uses">',
-        '#suffix' => '</h3>',
-      ],
-      'content' => [
-        '#prefix' => '<div>',
-        '#suffix' => '</div>',
-        'help' => [
-          '#prefix' => '<dl>',
-          '#suffix' => '</dl>',
-        ],
-      ],
-    ];
-    foreach ($this->help as $id => $help_info) {
-      // Check that help item should be displated under 'Uses'.
-      if (empty($help_info['uses'])) {
-        continue;
-      }
-
-      // Title.
-      $build['content']['help'][$id]['title'] = [
-        '#prefix' => '<dt>',
-        '#suffix' => '</dt>',
-      ];
-      if (isset($help_info['url'])) {
-        $build['content']['help'][$id]['title']['link'] = [
-          '#type' => 'link',
-          '#url' => $help_info['url'],
-          '#title' => $help_info['title'],
-        ];
-      }
-      else {
-        $build['content']['help'][$id]['title']['#markup'] = $help_info['title'];
-      }
-      // Content.
-      $build['content']['help'][$id]['content'] = [
-        '#prefix' => '<dd>',
-        '#suffix' => '</dd>',
-        'content' => [
-          '#theme' => 'webform_help',
-          '#info' => $help_info,
-          '#docs' => TRUE,
-        ],
-      ];
-    }
-    return $build;
-  }
+  /***************************************************************************/
 
   /**
    * {@inheritdoc}
    */
   public function buildVideos($docs = FALSE) {
-    $build = [
-      'title' => [
-        '#markup' => $this->t('Watch videos'),
-        '#prefix' => '<h3 id="videos">',
-        '#suffix' => '</h3>',
-      ],
-      'content' => [
-        '#prefix' => '<div>',
-        '#suffix' => '</div>',
-        'help' => [
-          '#prefix' => '<dl>',
-          '#suffix' => '</dl>',
+    $video_display = $this->configFactory->get('webform.settings')->get('ui.video_display');
+    if ($docs) {
+      $video_display = 'documentation';
+    }
+    if ($video_display == 'none') {
+      return [];
+    }
+    $classes = ['button', 'button-action', 'button--small', 'button-webform-play'];
+
+    $rows = [];
+    foreach ($this->videos as $id => $video) {
+      if (!empty($video['hidden'])) {
+        continue;
+      }
+
+      switch ($video_display) {
+        case 'dialog':
+          $url = Url::fromRoute('webform.help.video', ['id' => str_replace('_', '-', $video['id'])]);
+          $image_attributes = WebformDialogHelper::getModalDialogAttributes(WebformDialogHelper::DIALOG_WIDE);
+          $link_attributes = WebformDialogHelper::getModalDialogAttributes(WebformDialogHelper::DIALOG_WIDE, $classes);
+          break;
+
+        case 'link':
+          $url = Url::fromUri('https://youtu.be/' . $video['youtube_id']);
+          $image_attributes = [];
+          $link_attributes = ['class' => $classes];
+          break;
+
+        default:
+          $url = Url::fromUri('https://youtu.be/' . $video['youtube_id']);
+          $image_attributes = [];
+          $link_attributes = [];
+          break;
+      }
+      $row = [];
+
+      // Image.
+      $row['image'] = [
+        'data' => [
+          '#type' => 'link',
+          '#title' => [
+            '#theme' => 'image',
+            '#uri' => 'https://img.youtube.com/vi/' . $video['youtube_id'] . '/0.jpg',
+            '#alt' => $video['title'],
+          ],
+          '#url' => $url,
+          '#attributes' => $image_attributes,
         ],
+        'width' => '200',
+      ];
+      // Content.
+      $row['content'] = ['data' => []];
+      $row['content']['data']['title'] = [
+        '#markup' => $video['title'],
+        '#prefix' => '<h3>',
+        '#suffix' => '</h3>',
+      ];
+      $row['content']['data']['content'] = [
+        '#markup' => $video['content'],
+        '#prefix' => '<p>',
+        '#suffix' => '</p>',
+      ];
+      $row['content']['data']['link'] = [
+        '#type' => 'link',
+        '#title' => $this->t('Watch video'),
+        '#url' => $url,
+        '#attributes' => $link_attributes,
+        '#prefix' => '<p>',
+        '#suffix' => '</p>',
+      ];
+
+      $rows[$id] = ['data' => $row, 'no_striping' => TRUE];
+    }
+
+    $build = [
+      '#theme' => 'table',
+      '#rows' => $rows,
+      '#attributes' => [
+        'border' => 0,
+        'cellpadding' => 2,
+        'cellspacing' => 0,
       ],
     ];
-    if ($docs) {
-      foreach ($this->videos as $id => $video) {
-        // Title.
-        $build['content']['help'][$id]['title'] = [
-          '#type' => 'link',
-          '#title' => $video['title'],
-          '#url' => Url::fromUri('https://www.youtube.com/watch', ['query' => ['v' => $video['youtube_id']]]),
-          '#prefix' => '<dt>',
-          '#suffix' => '</dt>',
-        ];
-        // Content.
-        $build['content']['help'][$id]['content'] = [
-          '#prefix' => '<dd>',
-          '#suffix' => '</dd>',
-          '#markup' => $video['content'],
-        ];
-      }
+
+    if (!$docs) {
+      $build['#header'] = [
+        ['data' => '', 'style' => 'padding:0; border-top-color: transparent', 'class' => [RESPONSIVE_PRIORITY_LOW]],
+        ['data' => '', 'style' => 'padding:0; border-top-color: transparent'],
+      ];
+      $build['#attached']['library'][] = 'webform/webform.help';
+      $build['#attached']['library'][] = 'webform/webform.ajax';
     }
     else {
-      foreach ($this->videos as $id => $video) {
-        // Title.
-        $build['content']['help'][$id]['title'] = [
-          '#markup' => $video['title'],
-          '#prefix' => '<dt>',
-          '#suffix' => '</dt>',
-        ];
-        // Content.
-        $build['content']['help'][$id]['content'] = [
-          '#prefix' => '<dd>',
-          '#suffix' => '</dd>',
-          'content' => [
-            '#theme' => 'webform_help',
-            '#info' => $video,
-          ],
-        ];
-      }
+      $build['#no_striping'] = TRUE;
     }
+
     return $build;
   }
 
@@ -433,17 +362,10 @@ class WebformHelpManager implements WebformHelpManagerInterface {
    * {@inheritdoc}
    */
   public function buildAddOns($docs = FALSE) {
-    // Libraries.
     $build = [
-      'title' => [
-        '#markup' => $this->t('Add-ons'),
-        '#prefix' => '<h3 id="addons">',
-        '#suffix' => '</h3>',
-      ],
       'content' => [
-        '#markup' => '<p>' . $this->t("Below is a list of modules and projects that extend and/or provide additional functionality to the Webform module and Drupal's Form API.") . '</p>',
-        '#prefix' => '<div>',
-        '#suffix' => '</div>',
+        '#markup' => '<p>' . $this->t("Below is a list of modules and projects that extend and/or provide additional functionality to the Webform module and Drupal's Form API.") . '</p>' .
+        '<p>★ = ' . $this->t('Recommended') . '</p>',
       ],
     ];
 
@@ -451,8 +373,8 @@ class WebformHelpManager implements WebformHelpManagerInterface {
     foreach ($categories as $category_name => $category) {
       $build['content'][$category_name]['title'] = [
         '#markup' => $category['title'],
-        '#prefix' => '<h2>',
-        '#suffix' => '</h2>',
+        '#prefix' => '<h3>',
+        '#suffix' => '</h3>',
       ];
       $build['content'][$category_name]['projects'] = [
         '#prefix' => '<dl>',
@@ -466,10 +388,10 @@ class WebformHelpManager implements WebformHelpManagerInterface {
             '#title' => $project['title'],
             '#url' => $project['url'],
             '#prefix' => '<dt>',
-            '#suffix' => '</dt>',
+            '#suffix' => ((isset($project['recommended'])) ? ' ★' : '') . '</dt>',
           ],
           'description' => [
-            '#markup' => $project['description'] . ((isset($project['notes'])) ? '<br/><em>(' . $project['notes'] . ')</em>' : ''),
+            '#markup' => $project['description'],
             '#prefix' => '<dd>',
             '#suffix' => '</dd>',
           ],
@@ -483,28 +405,12 @@ class WebformHelpManager implements WebformHelpManagerInterface {
    * {@inheritdoc}
    */
   public function buildLibraries($docs = FALSE) {
-    // Libraries.
+    $info = $this->getHelp('config_libraries_help');
     $build = [
-      'title' => [
-        '#markup' => $this->t('External Libraries'),
-        '#prefix' => '<h3 id="libraries">',
-        '#suffix' => '</h3>',
-      ],
       'content' => [
-        '#prefix' => '<div>',
-        '#suffix' => '</div>',
         'description' => [
-          '#markup' => '<p>' . $this->t('The Webform module utilizes the third-party Open Source libraries listed below to enhance webform elements and to provide additional functionality.') . ' ' .
-            $this->t('It is recommended that these libraries be installed in your Drupal installations /libraries directory.') . ' ' .
-            $this->t('If these libraries are not installed, they are automatically loaded from a CDN.') . ' ' .
-            $this->t('All libraries are optional and can be excluded via the admin settings form.') .
-            '</p>' .
-            '<p>' . $this->t('There are twos ways to download the needed third party libraries.') . '</p>' .
-            '<ul>' .
-              '<li>' . $this->t('Generate a *.make.yml or composer.json file using <code>drush webform-libraries-make</code> or <code>drush webform-libraries-composer</code>.') . '</li>' .
-              '<li>' . $this->t('Execute <code>drush webform-libraries-download</code> which will download all included libraries.') . '</li>' .
-            '</ul>' .
-            '<hr/>',
+          '#markup' => $info['content'],
+          '#suffix' => '<p><hr /></p>',
         ],
         'libraries' => [
           '#prefix' => '<dl>',
@@ -534,13 +440,13 @@ class WebformHelpManager implements WebformHelpManagerInterface {
         'description' => [
           'content' => [
             '#markup' => $library['description'],
-            '#suffix' => '<br/>'
+            '#suffix' => '<br />',
           ],
           'notes' => [
             '#markup' => $library['notes'] .
-              ($elements ? ' <strong>' . $this->t('Required by @type @elements.', ['@type' => WebformArrayHelper::toString($elements), '@elements' => $this->formatPlural(count($elements), $this->t('element'), $this->t('elements'))]) . '</strong>': ''),
+              ($elements ? ' <strong>' . $this->formatPlural(count($elements), 'Required by @type element.', 'Required by @type elements.', ['@type' => WebformArrayHelper::toString($elements)]) . '</strong>' : ''),
             '#prefix' => '<em>(',
-            '#suffix' => ')</em><br/>'
+            '#suffix' => ')</em><br />',
           ],
           'download' => [
             '#type' => 'link',
@@ -555,7 +461,6 @@ class WebformHelpManager implements WebformHelpManagerInterface {
         $build['content']['libraries'][$library_name]['title']['#suffix'] = '</dt>';
         unset($build['content']['libraries'][$library_name]['description']['download']);
       }
-
     }
     return $build;
   }
@@ -585,9 +490,9 @@ class WebformHelpManager implements WebformHelpManagerInterface {
     $html = preg_replace('#<thead>.*</thead>#', '', $html);
     // Remove first th cell.
     $html = preg_replace('#<tr><th>.*?</th>#', '<tr>', $html);
-    // Remove empty rows
+    // Remove empty rows.
     $html = preg_replace('#<tr>(<td></td>)+?</tr>#', '', $html);
-    // Remove empty links
+    // Remove empty links.
     $html = str_replace('<a>', '', $html);
     $html = str_replace('</a>', '', $html);
 
@@ -606,11 +511,14 @@ class WebformHelpManager implements WebformHelpManagerInterface {
     // Convert groups.
     $html = preg_replace('#<tr><td>([^<]+)</td>(<td></td>){2}</tr>#', '<tr><th bgcolor="' . $group_color . '">\1</th><th bgcolor="' . $group_color . '">Webform Module</th><th bgcolor="' . $group_color . '">Contact Module</th></tr>', $html);
 
-    // Add cell colors
+    // Add cell colors.
     $html = preg_replace('#<tr><td>([^<]+)</td>#', '<tr><td bgcolor="' . $feature_color . '">\1</td>', $html);
     $html = preg_replace('#<td>Yes([^<]*)</td>#', '<td bgcolor="' . $yes_color . '"><img src="https://www.drupal.org/misc/watchdog-ok.png" alt="Yes"> \1</td>', $html);
     $html = preg_replace('#<td>No([^<]*)</td>#', '<td bgcolor="' . $custom_color . '"><img src="https://www.drupal.org/misc/watchdog-error.png" alt="No"> \1</td>', $html);
     $html = preg_replace('#<td>([^<]*)</td>#', '<td bgcolor="' . $no_color . '"><img src="https://www.drupal.org/misc/watchdog-warning.png" alt="Warning"> \1</td>', $html);
+
+    // Link *.module.
+    $html = preg_replace('/([a-z0-9_]+)\.module/', '<a href="https://www.drupal.org/project/\1">\1.module</a>', $html);
 
     // Convert URLs to links with titles.
     $links = [
@@ -619,6 +527,7 @@ class WebformHelpManager implements WebformHelpManagerInterface {
       'https://www.drupal.org/docs/8/modules/webform/webform-videos' => $this->t('Webform Videos'),
       'https://www.drupal.org/docs/8/modules/webform/webform-cookbook' => $this->t('Webform Cookbook'),
       'https://www.drupal.org/project/project_module?text=signature' => $this->t('Signature related-projects'),
+      'https://www.drupal.org/sandbox/smaz/2833275' => $this->t('webform_slack.module'),
     ];
     foreach ($links as $link_url => $link_title) {
       $html = preg_replace('#([^"/])' . preg_quote($link_url, '#') . '([^"/])#', '\1<a href="' . $link_url . '">' . $link_title . '</a>\2', $html);
@@ -628,10 +537,7 @@ class WebformHelpManager implements WebformHelpManagerInterface {
     $filter = (object) ['settings' => ['filter_url_length' => 255]];
     $html = _filter_url($html, $filter);
 
-    // Link *,module.
-    $html = preg_replace('/([a-z0-9_]+)\.module/', '<a href="https://www.drupal.org/project/\1">\1.module</a>', $html);
-
-    // Tidy
+    // Tidy.
     if (class_exists('\tidy')) {
       $tidy = new \tidy();
       $tidy->parseString($html, ['show-body-only' => TRUE, 'wrap' => '0'], 'utf8');
@@ -642,30 +548,97 @@ class WebformHelpManager implements WebformHelpManagerInterface {
     return [
       'title' => [
         '#markup' => $this->t('Form builder comparison'),
-        '#prefix' => '<h3 id="comparison">',
-        '#suffix' => '</h3>',
+        '#prefix' => '<h2 id="comparison">',
+        '#suffix' => '</h2>',
       ],
       'content' => [
         '#prefix' => '<div>',
         '#suffix' => '</div>',
+        'google' => [
+          '#markup' => '<div class="note-warning"><p>' . $this->t('Please post comments and feedback to this <a href=":href">Google Sheet</a>.', [':href' => 'https://docs.google.com/spreadsheets/d/1zNt3WsKxDq2ZmMHeYAorNUUIx5_yiDtDVUIKXtXaq4s/edit?usp=sharing']) . '</p></div>',
+        ],
         'description' => [
           '#markup' => '<p>' . $this->t("Here is a detailed feature-comparison of Webform 8.x-5.x and Contact Storage 8.x-1.x.&nbsp;It's worth noting that Contact Storage relies on the Contact module which in turn relies on the Field UI; Contact Storage out of the box is a minimalistic solution with limited (but useful!) functionality. This means it can be extended with core mechanisms such as CRUD entity hooks and overriding services; also there's a greater chance that a general purpose module will play nicely with it (eg. the Conditional Fields module is for entity form displays in general, not the Contact module).") . '</p>' .
             '<p>' . $this->t("Webform is much heavier; it has a great deal of functionality enabled right within the one module, and that's on top of supplying all the normal field elements (because it doesn't just use the Field API)") . '</p>',
         ],
         'table' => ['#markup' => $html],
-        'google' => [
-          '#markup' => '<p>' . $this->t('Please post comments and feedback to this <a href=":href">Google Sheet</a>.', [':href' => 'https://docs.google.com/spreadsheets/d/1zNt3WsKxDq2ZmMHeYAorNUUIx5_yiDtDVUIKXtXaq4s/edit?usp=sharing']) . '</p>',
-        ],
       ],
     ];
   }
 
-  /****************************************************************************/
-  // Videos.
-  /****************************************************************************/
+  /***************************************************************************/
+  // Module.
+  /***************************************************************************/
 
   /**
-   * {@inheritdoc}
+   * Get the current version number of the Webform module.
+   *
+   * @return string
+   *   The current version number of the Webform module.
+   */
+  protected function getVersion() {
+    if (isset($this->version)) {
+      return $this->version;
+    }
+
+    $module_info = Yaml::decode(file_get_contents($this->moduleHandler->getModule('webform')->getPathname()));
+    $this->version = (isset($module_info['version']) && !preg_match('/^8.x-5.\d+-.*-dev$/', $module_info['version'])) ? $module_info['version'] : '8.x-5.x-dev';
+    return $this->version;
+  }
+
+  /**
+   * Determine if the Webform module has been updated.
+   *
+   * @return bool
+   *   TRUE if the Webform module has been updated.
+   */
+  protected function isUpdated() {
+    return ($this->getVersion() !== $this->state->get('webform.version')) ? TRUE : FALSE;
+  }
+
+  /***************************************************************************/
+  // Groups.
+  /***************************************************************************/
+
+  /**
+   * Initialize group.
+   *
+   * @return array
+   *   An associative array containing groups.
+   */
+  protected function initGroups() {
+    return [
+      'general' => $this->t('General'),
+      'introduction' => $this->t('Introduction'),
+      'about' => $this->t('About'),
+      'installation' => $this->t('Installation'),
+      'forms' => $this->t('Forms'),
+      'elements' => $this->t('Elements'),
+      'handlers' => $this->t('Handlers'),
+      'settings' => $this->t('Settings'),
+      'submissions' => $this->t('Submissions'),
+      'submission' => $this->t('Submission'),
+      'configuration' => $this->t('Configuration'),
+      'plugins' => $this->t('Plugins'),
+      'addons' => $this->t('Add-ons'),
+      'webform_nodes' => $this->t('Webform Nodes'),
+      'webform_blocks' => $this->t('Webform Blocks'),
+      'translations' => $this->t('Translations'),
+      'devel' => $this->t('Devel'),
+      'messages' => $this->t('Messages'),
+      'promotions' => $this->t('Promotions'),
+    ];
+  }
+
+  /***************************************************************************/
+  // Videos.
+  /***************************************************************************/
+
+  /**
+   * Initialize videos.
+   *
+   * @return array
+   *   An associative array containing videos.
    */
   protected function initVideos() {
     $videos = [];
@@ -683,8 +656,8 @@ class WebformHelpManager implements WebformHelpManagerInterface {
     ];
 
     $videos['installing'] = [
-      'title' => $this->t('Installing the Webform module and third party libraries'),
-      'content' => $this->t('This screencast walks through installing the core Webform module, sub-module, required libraries, and add-ons.'),
+      'title' => $this->t('Installing the Webform module and third-party libraries'),
+      'content' => $this->t('This screencast walks through installing the core Webform module, sub-module, required libraries and add-ons.'),
       'youtube_id' => 'IMfFTrsjg5k',
     ];
 
@@ -700,7 +673,7 @@ class WebformHelpManager implements WebformHelpManagerInterface {
       'youtube_id' => 'LspF9mAvRcY',
     ];
 
-    $videos['form_settings'] = [
+    $videos['settings'] = [
       'title' => $this->t('Configuring Form Settings and Behaviors'),
       'content' => $this->t('This screencast walks through configuring form settings, styles, and behaviors.'),
       'youtube_id' => 'UJ0y09ZS9Uc',
@@ -743,9 +716,16 @@ class WebformHelpManager implements WebformHelpManagerInterface {
     ];
 
     $videos['help'] = [
-      'title' => $this->t('Getting Help'),
-      'content' => $this->t('This screencast walks through getting help with the Webform module.'),
-      'youtube_id' => 'sRXUR2c2brA',
+      'title' => $this->t('Help Us Help You'),
+      'content' => $this->t('This screencast is going to show you how to “help us help you” with issues related to the Webform module.'),
+      'youtube_id' => 'uQo-1s2h06E',
+    ];
+
+    $videos['association'] = [
+      'title' => $this->t('Join the Drupal Association'),
+      'content' => $this->t('The Drupal Association is dedicated to fostering and supporting the Drupal software project, the community and its growth. We help the Drupal community with funding, infrastructure, education, promotion, distribution and online collaboration at Drupal.org.'),
+      'youtube_id' => 'LZWqFSMul84',
+      'hidden' => TRUE,
     ];
 
     foreach ($videos as $id => &$video_info) {
@@ -754,6 +734,105 @@ class WebformHelpManager implements WebformHelpManagerInterface {
 
     return $videos;
   }
+
+  /***************************************************************************/
+  // Groups.
+  /***************************************************************************/
+
+  /**
+   * Initialize video presentations.
+   *
+   * @return array
+   *   An associative array containing videos.
+   */
+  public function initVideoPresentations() {
+    return [
+      'introduction' => [
+        'title' => $this->t('Introduction to Webform for Drupal 8'),
+        'content' => $this->t('This presentation provides a general introduction to the Webform module.'),
+        'youtube_id' => '',
+      ],
+      'about' => [
+        'title' => $this->t('About Webform & the Drupal community'),
+        'content' => $this->t('This presentation introduces you to the maintainer and community behind the Webform module.'),
+        'youtube_id' => '',
+      ],
+      'installation' => [
+        'title' => $this->t('Installing the Webform module'),
+        'content' => $this->t('This presentation walks through how to install the Webform and external libraries.'),
+        'youtube_id' => '',
+      ],
+      'forms' => [
+        'title' => $this->t('Building forms & templates'),
+        'content' => $this->t('This presentation provides an overview of how to create, build, edit and test forms and templates.'),
+        'youtube_id' => '',
+      ],
+      'elements' => [
+        'title' => $this->t('Adding elements to a webform'),
+        'content' => $this->t('This presentation provides an overview of how to create, configure and manage form elements, layouts and multi-step wizards.'),
+        'youtube_id' => '',
+      ],
+      'handlers' => [
+        'title' => $this->t('Emailing & handling submissions'),
+        'content' => $this->t('This presentation shows how to route submissions to external applications and send notifications & confirmations.'),
+        'youtube_id' => '',
+      ],
+      'settings' => [
+        'title' => $this->t('Configuring webform settings'),
+        'content' => $this->t("This presentation shows how to configure a form's general settings, submission handling, confirmation message/page, custom CSS/JS and access controls."),
+        'youtube_id' => '',
+      ],
+      'submissions' => [
+        'title' => $this->t('Collecting webform submissions'),
+        'content' => $this->t("This presentation shows how to manage, review and export a form's submissions."),
+        'youtube_id' => '',
+      ],
+      'submission' => [
+        'title' => $this->t('Understanding a webform submission'),
+        'content' => $this->t("This presentation shows how to review, edit, resend and administer a  submission."),
+        'youtube_id' => '',
+      ],
+      'configuration' => [
+        'title' => $this->t("Configuring the Webform module"),
+        'content' => $this->t('This presentation walks through all the configuration settings available to manage forms, submissions, options, handlers, exporters, libraries and assets.'),
+        'youtube_id' => '',
+      ],
+      'plugins' => [
+        'title' => $this->t("Understanding webform plugins"),
+        'content' => $this->t("This presentation offers an overview of the Webform module's element, handler and exporter plugins."),
+        'youtube_id' => '',
+      ],
+      'addons' => [
+        'title' => $this->t('Extending Webform using add-ons'),
+        'content' => $this->t("This presentation suggests and recommends additional Drupal projects that can be installed to enhance, improve and alter the Webform module's functionality."),
+        'youtube_id' => '',
+      ],
+      'webform_nodes' => [
+        'title' => $this->t('Attaching webforms to nodes'),
+        'content' => $this->t('This presentation walks through how to attach a webform to node.'),
+        'youtube_id' => '',
+      ],
+      'webform_blocks' => [
+        'title' => $this->t('Placing webforms as blocks'),
+        'content' => $this->t('This presentation walks through how to place a webform on a website as a block.'),
+        'youtube_id' => '',
+      ],
+      'translations' => [
+        'title' => $this->t('Translating webforms'),
+        'content' => $this->t("This presentation shows how to translate a webform's title, descriptions, label and messages."),
+        'youtube_id' => '',
+      ],
+      'devel' => [
+        'title' => $this->t('Webform development tools'),
+        'content' => $this->t('This presentation gives developers an overview of the tools available to help build, debug and export forms.'),
+        'youtube_id' => '',
+      ],
+    ];
+  }
+
+  /****************************************************************************/
+  // Help.
+  /****************************************************************************/
 
   /**
    * Initialize help.
@@ -764,428 +843,808 @@ class WebformHelpManager implements WebformHelpManagerInterface {
   protected function initHelp() {
     $help = [];
 
-    // Install.
+    /**************************************************************************/
+    // Promotions.
+    // Disable promotions via Webform admin settings.
+    // (/admin/structure/webform/config/advanced).
+    /**************************************************************************/
+
+    // Promotions: Drupal Association.
+    $help['promotion_drupal_association'] = [
+      'group' => 'promotions',
+      'title' => $this->t('Promotions: Drupal Association'),
+      'content' => [
+        'description' => [
+          '#markup' => $this->t('The Drupal Association brings value to Drupal and to you.'),
+          '#prefix' => '<strong>',
+          '#suffix' => '</strong>',
+        ],
+        'link' => [
+          '#type' => 'link',
+          '#title' => $this->t('Join today'),
+          '#url' => Url::fromUri('https://www.drupal.org/association/campaign/value-2017?utm_source=webform&utm_medium=referral&utm_campaign=membership-webform-2017-11-06'),
+          '#attributes' => ['class' => ['button', 'button--primary', 'button--small', 'button-action']],
+          '#prefix' => ' ',
+        ],
+      ],
+      'message_type' => 'promotion_drupal_association',
+      'message_close' => TRUE,
+      'message_storage' => WebformMessage::STORAGE_STATE,
+      'attached' => ['library' => ['webform/webform.promotions']],
+      'access' => $this->currentUser->hasPermission('administer webform')
+        && !$this->configFactory->get('webform.settings')->get('ui.promotions_disabled'),
+      'reset_version' => TRUE,
+      'routes' => [
+        // @see /admin/structure/webform
+        'entity.webform.collection',
+      ],
+    ];
+
+    /**************************************************************************/
+    // Installation.
+    /**************************************************************************/
+
+    // Installation.
     $t_args = [
+      ':about_href' => 'https://www.drupal.org/docs/8/modules/webform',
       ':addons_href' => Url::fromRoute('webform.addons')->toString(),
       ':submodules_href' => Url::fromRoute('system.modules_list', [], ['fragment' => 'edit-modules-webform'])->toString(),
-      ':libraries_href' => Url::fromRoute('help.page', ['name' => 'webform'], ['fragment' => 'libraries'])->toString(),
+      ':libraries_href' => Url::fromRoute('webform.config.libraries')->toString(),
     ];
-    $help['install'] = [
+    $help['installation'] = [
+      'group' => 'installation',
+      'title' => $this->t('Installation'),
+      'content' => '<strong>' . $this->t('Congratulations!') . '</strong> ' .
+        $this->t('You have successfully installed the Webform module.') .
+        ' ' . $this->t('Learn more about the <a href=":about_href">Webform module and Drupal</a>', $t_args) . '</br>' .
+        $this->t('Please make sure to install additional <a href=":libraries_href">third-party libraries</a>, <a href=":submodules_href">sub-modules</a> and optional <a href=":addons_href">add-ons</a>.', $t_args),
+      'video_id' => 'installation',
+      'message_type' => 'info',
+      'message_close' => TRUE,
+      'message_storage' => WebformMessage::STORAGE_STATE,
+      'access' => $this->currentUser->hasPermission('administer webform'),
+      'uses' => FALSE,
       'routes' => [
         // @see /admin/modules
         'system.modules_list',
       ],
-      'title' => $this->t('Installing the Webform module'),
-      'content' => $this->t('<strong>Congratulations!</strong> You have successfully installed the Webform module. Please make sure to install additional <a href=":libraries_href">third-party libraries</a>, <a href=":submodules_href">sub-modules</a>, and optional <a href=":addons_href">add-ons</a>.', $t_args),
-      'message_type' => 'info',
-      'message_close' => TRUE,
-      'message_storage' => WebformMessage::STORAGE_STATE,
-      'access' => $this->currentUser->hasPermission('administer webform'),
-      'video_id' => 'install',
-      'uses' => FALSE,
     ];
 
-    // Release.
-    $module_info = Yaml::decode(file_get_contents($this->moduleHandler->getModule('webform')->getPathname()));
-    $version = (isset($module_info['version']) && !preg_match('/^8.x-5.\d+-.*-dev$/', $module_info['version'])) ? $module_info['version'] : '8.x-5.x-dev';
-    $installed_version = $this->state->get('webform.version');
-    // Reset storage state if the version has changed.
-    if ($installed_version != $version) {
-      WebformMessage::resetClosed(WebformMessage::STORAGE_STATE, 'webform.help.release');
-      $this->state->set('webform.version', $version);
-    }
-    $t_args = [
-      '@version' => $version,
-      ':href' => 'https://www.drupal.org/project/webform/releases/' . $version,
-    ];
-    $help['release'] = [
-      'routes' => [
-        // @see /admin/structure/webform
-        'entity.webform.collection',
-      ],
-      'title' => $this->t('You have successfully updated...'),
-      'content' => $this->t('You have successfully updated to the @version release of the Webform module. <a href=":href">Learn more</a>', $t_args),
-      'message_type' => 'status',
-      'message_close' => TRUE,
-      'message_storage' => WebformMessage::STORAGE_STATE,
-      'access' => $this->currentUser->hasPermission('administer webform'),
-      'uses' => FALSE,
-    ];
+    /**************************************************************************/
+    // Introduction.
+    /**************************************************************************/
 
     // Introduction.
     $help['introduction'] = [
-      'routes' => [
-        // @see /admin/structure/webform
-        'entity.webform.collection',
-      ],
-      'title' => $this->t('Welcome'),
-      'content' => $this->t('Welcome to the Webform module for Drupal 8.'),
+      'group' => 'introduction',
+      'title' => $this->t('Introduction'),
+      'content' => $this->t('<strong>Welcome to the Webform module for Drupal 8.</strong> The Webform module provides all the features expected from an enterprise proprietary form builder combined with the flexibility and openness of Drupal.'),
+      'video_id' => 'introduction',
       'message_type' => 'info',
       'message_close' => TRUE,
       'message_storage' => WebformMessage::STORAGE_USER,
       'access' => $this->currentUser->hasPermission('administer webform'),
-      'video_id' => 'introduction',
-    ];
-
-    /****************************************************************************/
-    // General.
-    /****************************************************************************/
-
-    // Webforms.
-    $help['webforms'] = [
       'routes' => [
         // @see /admin/structure/webform
         'entity.webform.collection',
       ],
-      'title' => $this->t('Managing webforms'),
-      'url' => Url::fromRoute('entity.webform.collection'),
-      'content' => $this->t('The Forms page lists all available webforms, which can be filtered by title, description, and/or elements.'),
+    ];
+
+    /**************************************************************************/
+    // Forms.
+    /**************************************************************************/
+
+    // Webforms.
+    $help['webforms_manage'] = [
+      'group' => 'forms',
+      'title' => $this->t('Forms'),
+      'content' => $this->t('The <strong>Forms</strong> management page lists all available webforms, which can be filtered by the following: title, description, elements, category and status.'),
       'video_id' => 'forms',
-    ];
-
-    // Templates.
-    if ($this->moduleHandler->moduleExists('webform_templates')) {
-      $help['templates'] = [
-        'routes' => [
-          // @see /admin/structure/webform/templates
-          'entity.webform.templates',
-        ],
-        'title' => $this->t('Using templates'),
-        'url' => Url::fromRoute('entity.webform.templates'),
-        'content' => $this->t('The Templates page lists reusable templates that can be duplicated and customized to create new webforms.'),
-        'video_id' => 'forms',
-      ];
-    }
-
-    // Results.
-    $help['results'] = [
       'routes' => [
-        // @see /admin/structure/webform/results/manage
-        'entity.webform_submission.collection',
+        // @see /admin/structure/webform
+        'entity.webform.collection',
       ],
-      'title' => $this->t('Managing results'),
-      'url' => Url::fromRoute('entity.webform_submission.collection'),
-      'content' => $this->t('The Results page lists all incoming submissions for all webforms.'),
     ];
 
-    // Results.
-    $help['results'] = [
-      'routes' => [
-        // @see /admin/structure/webform/results/log
-        'entity.webform_submission.results_log',
-      ],
-      'title' => $this->t('Log'),
-      'url' => Url::fromRoute('entity.webform_submission.results_log'),
-      'content' => $this->t('The Log page lists all submission events for all webforms.'),
-    ];
-
-    // Settings.
-    $help['settings'] = [
-      'routes' => [
-        // @see /admin/structure/webform/settings
-        'webform.settings',
-      ],
-      'title' => $this->t('Defining default settings'),
-      'url' => Url::fromRoute('webform.settings'),
-      'content' => $this->t('The Settings page allows administrators to manage global webform and UI configuration settings, including updating default labels & descriptions, settings default format, and defining test dataset.'),
-      'video_id' => 'admin',
-    ];
-
-    // Options.
-    $help['options'] = [
-      'routes' => [
-        // @see /admin/structure/webform/settings/options/manage
-        'entity.webform_options.collection',
-      ],
-      'title' => $this->t('Defining options'),
-      'url' => Url::fromRoute('entity.webform_options.collection'),
-      'content' => $this->t('The Options page lists predefined options which are used to build select menus, radio buttons, checkboxes and likerts.') . ' ' .
-      $this->t('To find and download additional options, go to <a href=":href">Webform 8.x-5.x: Options</a>.', [':href' => 'https://www.drupal.org/node/2845530']),
-    ];
-
-    // Elements.
-    $help['elements'] = [
-      'routes' => [
-        // @see /admin/structure/webform/settings/elements
-        'webform.element_plugins',
-      ],
-      'title' => $this->t('Webform element plugins'),
-      'url' => Url::fromRoute('webform.element_plugins'),
-      'content' => $this->t('The Elements page lists all available webform element plugins.') . ' ' .
-      $this->t('Webform element plugins are used to enhance existing render/form elements. Webform element plugins provide default properties, data normalization, custom validation, element configuration webform, and customizable display formats.'),
-    ];
-
-    // Handlers.
-    $help['handlers'] = [
-      'routes' => [
-        // @see /admin/structure/webform/settings/handlers
-        'webform.handler_plugins',
-      ],
-      'title' => $this->t('Webform handler plugins'),
-      'url' => Url::fromRoute('webform.handler_plugins'),
-      'content' => $this->t('The Handlers page lists all available webform handler plugins.') . ' ' .
-      $this->t('Handlers are used to route submitted data to external applications and send notifications & confirmations.'),
-    ];
-
-    // Exporters.
-    $help['exporters'] = [
-      'routes' => [
-        // @see /admin/structure/webform/settings/exporters
-        'webform.exporter_plugins',
-      ],
-      'title' => $this->t('Results exporter plugins'),
-      'url' => Url::fromRoute('webform.exporter_plugins'),
-      'content' => $this->t('The Exporters page lists all available results exporter plugins.') . ' ' .
-      $this->t('Exporters are used to export results into a downloadable format that can be used by MS Excel, Google Sheets, and other spreadsheet applications.'),
-    ];
-
-    // Third party settings.
-    $help['third_party'] = [
-      'routes' => [
-        // @see /admin/structure/webform/settings/third-party
-        'webform.admin_settings.third_party',
-      ],
-      'title' => $this->t('Configuring global third party settings'),
-      'url' => Url::fromRoute('webform.admin_settings.third_party'),
-      'content' => $this->t('The Third party settings page allows contrib and custom modules to define global settings that are applied to all webforms and submissions.'),
-    ];
+    /**************************************************************************/
+    // Addons.
+    /**************************************************************************/
 
     // Addons.
     $help['addons'] = [
+      'group' => 'addons',
+      'title' => $this->t('Add-ons'),
+      'content' => $this->t('The <strong>Add-ons</strong> page lists Drupal modules and projects that extend and provide additional functionality to the Webform module and Drupal\'s Form API.  If you would like a module or project to be included in the below list, please submit a request to the <a href=":href">Webform module\'s issue queue</a>.', [':href' => 'https://www.drupal.org/node/add/project-issue/webform']),
       'routes' => [
         // @see /admin/structure/webform/addons
         'webform.addons',
       ],
-      'title' => $this->t('Extend the Webform module'),
-      'url' => Url::fromRoute('webform.addons'),
-      'content' => $this->t('The Add-ons page includes a list of modules and projects that extend and/or provide additional functionality to the Webform module and Drupal\'s Form API.  If you would like a module or project to be included in the below list, please submit a request to the <a href=":href">Webform module\'s issue queue</a>.', [':href' => 'https://www.drupal.org/node/add/project-issue/webform']),
     ];
 
-    /****************************************************************************/
-    // Webform.
-    /****************************************************************************/
+    /**************************************************************************/
+    // Configuration.
+    /**************************************************************************/
 
-    // Webform elements.
-    if (!$this->moduleHandler->moduleExists('webform_ui')) {
-      $help['webform_elements_warning'] = [
-        'routes' => [
-          // @see /admin/structure/webform/manage/{webform}
-          'entity.webform.edit_form',
-        ],
-        'title' => $this->t('Webform UI is disabled'),
-        'content' => $this->t('Please enable Webform UI module if you would like to add elements from UI.'),
-        'message_type' => 'warning',
-        'message_close' => TRUE,
-        'message_storage' => WebformMessage::STORAGE_STATE,
-        'access' => $this->currentUser->hasPermission('administer webform') && $this->currentUser->hasPermission('administer modules'),
-        'uses' => FALSE,
-      ];
-    }
-
-    $help['webform_elements'] = [
+    // Configuration: Forms.
+    $help['config_forms'] = [
+      'group' => 'configuration',
+      'title' => $this->t('Configuration: Forms'),
+      'content' => $this->t('The <strong>Forms configuration</strong> page allows administrators to manage form settings, behaviors, labels, messages and CSS classes.'),
+      'video_id' => 'admin',
       'routes' => [
-        // @see /admin/structure/webform/manage/{webform}
-        'entity.webform.edit_form',
+        // @see /admin/structure/webform/config/forms
+        'webform.config',
       ],
-      'title' => $this->t('Building a webform'),
-      'content' => $this->t('The Webform elements page allows users to add, update, duplicate, and delete webform elements and wizard pages.'),
-      'video_id' => 'form_elements',
     ];
 
-    // Webform source.
+    // Configuration: Elements.
+    $help['config_elements'] = [
+      'group' => 'configuration',
+      'title' => $this->t('Configuration: Elements'),
+      'content' => $this->t('The <strong>Elements configuration</strong> page allows administrators to enable/disable element types and manage element specific settings, properties, behaviors and formatting.'),
+      'video_id' => 'admin',
+      'routes' => [
+        // @see /admin/structure/webform/config/element
+        'webform.config.elements',
+      ],
+    ];
+
+    // Configuration: Options.
+    $help['config_options'] = [
+      'group' => 'configuration',
+      'title' => $this->t('Configuration: Options'),
+      'content' => $this->t('The <strong>Options configuration</strong> page lists reusable predefined options/values available for select menus, radio buttons, checkboxes and Likert elements.'),
+      'video_id' => 'admin',
+      'routes' => [
+        // @see /admin/structure/webform/config/options
+        'entity.webform_options.collection',
+      ],
+    ];
+
+    // Configuration: Submissions.
+    $help['config_submissions'] = [
+      'group' => 'configuration',
+      'title' => $this->t('Configuration: Submissions'),
+      'content' => $this->t('The <strong>Submissions configuration</strong> page allows administrators to manage submissions settings, behaviors and messages.'),
+      'video_id' => 'admin',
+      'routes' => [
+        // @see /admin/structure/webform/config/submissions
+        'webform.config.submissions',
+      ],
+    ];
+
+    // Configuration: Handlers.
+    $help['config_handlers'] = [
+      'group' => 'configuration',
+      'title' => $this->t('Configuration: Handlers'),
+      'content' => $this->t('The <strong>Handlers configuration</strong> page allows administrators to enable/disable handlers and configure default email settings and messages.') . ' ' .
+        $this->t('<strong>Handlers</strong> are used to route submitted data to external applications and send notifications & confirmations.'),
+      'video_id' => 'admin',
+      'routes' => [
+        // @see /admin/structure/webform/config/handlers
+        'webform.config.handlers',
+      ],
+    ];
+
+    // Configuration: Exporters.
+    $help['config_exporters'] = [
+      'group' => 'configuration',
+      'title' => $this->t('Configuration: Exporters'),
+      'content' => $this->t('The <strong>Exporters configuration</strong> page allows administrators to enable/disable exporters and configure default export settings.') . ' ' .
+        $this->t('<strong>Exporters</strong> are used to export results into a downloadable format that can be used by MS Excel, Google Sheets and other spreadsheet applications.'),
+      'video_id' => 'admin',
+      'routes' => [
+        // @see /admin/structure/webform/config/exporters
+        'webform.config.exporters',
+      ],
+    ];
+
+    // Configuration: Libraries.
+    $help['config_libraries'] = [
+      'group' => 'configuration',
+      'title' => $this->t('Configuration: Libraries'),
+      'content' => $this->t('The <strong>Libraries configuration</strong> page allows administrators to enable/disable libraries and define global custom CSS/JavaScript used by all webforms.'),
+      'video_id' => 'admin',
+      'routes' => [
+        // @see /admin/structure/webform/config/libraries
+        'webform.config.libraries',
+      ],
+    ];
+
+    // Configuration: Libraries.
+    $help['config_libraries_help'] = [
+      'group' => 'configuration',
+      'title' => $this->t('Configuration: Libraries: Help'),
+      'content' => '<p>' . $this->t('The Webform module utilizes third-party Open Source libraries to enhance webform elements and to provide additional functionality.') . ' ' .
+        $this->t('It is recommended that these libraries are installed in your Drupal installations /libraries directory.') . ' ' .
+        $this->t('If these libraries are not installed, they will be automatically loaded from a CDN.') . ' ' .
+        $this->t('All libraries are optional and can be excluded via the admin settings form.') .
+        '</p>' .
+        '<p>' . $this->t('There are three ways to download the needed third-party libraries.') . '</p>' .
+        '<ul>' .
+        '<li>' . $this->t('Generate a *.make.yml or composer.json file using <code>drush webform-libraries-make</code> or <code>drush webform-libraries-composer</code>.') . '</li>' .
+        '<li>' . $this->t('Execute <code>drush webform-libraries-download</code>, which will download third-party libraries required by the Webform module.') . '</li>' .
+        '<li>' . $this->t("Execute <code>drush webform-composer-update</code>, which will update your Drupal installation's composer.json to include the Webform module's selected libraries as repositories.") . '</li>' .
+        '</ul>',
+      'message_type' => 'info',
+      'message_close' => TRUE,
+      'message_storage' => WebformMessage::STORAGE_SESSION,
+      'routes' => [
+        // @see /admin/structure/webform/config/libraries
+        'webform.config.libraries',
+      ],
+    ];
+
+    // Configuration: Advanced.
+    $help['config_advanced'] = [
+      'group' => 'configuration',
+      'title' => $this->t('Configuration: Advanced'),
+      'content' => $this->t('The <strong>Advanced configuration</strong> page allows an administrator to enable/disable UI behaviors, manage requirements and define data used for testing webforms.'),
+      'video_id' => 'admin',
+      'routes' => [
+        // @see /admin/structure/webform/config/advanced
+        'webform.config.advanced',
+      ],
+    ];
+
+    // Configuration: Translate.
+    $help['config_translation'] = [
+      'group' => 'configuration',
+      'title' => $this->t('Configuration: Translate'),
+      'content' => $this->t('The <strong>Translate configuration</strong> page allows webform messages and labels to be translated into multiple languages.'),
+      'video_id' => 'admin',
+      'routes' => [
+        // /admin/structure/webform/config/translate
+        'config_translation.item.overview.webform.config',
+      ],
+    ];
+
+    /**************************************************************************/
+    // Plugins.
+    /**************************************************************************/
+
+    // Plugins: Elements.
+    $help['plugins_elements'] = [
+      'group' => 'plugins',
+      'title' => $this->t('Plugins: Elements'),
+      'content' => $this->t('The <strong>Element plugins</strong> overview page lists all available webform element plugins.') . ' ' .
+        $this->t('<strong>Webform Element</strong> plugins are used to enhance existing render/form elements. Webform element plugins provide default properties, data normalization, custom validation, element configuration form and customizable display formats.'),
+      'routes' => [
+        // @see /admin/structure/webform/plugins/elements
+        'webform.element_plugins',
+      ],
+    ];
+
+    // Plugins: Handlers.
+    $help['plugins_handlers'] = [
+      'group' => 'plugins',
+      'title' => $this->t('Plugins: Emails/Handlers'),
+      'content' => $this->t('The <strong>Handler plugins</strong> overview page lists all available webform handler plugins.') . ' ' .
+        $this->t('<strong>Handlers</strong> are used to route submitted data to external applications and send notifications & confirmations.'),
+      'routes' => [
+        // @see /admin/structure/webform/plugins/handlers
+        'webform.handler_plugins',
+      ],
+    ];
+
+    // Plugins: Exporters.
+    $help['plugins_exporters'] = [
+      'group' => 'plugins',
+      'title' => $this->t('Plugins: Exporters'),
+      'content' => $this->t('The <strong>Exporter plugins</strong> overview page lists all available results exporter plugins.') . ' ' .
+        $this->t('<strong>Exporters</strong> are used to export results into a downloadable format that can be used by MS Excel, Google Sheets and other spreadsheet applications.'),
+      'routes' => [
+        // @see /admin/structure/webform/plugins/exporters
+        'webform.exporter_plugins',
+      ],
+    ];
+
+    /**************************************************************************/
+    // Webform.
+    /**************************************************************************/
+
+    // Webform: Source.
     $help['webform_source'] = [
+      'group' => 'forms',
+      'title' => $this->t('Webform: Source'),
+      'content' => $this->t("The (View) <strong>Source</strong> page allows developers to edit a webform's render array using YAML markup.") . ' ' .
+        $this->t("Developers can use the (View) <strong>Source</strong> page to alter a webform's labels quickly, cut-n-paste multiple elements, reorder elements, as well as  add custom properties and markup to elements."),
+      'video_id' => 'source',
       'routes' => [
         // @see /admin/structure/webform/manage/{webform}/source
         'entity.webform.source_form',
       ],
-      'title' => $this->t('Editing YAML source'),
-      'content' => $this->t("The (View) Source page allows developers to edit a webform's render array using YAML markup.") . ' ' .
-      $this->t("Developers can use the (View) Source page to quickly alter a webform's labels, cut-n-paste multiple elements, reorder elements, and add customize properties and markup to elements."),
-      'video_id' => 'source',
     ];
 
-    // Webform test.
+    // Webform: Test.
     $help['webform_test'] = [
+      'group' => 'forms',
+      'title' => $this->t('Webform: Test'),
+      'content' => $this->t("The <strong>Test</strong> form allows a webform to be tested using a customizable test dataset.") . ' ' .
+        $this->t('Multiple test submissions can be created using the devel_generate module.'),
       'routes' => [
         // @see /admin/structure/webform/manage/{webform}/test
-        'entity.webform.test',
+        'entity.webform.test_form',
         // @see /node/{node}/webform/test
-        'entity.node.webform.test',
+        'entity.node.webform.test_form',
       ],
-      'title' => $this->t('Testing a webform'),
-      'content' => $this->t("The Webform test page allows a webform to be tested using a customizable test dataset.") . ' ' .
-      $this->t('Multiple test submissions can be created using the devel_generate module.'),
     ];
 
-    // Webform settings.
-    $help['webform_settings'] = [
+    // Webform: API.
+    $help['webform_api'] = [
+      'group' => 'forms',
+      'title' => $this->t('Webform: API'),
+      'content' => $this->t("The <strong>API</strong> form allows developers to test a webform's API."),
       'routes' => [
-        // @see /admin/structure/webform/manage/{webform}/settings
-        'entity.webform.settings_form',
+        // @see /admin/structure/webform/manage/{webform}/api
+        'entity.webform.api_form',
+        // @see /node/{node}/webform/api
+        'entity.node.webform.api_form',
       ],
-      'title' => $this->t('Customizing webform settings'),
-      'content' => $this->t("The Webform settings page allows a webform's labels, messaging, and behaviors to be customized.") . ' ' .
-      $this->t('Administrators can open/close a webform, enable/disable drafts, allow previews, set submission limits, and disable the saving of results.'),
-      'video_id' => 'form_settings',
     ];
 
-    // Webform assets.
-    $help['webform_assets'] = [
-      'routes' => [
-        // @see /admin/structure/webform/manage/{webform}/assets
-        'entity.webform.assets_form',
-      ],
-      'title' => $this->t('Adding custom CSS/JS to a webform.'),
-      'content' => $this->t("The Webform assets page allows site builders to attach custom CSS and JavaScript to a webform."),
-    ];
-
-    // Webform access controls.
-    $help['webform_access'] = [
-      'routes' => [
-        // @see /admin/structure/webform/manage/{webform}/access
-        'entity.webform.access_form',
-      ],
-      'title' => $this->t('Controlling access to submissions'),
-      'content' => $this->t('The Webform access control page allows administrator to determine who can create, update, delete, and purge webform submissions.'),
-      'video_id' => 'access',
-    ];
-
-    // Webform handlers.
-    $help['webform_handlers'] = [
-      'routes' => [
-        // @see /admin/structure/webform/manage/{webform}/handlers
-        'entity.webform.handlers_form',
-      ],
-      'title' => $this->t('Enabling webform handlers'),
-      'content' => $this->t('The Webform handlers page lists additional handlers (aka behaviors) that can process webform submissions.') . ' ' .
-      $this->t('Handlers are <a href=":href">plugins</a> that act on a webform submission.', [':href' => 'https://www.drupal.org/developing/api/8/plugins']) . ' ' .
-      $this->t('For example, sending email confirmations and notifications is done using the Email handler which is provided by the Webform module.'),
-      'video_id' => 'submissions',
-    ];
-
-    // Webform third party settings.
-    $help['webform_third_party'] = [
-      'routes' => [
-        // @see /admin/structure/webform/manage/{webform}/third_party
-        'entity.webform.third_party_settings_form',
-      ],
-      'title' => $this->t('Configuring third party settings'),
-      'content' => $this->t('The Third party settings page allows contrib and custom modules to define webform specific customization settings.'),
-    ];
-
-    // Webform translations.
-    $help['webform_translations'] = [
+    // Webform: Translations.
+    $help['webform_translate'] = [
+      'group' => 'translations',
+      'title' => $this->t('Webform: Translate'),
+      'content' => $this->t("The <strong>Translate</strong> page allows a webform's configuration and elements to be translated into multiple languages."),
+      'video_id' => 'translate',
       'routes' => [
         // @see /admin/structure/webform/manage/{webform}/translate
         'entity.webform.config_translation_overview',
       ],
-      'title' => $this->t('Translating a webform'),
-      'content' => $this->t("The Translation page allows a webform's configuration and elements to be translated into multiple languages."),
-      'video_id' => 'translate',
     ];
 
-    /****************************************************************************/
-    // Results.
-    /****************************************************************************/
+    /**************************************************************************/
+    // Elements.
+    /**************************************************************************/
 
-    // Webform results.
-    $help['webform_results'] = [
+    // Elements.
+    $help['elements'] = [
+      'group' => 'elements',
+      'title' => $this->t('Elements'),
+      'content' => $this->t('The <strong>Elements</strong>  page allows users to add, update, duplicate and delete elements and wizard pages.'),
+      'video_id' => 'elements',
+      'routes' => [
+        // @see /admin/structure/webform/manage/{webform}
+        'entity.webform.edit_form',
+      ],
+    ];
+
+    /**************************************************************************/
+    // Handlers.
+    /**************************************************************************/
+
+    // Handlers.
+    $help['handlers'] = [
+      'group' => 'handlers',
+      'title' => $this->t('Handlers'),
+      'content' => $this->t('The <strong>Emails/Handlers</strong> page allows additional actions and behaviors to be processed when a webform or submission is created, updated, or deleted.') . ' ' .
+        $this->t('<strong>Handlers</strong> are used to route submitted data to external applications and send notifications & confirmations.'),
+      'video_id' => 'submissions',
+      'routes' => [
+        // @see /admin/structure/webform/manage/{webform}/handlers
+        'entity.webform.handlers',
+      ],
+    ];
+
+    /**************************************************************************/
+    // Settings.
+    /**************************************************************************/
+
+    // Settings.
+    $help['settings'] = [
+      'group' => 'settings',
+      'title' => $this->t('Settings: General'),
+      'content' => $this->t("The <strong>General</strong> settings page allows a webform's administrative information, paths, behaviors and third-party settings to be customized."),
+      'video_id' => 'settings',
+      'routes' => [
+        // @see /admin/structure/webform/manage/{webform}/settings
+        'entity.webform.settings',
+      ],
+    ];
+
+    // Settings: Form.
+    $help['settings_form'] = [
+      'group' => 'settings',
+      'title' => $this->t('Settings: Form'),
+      'content' => $this->t("The <strong>Form</strong> settings page allows a webform's status, attributes, behaviors, labels, messages, wizard settings and preview to be customized."),
+      'video_id' => 'settings',
+      'routes' => [
+        // @see /admin/structure/webform/manage/{webform}/settings/form
+        'entity.webform.settings_form',
+      ],
+    ];
+
+    // Settings: Submissions.
+    $help['settings_submissions'] = [
+      'group' => 'settings',
+      'title' => $this->t('Settings: Submissions'),
+      'content' => $this->t("The <strong>Submissions</strong> settings page allows a submission's labels, behaviors, limits and draft settings to be customized."),
+      'video_id' => 'settings',
+      'routes' => [
+        // @see /admin/structure/webform/manage/{webform}/settings/submissions
+        'entity.webform.settings_submissions',
+      ],
+    ];
+
+    // Settings: Confirmation.
+    $help['settings_confirmation'] = [
+      'group' => 'settings',
+      'title' => $this->t('Settings: Confirmation'),
+      'content' => $this->t("The <strong>Confirmation</strong> settings page allows the submission confirmation type, message and URL to be customized."),
+      'video_id' => 'settings',
+      'routes' => [
+        // @see /admin/structure/webform/manage/{webform}/settings/confirmation
+        'entity.webform.settings_confirmation',
+      ],
+    ];
+
+    // Settings: Assets.
+    $help['settings_assets'] = [
+      'group' => 'settings',
+      'title' => $this->t('Settings: Assets'),
+      'content' => $this->t("The <strong>CSS/JS</strong> settings page allows site builders to attach custom CSS and JavaScript to a webform."),
+      'routes' => [
+        // @see /admin/structure/webform/manage/{webform}/settings/assets
+        'entity.webform.settings_assets',
+      ],
+    ];
+
+    // Settings: Access.
+    $help['settings_access'] = [
+      'group' => 'settings',
+      'title' => $this->t('Settings: Access'),
+      'content' => $this->t('The <strong>Access</strong> settings page allows an administrator to determine who can administer a webform and/or create, update, delete and purge webform submissions.'),
+      'video_id' => 'access',
+      'routes' => [
+        // @see /admin/structure/webform/manage/{webform}/access
+        'entity.webform.settings_access',
+      ],
+    ];
+
+    /**************************************************************************/
+    // Submissions/Results.
+    /**************************************************************************/
+
+    // Submissions.
+    $help['submissions'] = [
+      'group' => 'submissions',
+      'title' => $this->t('Submissions'),
+      'content' => $this->t('The <strong>Submissions</strong> page lists all incoming submissions for all webforms.'),
+      'routes' => [
+        // @see /admin/structure/webform/submissions/manage
+        'entity.webform_submission.collection',
+      ],
+    ];
+
+    // Submissions: Purge.
+    $help['submissions_purge'] = [
+      'group' => 'submissions',
+      'title' => $this->t('Submissions: Purge'),
+      'content' => $this->t('The <strong>Submissions purge</strong> page allows all submissions across all webforms to be deleted. <strong>PLEASE NOTE: THIS ACTION CANNOT BE UNDONE.</strong>'),
+      'message_type' => 'warning',
+      'routes' => [
+        // @see /admin/structure/webform/results/purge
+        'entity.webform_submission.collection_purge',
+      ],
+    ];
+
+    // Submissions: Log.
+    $help['submissions_log'] = [
+      'group' => 'submissions',
+      'title' => $this->t('Submissions: Log'),
+      'content' => $this->t('The <strong>Submissions log</strong> page tracks all submission events for all webforms that have submission logging enabled. Submission logging can be enabled globally or on a per webform basis.'),
+      'routes' => [
+        // @see /admin/structure/webform/results/log
+        'entity.webform_submission.collection_log',
+      ],
+    ];
+
+
+    // Results.
+    $help['results'] = [
+      'group' => 'submissions',
+      'title' => $this->t('Results: Submissions'),
+      'content' => $this->t("The <strong>Submissions</strong> page displays a customizable overview of a webform's submissions.") . ' ' .
+        $this->t("Submissions can be reviewed, updated, flagged and/or annotated."),
+      'video_id' => 'submissions',
       'routes' => [
         // @see /admin/structure/webform/manage/{webform}/results/submissions
         'entity.webform.results_submissions',
-        // @see /node/{node}/webform/results/submissions
-        'entity.node.webform.results_submissions',
       ],
-      'title' => $this->t('Managing results'),
-      'content' => $this->t("The Results page displays an overview of a webform's submissions. This page can be used to generate a customized report.") . ' ' .
-      $this->t("Submissions can be reviewed, updated, flagged, annotated, and downloaded."),
-      'video_id' => 'submissions',
     ];
 
-    // Webform log.
-    $help['webform_log'] = [
+    // Results: Log.
+    $help['results_log'] = [
+      'group' => 'submissions',
+      'title' => $this->t('Results: Log'),
+      'content' => $this->t('The <strong>Results Log</strong> lists all webform submission events for the current webform.'),
       'routes' => [
         // @see /admin/structure/webform/manage/{webform}/results/log
         'entity.webform.results_log',
-        // @see /node/{node}/webform/results/log
-        'entity.node.webform.results_log',
       ],
-      'title' => $this->t('Results log'),
-      'content' => $this->t('The Results log lists all logged webform submission events for the current webform.'),
     ];
 
-    // Webform download.
-    $help['webform_download'] = [
+    // Results: Download.
+    $help['results_download'] = [
+      'group' => 'submissions',
+      'title' => $this->t('Results: Download'),
+      'content' => $this->t("The <strong>Download</strong> page allows a webform's submissions to be exported into a customizable CSV (Comma Separated Values) file and other common data formats."),
       'routes' => [
         // @see /admin/structure/webform/manage/{webform}/results/download
         'entity.webform.results_export',
-        // @see /node/{node}/webform/results/download
-        'entity.node.webform.results_export',
       ],
-      'title' => $this->t('Downloading results'),
-      'content' => $this->t("The Download page allows a webform's submissions to be exported in to a customizable CSV (Comma Separated Values) file."),
     ];
 
-    if ($this->moduleHandler->moduleExists('webform_devel')) {
-      // Webform Export.
-      $help['webform_export'] = [
-        'routes' => [
-          // @see /admin/structure/webform/manage/{webform}/export
-          'entity.webform.export_form',
-        ],
-        'title' => $this->t('Exporting configuration'),
-        'content' => $this->t("The Export (form) page allows developers to quickly export a single webform's configuration file.") . ' ' .
-        $this->t('If you run into any issues with a webform, you can also attach the below configuration (without any personal information) to a new ticket in the Webform module\'s <a href=":href">issue queue</a>.', [':href' => 'https://www.drupal.org/project/issues/webform']),
-        'video_id' => 'help',
-      ];
-    }
-
-    /****************************************************************************/
-    // Submission
-    /****************************************************************************/
-
-    // Log.
-    $help['submission_log'] = [
+    // Results: Clear.
+    $help['results_clear'] = [
+      'group' => 'submissions',
+      'title' => $this->t('Results: Clear'),
+      'content' => $this->t("The <strong>Clear</strong> page allows all submissions to a webform to be deleted."),
       'routes' => [
-        // @see /admin/structure/webform/manage/{webform}/submission/{webform_submission}/log
+        // @see /admin/structure/webform/manage/{webform}/results/clear
+        'entity.webform.results_clear',
+      ],
+    ];
+
+    /**************************************************************************/
+    // Submission.
+    /**************************************************************************/
+
+    $help['submission'] = [
+      'group' => 'submission',
+      'title' => $this->t('Submission: View'),
+      'content' => $this->t("The <strong>View</strong> page displays a submission's general information and data."),
+      'routes' => [
+        // @see /admin/structure/webform/manage/{webform}/submission/{webform_submisssion}
+        'entity.webform_submission.canonical',
+        // @see /node/{node}/webform/submission/{webform_submisssion}
+        'entity.node.webform_submission.canonical',
+      ],
+    ];
+
+    $help['submission_table'] = [
+      'group' => 'submission',
+      'title' => $this->t('Submission: Table'),
+      'content' => $this->t("The <strong>Table</strong> page displays a submission's general information and data using tabular layout."),
+      'routes' => [
+        // @see /admin/structure/webform/manage/{webform}/submission/{webform_submisssion}/table
+        'entity.webform_submission.table',
+        // @see /node/{node}/webform/submission/{webform_submisssion}/table
+        'entity.node.webform_submission.table',
+      ],
+    ];
+
+    $help['submission_text'] = [
+      'group' => 'submission',
+      'title' => $this->t('Submission: Plain text'),
+      'content' => $this->t("The <strong>Plain text</strong> page displays a submission's general information and data as plain text."),
+      'routes' => [
+        // @see /admin/structure/webform/manage/{webform}/submission/{webform_submisssion}/text
+        'entity.webform_submission.text',
+        // @see /node/{node}/webform/submission/{webform_submisssion}/text
+        'entity.node.webform_submission.text',
+      ],
+    ];
+
+    $help['submission_yaml'] = [
+      'group' => 'submission',
+      'title' => $this->t('Submission: Data (YAML)'),
+      'content' => $this->t("The <strong>Data (YAML)</strong> page displays a submission's raw data as YAML."),
+      'routes' => [
+        // @see /admin/structure/webform/manage/{webform}/submission/{webform_submisssion}/yaml
+        'entity.webform_submission.yaml',
+        // @see /node/{node}/webform/submission/{webform_submisssion}/yaml
+        'entity.node.webform_submission.yaml',
+      ],
+    ];
+
+    $help['submission_log'] = [
+      'group' => 'submission',
+      'title' => $this->t('Submission: Log'),
+      'content' => $this->t("The <strong>Log</strong> page shows all events and transactions for a submission."),
+      'routes' => [
+        // @see /admin/structure/webform/manage/{webform}/submission/{webform_submisssion}/log
         'entity.webform_submission.log',
         // @see /node/{node}/webform/submission/{webform_submission}/log
         'entity.node.webform_submission.log',
       ],
-      'title' => $this->t('Submission log'),
-      'url' => Url::fromRoute('entity.webform_submission.results_log'),
-      'content' => $this->t('The Submission log lists all events logged for this submission.'),
     ];
 
-    /****************************************************************************/
-    // Modules
-    /****************************************************************************/
+    $help['submission_edit'] = [
+      'group' => 'submission',
+      'title' => $this->t('Submission: Edit'),
+      'content' => $this->t("The <strong>Edit</strong> form allows the administrator to update a submission."),
+      'routes' => [
+        // @see /admin/structure/webform/manage/{webform}/submission/{webform_submisssion}/edit
+        'entity.webform_submission.edit_form',
+        // @see /node/{node}/webform/submission/{webform_submisssion}/edit
+        'entity.node.webform_submission.edit_form',
+      ],
+    ];
+
+    $help['submission_edit_all'] = [
+      'group' => 'submission',
+      'title' => $this->t('Submission: Edit All'),
+      'content' => $this->t("The <strong>Edit all</strong> form allows administrator to update all values for submission create from a multi-step form."),
+      'routes' => [
+        // @see /admin/structure/webform/manage/{webform}/submission/{webform_submisssion}/edit_all
+        'entity.webform_submission.edit_all',
+        // @see /node/{node}/webform/submission/{webform_submisssion}/edit_all
+        'entity.node.webform_submission.edit_all',
+      ],
+    ];
+
+    $help['submission_resend'] = [
+      'group' => 'submission',
+      'title' => $this->t('Submission: Resend'),
+      'content' => $this->t("The <strong>Resend</strong> form allows administrator to preview and resend emails and messages."),
+      'routes' => [
+        // @see /admin/structure/webform/manage/{webform}/submission/{webform_submisssion}/resend
+        'entity.webform_submission.resend_form',
+        // @see /node/{node}/webform/submission/{webform_submisssion}/resend
+        'entity.node.webform_submission.resend_form',
+      ],
+    ];
+
+    $help['submission_notes'] = [
+      'group' => 'submission',
+      'title' => $this->t('Submission: Notes'),
+      'content' => $this->t("The <strong>Notes</strong> form allows administrator to flag and annotate a submission."),
+      'routes' => [
+        // @see /admin/structure/webform/manage/{webform}/submission/{webform_submisssion}/notes
+        'entity.webform_submission.notes_form',
+        // @see /node/{node}/webform/submission/{webform_submisssion}/notes
+        'entity.node.webform_submission.notes_form',
+      ],
+    ];
+
+    /**************************************************************************/
+    // Devel.
+    /**************************************************************************/
+
+    // Devel: Export.
+    $help['devel_export'] = [
+      'group' => 'devel',
+      'title' => $this->t('Devel: Export'),
+      'content' => $this->t("The <strong>Export</strong> form allows developers to quickly export a single webform's YAML configuration file.") . ' ' .
+        $this->t('If you run into any issues with a webform, you can also attach the below configuration (without any personal information) to a new ticket in the Webform module\'s <a href=":href">issue queue</a>.', [':href' => 'https://www.drupal.org/project/issues/webform']),
+      'video_id' => 'help',
+      'routes' => [
+        // @see /admin/structure/webform/manage/{webform}/export
+        'entity.webform.export_form',
+      ],
+    ];
+
+    // Devel: Schema.
+    $help['devel_schema'] = [
+      'group' => 'devel',
+      'title' => $this->t('Devel: Webform Schema'),
+      'content' => $this->t("The <strong>Schema</strong> page displays an overview of a webform's elements and specified data types, which can be used to map webform submissions to an external API."),
+      'routes' => [
+        // @see /admin/structure/webform/manage/{webform}/schema
+        'entity.webform.schema_form',
+      ],
+    ];
+
+    /**************************************************************************/
+    // Modules.
+    /**************************************************************************/
 
     // Webform Node.
     $help['webform_node'] = [
+      'group' => 'webform_nodes',
+      'title' => $this->t('Webform Node'),
+      'content' => $this->t("A <strong>Webform Node</strong> allows webforms to be fully integrated into a website as nodes."),
+      'video_id' => 'blocks',
       'paths' => [
         '/node/add/webform',
       ],
-      'title' => $this->t('Creating a webform node'),
-      'content' => $this->t("A webform node allows webforms to be fully integrated into a website as nodes."),
-      'video_id' => 'blocks',
+    ];
+    $help['webform_node_reference'] = [
+      'group' => 'webform_nodes',
+      'title' => $this->t('Webform Node: References'),
+      'content' => $this->t("The <strong>Reference</strong> pages displays an overview of a webform's references and allows you to quickly create new references (a.k.a Webform nodes)."),
+      'routes' => [
+        // @see /admin/structure/webform/manage/{webform}/references
+        'entity.webform.references',
+      ],
+    ];
+    $help['webform_node_results'] = [
+      'group' => 'webform_nodes',
+      'title' => $this->t('Webform Node: Results: Submissions'),
+      'content' => $this->t("The <strong>Submissions</strong> page displays a customizable overview of a webform node's submissions.") . ' ' .
+        $this->t("Submissions can be reviewed, updated, flagged and annotated."),
+      'routes' => [
+        // @see /node/{node}/webform/results/submissions
+        'entity.node.webform.results_submissions',
+      ],
+    ];
+    $help['webform_node_results_log'] = [
+      'group' => 'webform_nodes',
+      'title' => $this->t('Webform Node: Results: Log'),
+      'content' => $this->t('The <strong>Results Log</strong> lists all webform submission events for the current webform.'),
+      'routes' => [
+        // @see /node/{node}/webform/results/log
+        'entity.node.webform.results_log',
+      ],
+    ];
+    $help['webform_node_results_download'] = [
+      'group' => 'webform_nodes',
+      'title' => $this->t('Webform Node: Results: Download'),
+      'content' => $this->t("The <strong>Download</strong> page allows a webform node's submissions to be exported into a customizable CSV (Comma Separated Values) file and other common data formats."),
+      'routes' => [
+        // @see /node/{node}/webform/results/download
+        'entity.node.webform.results_export',
+      ],
+    ];
+    $help['webform_node_results_clear'] = [
+      'group' => 'webform_nodes',
+      'title' => $this->t('Webform Node: Results: Clear'),
+      'content' => $this->t("The <strong>Clear</strong> page allows all submissions to a webform node to be deleted."),
+      'routes' => [
+        // @see /node/{node}/webform/results/clear
+        'entity.node.webform.results_clear',
+      ],
     ];
 
     // Webform Block.
     $help['webform_block'] = [
+      'group' => 'webform_blocks',
+      'title' => $this->t('Webform Block'),
+      'content' => $this->t("A <strong>Webform Block</strong> allows a webform to be placed anywhere on a website."),
+      'video_id' => 'blocks',
       'paths' => [
         '/admin/structure/block/add/webform_block/*',
       ],
-      'title' => $this->t('Creating a webform block'),
-      'content' => $this->t("A webform block allows a webform to be placed anywhere on a website."),
-      'video_id' => 'blocks',
     ];
 
+    /**************************************************************************/
+    // Messages.
+    /**************************************************************************/
+
+    // Webform: Elements -- Warning.
+    $help['message_webform_ui'] = [
+      'group' => 'messages',
+      'title' => $this->t('Message: Webform UI Disabled'),
+      'content' => $this->t('Please enable the <strong>Webform UI</strong> module if you would like to add easily add and manage elements using a drag-n-drop user interface.'),
+      'message_type' => 'warning',
+      'message_close' => TRUE,
+      'message_storage' => WebformMessage::STORAGE_STATE,
+      'access' => $this->currentUser->hasPermission('administer webform')
+        && $this->currentUser->hasPermission('administer modules')
+        && !$this->moduleHandler->moduleExists('webform_ui')
+        && !$this->moduleHandler->moduleExists('webform_editorial'),
+      'routes' => [
+        // @see /admin/structure/webform/manage/{webform}
+        'entity.webform.edit_form',
+      ],
+    ];
+
+    // Let other modules provide any extra help.
+    $help += $this->moduleHandler->invokeAll('webform_help');
+    $this->moduleHandler->alter('webform_help', $help);
+
+    /**************************************************************************/
+
+    // Initialize help.
     foreach ($help as $id => &$help_info) {
       $help_info += [
         'id' => $id,
         'uses' => TRUE,
+        'reset_version' => FALSE,
       ];
+    }
+
+    // Reset storage state if the Webform module version has changed.
+    if ($this->isUpdated()) {
+      foreach ($help as $id => $help_info) {
+        if (!empty($help_info['reset_version'])) {
+          WebformMessage::resetClosed(WebformMessage::STORAGE_STATE, 'webform.help.' . $id);
+        }
+      }
+      $this->state->set('webform.version', $this->getVersion());
     }
 
     return $help;

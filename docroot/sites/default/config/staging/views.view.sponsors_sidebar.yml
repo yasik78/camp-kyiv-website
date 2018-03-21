@@ -7,10 +7,10 @@ dependencies:
     - image.style.dc17_gray_sponsor_logo_small_130x50
     - taxonomy.vocabulary.type_sponsors
   content:
-    - 'taxonomy_term:type_sponsors:0d510410-2077-4b2a-9c63-7582708b5b67'
-    - 'taxonomy_term:type_sponsors:4103eb5d-01ab-47dd-aa86-bd15b648e782'
-    - 'taxonomy_term:type_sponsors:7f73b23c-3ce1-4075-a809-67650d1d6e7f'
-    - 'taxonomy_term:type_sponsors:98d65864-86fe-4bbe-893e-de553412a767'
+    - 'taxonomy_term:type_sponsors:0036ec82-f142-41be-8811-fd905887ce86'
+    - 'taxonomy_term:type_sponsors:42b25b89-934b-4717-9c76-4adc24f8cb49'
+    - 'taxonomy_term:type_sponsors:aa7c7a59-03d2-4fa2-91d4-a27b2f97de98'
+    - 'taxonomy_term:type_sponsors:fbe89804-fb46-46ea-985b-e9b0c29a7437'
   module:
     - image
     - node

@@ -19,11 +19,13 @@ content:
       title: ''
     third_party_settings: {  }
     type: telephone_link
+    region: content
   message:
     type: basic_string
     weight: 0
     label: above
     settings: {  }
     third_party_settings: {  }
+    region: content
 hidden:
   langcode: true

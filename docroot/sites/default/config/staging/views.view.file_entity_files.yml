@@ -5,14 +5,13 @@ dependencies:
   module:
     - file
     - file_entity
-    - system
     - user
 _core:
   default_config_hash: H7kbXDAkOwaJHC-czbN3OdPc8jbYC3s60VW-Igr_WqQ
 id: file_entity_files
 label: 'File Entity Files'
 module: file_entity
-description: 'Find and manage files.'
+description: 'Пошук файлів та керування ними.'
 tag: default
 base_table: file_managed
 base_field: fid
@@ -21,7 +20,7 @@ display:
   default:
     display_plugin: default
     id: default
-    display_title: Master
+    display_title: Головне
     position: 0
     display_options:
       rendering_language: '***LANGUAGE_entity_default***'
@@ -43,13 +42,13 @@ display:
       exposed_form:
         type: basic
         options:
-          submit_button: Filter
+          submit_button: Фільтр
           reset_button: false
-          reset_button_label: Reset
-          exposed_sorts_label: 'Sort by'
+          reset_button_label: Скинути
+          exposed_sorts_label: 'Впорядкувати за'
           expose_sort_order: true
-          sort_asc_label: Asc
-          sort_desc_label: Desc
+          sort_asc_label: Зрост
+          sort_desc_label: Спад
       pager:
         type: mini
         options:
@@ -62,12 +61,12 @@ display:
             next: 'next ›'
           expose:
             items_per_page: false
-            items_per_page_label: 'Items per page'
+            items_per_page_label: 'Елементів на сторінку'
             items_per_page_options: '5, 10, 20, 40, 60'
             items_per_page_options_all: false
-            items_per_page_options_all_label: '- All -'
+            items_per_page_options_all_label: '- Усе -'
             offset: false
-            offset_label: Offset
+            offset_label: Зміщення
       style:
         type: table
         options:
@@ -263,7 +262,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Name
+          label: 'Назва (ім''я)'
           exclude: false
           alter:
             alter_text: false
@@ -312,7 +311,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Type
+          label: Тип
           exclude: false
           alter:
             alter_text: false
@@ -409,7 +408,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Size
+          label: Розмір
           exclude: false
           alter:
             alter_text: false
@@ -459,7 +458,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Status
+          label: Стан
           exclude: false
           alter:
             alter_text: false
@@ -508,7 +507,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Changed
+          label: Змінено
           exclude: false
           alter:
             alter_text: false
@@ -575,7 +574,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Created
+          label: Створено
           exclude: false
           alter:
             alter_text: false
@@ -642,7 +641,7 @@ display:
           relationship: fid
           group_type: sum
           admin_label: ''
-          label: 'Used in'
+          label: 'Використано в'
           exclude: false
           alter:
             alter_text: false
@@ -688,7 +687,7 @@ display:
           decimal: .
           separator: ','
           format_plural: true
-          format_plural_string: "1 place\x03@count places"
+          format_plural_string: !!binary QGNvdW50INC80ZbRgdGG0LUDQGNvdW50INC80ZbRgdGG0Y8DQGNvdW50INC80ZbRgdGG0Yw=
           prefix: ''
           suffix: ''
           plugin_id: numeric
@@ -699,7 +698,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Operations
+          label: Операції
           exclude: false
           alter:
             alter_text: false
@@ -757,7 +756,7 @@ display:
           exposed: true
           expose:
             operator_id: filemime_op
-            label: Filename
+            label: 'Назва файла'
             description: ''
             use_operator: false
             operator: filename_op
@@ -769,6 +768,7 @@ display:
               authenticated: authenticated
               anonymous: '0'
               administrator: '0'
+            placeholder: ''
           is_grouped: false
           group_info:
             label: ''
@@ -807,6 +807,7 @@ display:
               authenticated: authenticated
               anonymous: '0'
               administrator: '0'
+            placeholder: ''
           is_grouped: false
           group_info:
             label: ''
@@ -833,7 +834,7 @@ display:
           exposed: true
           expose:
             operator_id: status_op
-            label: Status
+            label: Стан
             description: ''
             use_operator: false
             operator: status_op
@@ -870,7 +871,7 @@ display:
           exposed: true
           expose:
             operator_id: type_op
-            label: Type
+            label: Тип
             description: ''
             use_operator: false
             operator: type_op
@@ -896,7 +897,7 @@ display:
             group_items: {  }
           plugin_id: file_entity_type
       sorts: {  }
-      title: Files
+      title: Файли
       header: {  }
       footer: {  }
       empty:
@@ -905,7 +906,7 @@ display:
           table: views
           field: area_text_custom
           empty: true
-          content: 'No files available.'
+          content: 'Файли відсутні.'
           plugin_id: text_custom
       relationships:
         fid:
@@ -932,7 +933,7 @@ display:
   overview:
     display_plugin: page
     id: overview
-    display_title: 'Files overview'
+    display_title: 'Огляд файлів'
     position: 1
     display_options:
       rendering_language: '***LANGUAGE_entity_default***'
@@ -940,7 +941,7 @@ display:
       route_name: entity.file.collection
       menu:
         type: tab
-        title: Files
+        title: Файли
         description: ''
         weight: 0
         context: ''
@@ -970,7 +971,7 @@ display:
   usage:
     display_plugin: page
     id: usage
-    display_title: 'File usage'
+    display_title: 'Використання файла'
     position: 2
     display_options:
       rendering_language: '***LANGUAGE_entity_default***'
@@ -1013,12 +1014,12 @@ display:
             next: 'next ›'
           expose:
             items_per_page: false
-            items_per_page_label: 'Items per page'
+            items_per_page_label: 'Елементів на сторінку'
             items_per_page_options: '5, 10, 20, 40, 60'
             items_per_page_options_all: false
-            items_per_page_options_all_label: '- All -'
+            items_per_page_options_all_label: '- Усе -'
             offset: false
-            offset_label: Offset
+            offset_label: Зміщення
       filters: {  }
       filter_groups:
         operator: AND
@@ -1031,7 +1032,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Entity
+          label: Сутність
           exclude: false
           alter:
             alter_text: false
@@ -1080,7 +1081,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Entity type'
+          label: 'Тип сутності'
           exclude: false
           alter:
             alter_text: false
@@ -1128,7 +1129,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Registering module'
+          label: 'Реєстрація модуля'
           exclude: false
           alter:
             alter_text: false
@@ -1176,7 +1177,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Use count'
+          label: 'Підрахунок використань'
           exclude: false
           alter:
             alter_text: false
@@ -1221,12 +1222,12 @@ display:
           decimal: .
           separator: ','
           format_plural: false
-          format_plural_string: "1 place\x03@count places"
+          format_plural_string: !!binary QGNvdW50INC80ZbRgdGG0LUDQGNvdW50INC80ZbRgdGG0Y8DQGNvdW50INC80ZbRgdGG0Yw=
           prefix: ''
           suffix: ''
           plugin_id: numeric
       group_by: false
-      title: 'File usage'
+      title: 'Використання файла'
       arguments:
         fid:
           id: fid
@@ -1239,9 +1240,9 @@ display:
           exception:
             value: all
             title_enable: false
-            title: All
+            title: Все
           title_enable: true
-          title: 'File usage information for {{ arguments.fid }}'
+          title: 'Відомості про використання файла для {{ arguments.fid }}'
           default_argument_type: fixed
           default_argument_options:
             argument: ''
@@ -1324,7 +1325,7 @@ display:
           required: true
       menu:
         type: tab
-        title: Usage
+        title: Використання
         description: 'Overview content that uses this file'
         weight: 5
         context: '0'
@@ -1353,5 +1354,5 @@ display:
         - url.query_args
         - user.permissions
       cacheable: false
-      max-age: 0
+      max-age: -1
       tags: {  }

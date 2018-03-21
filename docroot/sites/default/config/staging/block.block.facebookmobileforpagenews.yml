@@ -8,7 +8,7 @@ dependencies:
     - dc17_bootstrap
 id: facebookmobileforpagenews
 theme: dc17_bootstrap
-region: '-1'
+region: navigation
 weight: -25
 provider: null
 plugin: 'block_content:80f144a2-d533-43d3-a599-4de854be0954'

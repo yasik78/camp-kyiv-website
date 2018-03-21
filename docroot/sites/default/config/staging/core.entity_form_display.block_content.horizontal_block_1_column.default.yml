@@ -25,6 +25,7 @@ content:
       add_mode: dropdown
       form_display_mode: default
     third_party_settings: {  }
+    region: content
   field_button:
     type: entity_reference_paragraphs
     weight: 7
@@ -35,6 +36,7 @@ content:
       add_mode: dropdown
       form_display_mode: default
     third_party_settings: {  }
+    region: content
   field_image:
     type: entity_reference_paragraphs
     weight: 6
@@ -45,6 +47,7 @@ content:
       add_mode: dropdown
       form_display_mode: default
     third_party_settings: {  }
+    region: content
   field_title:
     type: entity_reference_paragraphs
     weight: 4
@@ -55,6 +58,7 @@ content:
       add_mode: dropdown
       form_display_mode: default
     third_party_settings: {  }
+    region: content
   info:
     type: string_textfield
     weight: -5
@@ -62,9 +66,15 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+    region: content
   langcode:
     type: language_select
     weight: 2
-    settings: {  }
+    settings:
+      include_locked: true
     third_party_settings: {  }
+    region: content
+  translation:
+    weight: 10
+    region: content
 hidden: {  }

@@ -143,7 +143,7 @@ function _views_slideshow_preprocess_views_view_slideshow(&$vars) {
       foreach ($weight as $location => $order) {
         if ($options['widgets'][$location][$widgetTypeId]['enable']) {
           // If hide on single slide and only a single slide skip rendering.
-          if ($options['widgets'][$location][$widgetTypeId]['hide_on_single_slide'] && $slide_count < 2) {
+          if ($options['widgets'][$location][$widgetTypeId]['hide_on_single_slide'] && $slide_count <= 1) {
             continue;
           }
           $widgetWeight = ($options['widgets'][$location][$widgetTypeId]['weight'] > count($widgetTypes)) ? count($widgetTypes) : $options['widgets'][$location][$widgetTypeId]['weight'];
@@ -285,6 +285,36 @@ function template_preprocess_views_slideshow_pager_field_item(&$vars) {
 }
 
 /**
+ * Views Slideshow: Bullets pager.
+ */
+function template_preprocess_views_slideshow_pager_bullets(&$vars) {
+  $vars['#attached']['library'][] = 'views_slideshow/widget_info';
+  $vars['#attached']['library'][] = 'views_slideshow/pager_bullets';
+  $vars['#attached']['drupalSettings']['viewsSlideshowPagerFields'][$vars['vss_id']] = [
+    $vars['location'] => [
+      'activatePauseOnHover' => $vars['settings']['views_slideshow_pager_bullets']['views_slideshow_pager_bullets_hover'],
+    ],
+  ];
+
+  $vars['bullet_items'] = [
+    '#theme' => 'item_list',
+    '#items' => [],
+    '#attributes' => $vars['attributes'],
+  ];
+  $vars['bullet_items']['#attributes']['class'][] = 'views-slideshow-pager-bullets';
+  $vars['bullet_items']['#attributes']['class'][] = 'views_slideshow_pager_field';
+
+  for ($i = 0; $i < count($vars['view']->result); $i++) {
+    $vars['bullet_items']['#items'][] = [
+      '#markup' => $i,
+      '#wrapper_attributes' => [
+        'id' => 'views_slideshow_pager_field_item_' . $vars['location'] . '_' . $vars['vss_id'] . '_' . $i,
+      ],
+    ];
+  }
+}
+
+/**
  * Views Slideshow: Controls.
  */
 function template_preprocess_views_slideshow_controls_widget_render(&$vars) {
@@ -349,7 +379,7 @@ function template_preprocess_views_slideshow_controls_text_previous(&$vars) {
  * Views Slideshow: "pause" control.
  */
 function template_preprocess_views_slideshow_controls_text_pause(&$vars) {
-  $vars['attributes']['class'][]  = 'views_slideshow_controls_text_pause  views-slideshow-controls-text-status-play';
+  $vars['attributes']['class'][] = 'views_slideshow_controls_text_pause  views-slideshow-controls-text-status-play';
   $vars['start_text'] = t('Pause');
 }
 

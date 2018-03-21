@@ -2,10 +2,12 @@
 
 namespace Drupal\webform\Plugin\WebformElement;
 
+use Drupal\Component\Serialization\Json;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Mail\MailFormatHelper;
 use Drupal\filter\Entity\FilterFormat;
-use Drupal\webform\WebformElementBase;
+use Drupal\user\Entity\User;
+use Drupal\webform\Plugin\WebformElementBase;
 use Drupal\webform\WebformSubmissionInterface;
 
 /**
@@ -27,11 +29,22 @@ class TextFormat extends WebformElementBase {
    * {@inheritdoc}
    */
   public function getDefaultProperties() {
-    return parent::getDefaultProperties() + [
+    $properties = parent::getDefaultProperties() + [
       // Text format settings.
       'allowed_formats' => [],
       'hide_help' => FALSE,
     ];
+    unset(
+      $properties['disabled'],
+      $properties['attributes'],
+      $properties['wrapper_attributes'],
+      $properties['title_display'],
+      $properties['description_display'],
+      $properties['field_prefix'],
+      $properties['field_suffix'],
+      $properties['help']
+    );
+    return $properties;
   }
 
   /**
@@ -44,7 +57,7 @@ class TextFormat extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function prepare(array &$element, WebformSubmissionInterface $webform_submission) {
+  public function prepare(array &$element, WebformSubmissionInterface $webform_submission = NULL) {
     parent::prepare($element, $webform_submission);
     $element['#after_build'] = [[get_class($this), 'afterBuild']];
     $element['#attached']['library'][] = 'webform/webform.element.text_format';
@@ -69,6 +82,17 @@ class TextFormat extends WebformElementBase {
     // Hide tips.
     if (!empty($element['#hide_help']) && isset($element['format']['help'])) {
       $element['format']['help']['#attributes']['style'] = 'display: none';
+    }
+    else {
+      // Display tips in a modal.
+      $element['format']['help']['about']['#attributes']['class'][] = 'use-ajax';
+      $element['format']['help']['about']['#attributes'] += [
+        'data-dialog-type' => 'dialog',
+        'data-dialog-options' => Json::encode([
+          'dialogClass' => 'webform-text-format-help-dialog',
+          'width' => 800,
+        ]),
+      ];
     }
 
     // Hide filter format if the select menu and help is hidden.
@@ -98,14 +122,19 @@ class TextFormat extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function formatHtmlItem(array $element, $value, array $options = []) {
-    $value = (isset($value['value'])) ? $value['value'] : $value;
+  protected function formatHtmlItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
+    $value = $this->getValue($element, $webform_submission, $options);
+
     $format = (isset($value['format'])) ? $value['format'] : $this->getItemFormat($element);
+    $value = (isset($value['value'])) ? $value['value'] : $value;
     switch ($format) {
       case 'raw':
         return $value;
 
       case 'value':
+        $default_format = filter_default_format(User::load($webform_submission->getOwnerId()));
+        return check_markup($value, $default_format);
+
       default:
         return check_markup($value, $format);
     }
@@ -114,28 +143,24 @@ class TextFormat extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function formatTextItem(array $element, $value, array $options = []) {
+  protected function formatTextItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
+    $value = $this->getValue($element, $webform_submission, $options);
+
     $format = (isset($value['format'])) ? $value['format'] : $this->getItemFormat($element);
+    $value = (isset($value['value'])) ? $value['value'] : $value;
     switch ($format) {
       case 'raw':
         return $value;
 
       case 'value':
       default:
-        $html = $this->formatHtml($element, $value);
+        $html = $this->formatHtml($element, $webform_submission);
         // Convert any HTML to plain-text.
         $html = MailFormatHelper::htmlToText($html);
         // Wrap the mail body for sending.
         $html = MailFormatHelper::wrapMail($html);
         return $html;
     }
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getItemDefaultFormat() {
-    return (function_exists('filter_default_format')) ? filter_default_format() : parent::getItemDefaultFormat();
   }
 
   /**
@@ -153,12 +178,27 @@ class TextFormat extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
+  public function buildExportRecord(array $element, WebformSubmissionInterface $webform_submission, array $export_options) {
+    $element['#format_items'] = $export_options['multiple_delimiter'];
+    return [$this->formatHtml($element, $webform_submission, $export_options)];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   protected function getElementSelectorInputsOptions(array $element) {
     $title = $this->getAdminLabel($element);
     return [
       'value' => $title . ' [' . t('Textarea') . ']',
       'format' => $title . ' [' . t('Select') . ']',
     ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function preview() {
+    return (\Drupal::moduleHandler()->moduleExists('filter')) ? parent::preview() : [];
   }
 
   /**
@@ -199,6 +239,17 @@ class TextFormat extends WebformElementBase {
     $allowed_formats = array_filter($allowed_formats);
     $form_state->setValue('allowed_formats', $allowed_formats);
     parent::validateConfigurationForm($form, $form_state);
+  }
+
+  /**
+   * Get composite element.
+   *
+   * @return array
+   *   A composite sub-elements.
+   */
+  public function hasCompositeElement(array $element, $key) {
+    $elements = $this->getCompositeElements();
+    return (isset($elements[$key])) ? TRUE : FALSE;
   }
 
 }

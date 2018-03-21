@@ -58,6 +58,7 @@ content:
     weight: 1
     settings: {  }
     third_party_settings: {  }
+    region: content
   field_areas:
     weight: 4
     label: above
@@ -65,24 +66,28 @@ content:
       link: false
     third_party_settings: {  }
     type: entity_reference_label
+    region: content
   field_level_of_difficulty:
     weight: 3
     label: above
     settings: {  }
     third_party_settings: {  }
     type: list_default
+    region: content
   field_meta_tags_presentation:
     weight: 7
     label: above
     settings: {  }
     third_party_settings: {  }
     type: metatag_empty_formatter
+    region: content
   field_report_language:
     weight: 2
     label: above
     settings: {  }
     third_party_settings: {  }
     type: list_default
+    region: content
   field_speaker_image:
     weight: 6
     label: hidden
@@ -91,6 +96,7 @@ content:
       image_link: ''
     third_party_settings: {  }
     type: image
+    region: content
   field_video:
     weight: 5
     label: hidden
@@ -101,10 +107,12 @@ content:
       autoplay: true
     third_party_settings: {  }
     type: video_embed_field_video
+    region: content
   links:
     weight: 0
     settings: {  }
     third_party_settings: {  }
+    region: content
 hidden:
   field_double_speaker_image: true
   field_speakers: true

@@ -5,7 +5,9 @@ namespace Drupal\webform;
 use Drupal\Core\Config\Entity\ConfigEntityListBuilder;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\OptGroup;
+use Drupal\Core\Url;
 use Drupal\webform\Entity\WebformOptions;
+use Drupal\webform\Utility\WebformDialogHelper;
 
 /**
  * Defines a class to build a listing of webform options entities.
@@ -22,18 +24,16 @@ class WebformOptionsListBuilder extends ConfigEntityListBuilder {
 
     // Display info.
     if ($total = $this->getStorage()->getQuery()->count()->execute()) {
-      $t_args = [
-        '@total' => $total,
-        '@results' => $this->formatPlural($total, $this->t('option'), $this->t('options')),
-      ];
       $build['info'] = [
-        '#markup' => $this->t('@total @results', $t_args),
+        '#markup' => $this->formatPlural($total, '@total option', '@total options', ['@total' => $total]),
         '#prefix' => '<div>',
         '#suffix' => '</div>',
       ];
     }
 
     $build += parent::render();
+
+    $build['#attached']['library'][] = 'webform/webform.admin.dialog';
 
     return $build;
   }
@@ -45,6 +45,7 @@ class WebformOptionsListBuilder extends ConfigEntityListBuilder {
     $header['label'] = $this->t('Label');
     $header['id'] = $this->t('ID');
     $header['category'] = $this->t('Category');
+    $header['likert'] = $this->t('Likert');
     $header['options'] = [
       'data' => $this->t('Options'),
       'class' => [RESPONSIVE_PRIORITY_LOW],
@@ -64,8 +65,10 @@ class WebformOptionsListBuilder extends ConfigEntityListBuilder {
     $row['label'] = $entity->toLink($entity->label(), 'edit-form');
     $row['id'] = $entity->id();
     $row['category'] = $entity->get('category');
+    $row['likert'] = $entity->isLikert() ? $this->t('Yes') : $this->t('No');
 
-    $options = WebformOptions::getElementOptions(['#options' => $entity->id()]);
+    $element = ['#options' => $entity->id()];
+    $options = WebformOptions::getElementOptions($element);
     $options = OptGroup::flattenOptions($options);
     foreach ($options as $key => &$value) {
       if ($key != $value) {
@@ -76,6 +79,24 @@ class WebformOptionsListBuilder extends ConfigEntityListBuilder {
 
     $row['alter'] = $entity->hasAlterHooks() ? $this->t('Yes') : $this->t('No');
     return $row + parent::buildRow($entity);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDefaultOperations(EntityInterface $entity, $type = 'edit') {
+    $operations = parent::getDefaultOperations($entity);
+    if ($entity->access('duplicate')) {
+      $operations['duplicate'] = [
+        'title' => $this->t('Duplicate'),
+        'weight' => 23,
+        'url' => Url::fromRoute('entity.webform_options.duplicate_form', ['webform_options' => $entity->id()]),
+      ];
+    }
+    if (isset($operations['delete'])) {
+      $operations['delete']['attributes'] = WebformDialogHelper::getModalDialogAttributes(WebformDialogHelper::DIALOG_NARROW);
+    }
+    return $operations;
   }
 
 }

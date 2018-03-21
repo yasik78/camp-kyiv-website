@@ -26,6 +26,7 @@ content:
     settings:
       trim_length: 250
     third_party_settings: {  }
+    region: content
   field_news_gallery:
     type: image
     weight: 2
@@ -36,6 +37,7 @@ content:
     third_party_settings:
       ds:
         ds_limit: ''
+    region: content
   field_news_image:
     type: image
     weight: 0
@@ -44,10 +46,12 @@ content:
       image_style: ''
       image_link: content
     third_party_settings: {  }
+    region: content
   links:
     weight: 3
     settings: {  }
     third_party_settings: {  }
+    region: content
 hidden:
   field_meta_tags_news: true
   field_news_date: true

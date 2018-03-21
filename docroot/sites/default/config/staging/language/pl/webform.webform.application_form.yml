@@ -3,5 +3,4 @@ handlers:
   email_notification:
     settings:
       body: "Name: [webform_submission:values:name:value]<br />\r\nMail: [webform_submission:values:email:raw]<br />\r\nTheme: [webform_submission:values:subject:value]<br />\r\nTelephone: [webform_submission:values:telephone:value]<br />\r\nAbout me: [webform_submission:values:message:value]"
-settings:
-  form_submit_label: Wysłać
+settings: null

@@ -4,5 +4,4 @@ handlers:
     settings:
       body: "Name: [webform_submission:values:name:value]<br />\r\nMail: [webform_submission:values:email:raw]<br />\r\nTheme: [webform_submission:values:subject:value]<br />\r\nTelephone: [webform_submission:values:telephone:value]<br />\r\nAbout me: [webform_submission:values:message:value]"
 settings:
-  form_submit_label: Submit
   confirmation_message: 'Thank you!<br /> Your message has been sent.<br /> Organizing Committee will receive your request and contact you soon.'

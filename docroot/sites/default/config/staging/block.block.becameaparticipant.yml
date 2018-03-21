@@ -8,7 +8,7 @@ dependencies:
     - dc17_bootstrap
 id: becameaparticipant
 theme: dc17_bootstrap
-region: '-1'
+region: navigation
 weight: -28
 provider: null
 plugin: 'block_content:c40bbccd-dcc4-4817-8aa4-7057ae8256cf'

@@ -15,7 +15,7 @@ function ckeditor_codemirror_libraries_info() {
     'download url' => 'https://github.com/w8tcha/CKEditor-CodeMirror-Plugin/releases',
     'version arguments' => array(
       'file' => 'plugin.js',
-      'pattern' => '@version:\s+([0-9a-zA-Z\.-]+)@',
+      'pattern' => '@version:\s*\'?([0-9a-zA-Z\.-]+)\'?@',
     ),
     'files' => array(
       'js' => array(
@@ -52,21 +52,4 @@ function ckeditor_codemirror_libraries_info() {
   );
 
   return $libraries;
-}
-
-/**
- * Implements hook_ckeditor_plugin().
- */
-function ckeditor_codemirror_ckeditor_plugin() {
-  return array(
-    'codemirror' => array(
-      'name' => 'codemirror',
-      'desc' => t('CodeMirror (Source) Syntax Highlighting. See <a href=":addon_page_url">@addon_page_title</a> for more details.',
-        array(
-          ':addon_page_url' => 'http://ckeditor.com/addon/codemirror',
-          '@addon_page_title' => t('addon page'),
-        )),
-      'path' => base_path() . libraries_get_path('ckeditor.codemirror') . '/',
-    ),
-  );
 }

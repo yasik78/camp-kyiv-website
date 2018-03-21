@@ -2,10 +2,8 @@
 
 namespace Drupal\webform\Plugin\WebformElement;
 
-use Drupal\Core\Form\FormState;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url as UrlGenerator;
-use Drupal\webform\Element\WebformLocation as WebformLocationElement;
 use Drupal\webform\WebformInterface;
 use Drupal\webform\WebformSubmissionInterface;
 
@@ -27,35 +25,25 @@ class WebformLocation extends WebformCompositeBase {
   /**
    * {@inheritdoc}
    */
-  protected function getCompositeElements() {
-    return WebformLocationElement::getCompositeElements();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function getInitializedCompositeElement(array &$element) {
-    $form_state = new FormState();
-    $form_completed = [];
-    return WebformLocationElement::processWebformComposite($element, $form_state, $form_completed);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getDefaultProperties() {
     $properties = [
-      'multiple' => FALSE,
       'title' => '',
-      // General settings.
-      'description' => '',
       'default_value' => [],
-      // For display.
+      'multiple' => FALSE,
+      // Description/Help.
+      'help' => '',
+      'description' => '',
+      'more' => '',
+      'more_title' => '',
+      // Form display.
       'title_display' => '',
       'description_display' => '',
+      'disabled' => FALSE,
       // Form validation.
       'required' => FALSE,
       'required_error' => '',
+      // Attributes.
+      'wrapper_attributes' => [],
       // Location settings.
       'geolocation' => FALSE,
       'hidden' => FALSE,
@@ -63,13 +51,21 @@ class WebformLocation extends WebformCompositeBase {
       'api_key' => '',
       // Submission display.
       'format' => $this->getItemDefaultFormat(),
+      'format_html' => '',
+      'format_text' => '',
       'format_items' => $this->getItemsDefaultFormat(),
+      'format_items_html' => '',
+      'format_items_text' => '',
     ] + $this->getDefaultBaseProperties();
 
     $composite_elements = $this->getCompositeElements();
     foreach ($composite_elements as $composite_key => $composite_element) {
       $properties[$composite_key . '__title'] = (string) $composite_element['#title'];
-      if ($composite_key != 'value') {
+      // The value is always visible and supports a custom placeholder.
+      if ($composite_key == 'value') {
+        $properties[$composite_key . '__placeholder'] = '';
+      }
+      else {
         $properties[$composite_key . '__access'] = FALSE;
       }
     }
@@ -79,9 +75,7 @@ class WebformLocation extends WebformCompositeBase {
   /**
    * {@inheritdoc}
    */
-  public function prepare(array &$element, WebformSubmissionInterface $webform_submission) {
-    parent::prepare($element, $webform_submission);
-
+  public function initialize(array &$element) {
     // Hide all composite elements by default.
     $composite_elements = $this->getCompositeElements();
     foreach ($composite_elements as $composite_key => $composite_element) {
@@ -89,6 +83,8 @@ class WebformLocation extends WebformCompositeBase {
         $element['#' . $composite_key . '__access'] = FALSE;
       }
     }
+
+    parent::initialize($element);
   }
 
   /**
@@ -103,7 +99,9 @@ class WebformLocation extends WebformCompositeBase {
   /**
    * {@inheritdoc}
    */
-  public function formatHtmlItem(array $element, $value, array $options = []) {
+  protected function formatHtmlItem(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
+    $value = $this->getValue($element, $webform_submission, $options);
+
     // Return empty value.
     if (empty($value) || empty(array_filter($value))) {
       return '';
@@ -114,7 +112,7 @@ class WebformLocation extends WebformCompositeBase {
       $google_map_url = UrlGenerator::fromUri('http://maps.google.com/', ['query' => ['q' => $value['value']]]);
 
       $location = $value['location'];
-      $key = (isset($element['#api_key'])) ? $element['#api_key'] : $this->configFactory->get('webform.settings')->get('elements.default_google_maps_api_key');
+      $key = (isset($element['#api_key'])) ? $element['#api_key'] : $this->configFactory->get('webform.settings')->get('element.default_google_maps_api_key');
       $center = urlencode($value['location']);
       $image_map_uri = "https://maps.googleapis.com/maps/api/staticmap?zoom=14&size=600x338&markers=color:red%7C$location&key=$key&center=$center";
 
@@ -141,8 +139,19 @@ class WebformLocation extends WebformCompositeBase {
       ];
     }
     else {
-      return parent::formatHtmlItems($element, $value, $options);
+      return parent::formatHtmlItem($element, $webform_submission, $options);
     }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function preview() {
+    return parent::preview() + [
+      '#map' => TRUE,
+      '#geolocation' => TRUE,
+      '#format' => 'map',
+    ];
   }
 
   /**
@@ -156,13 +165,13 @@ class WebformLocation extends WebformCompositeBase {
 
     $form['composite']['geolocation'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t("Use the browser's Geolocation as the default value."),
+      '#title' => $this->t("Use the browser's Geolocation as the default value"),
       '#description' => $this->t('The <a href="http://www.w3schools.com/html/html5_geolocation.asp">HTML Geolocation API</a> is used to get the geographical position of a user. Since this can compromise privacy, the position is not available unless the user approves it.'),
       '#return_value' => TRUE,
     ];
     $form['composite']['hidden'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t("Hide the location element and collect the browser's Geolocation in the background."),
+      '#title' => $this->t("Hide the location element and collect the browser's Geolocation in the background"),
       '#return_value' => TRUE,
       '#states' => [
         'visible' => [
@@ -189,15 +198,15 @@ class WebformLocation extends WebformCompositeBase {
       '#title' => $this->t('Google Maps API key'),
       '#description' => $this->t('Google requires users to use a valid API key. Using the <a href="https://console.developers.google.com/apis">Google API Manager</a>, you can enable the <em>Google Maps JavaScript API</em>. That will create (or reuse) a <em>Browser key</em> which you can paste here.'),
     ];
-    $default_api_key = \Drupal::config('webform.settings')->get('elements.default_google_maps_api_key');
+    $default_api_key = \Drupal::config('webform.settings')->get('element.default_google_maps_api_key');
     if ($default_api_key) {
-      $form['composite']['api_key']['#description'] .= '<br/>' . $this->t('Defaults to: %value', ['%value' => $default_api_key]);
+      $form['composite']['api_key']['#description'] .= '<br /><br />' . $this->t('Defaults to: %value', ['%value' => $default_api_key]);
     }
     else {
       $form['composite']['api_key']['#required'] = TRUE;
       if (\Drupal::currentUser()->hasPermission('administer webform')) {
-        $t_args = [':href' => UrlGenerator::fromRoute('webform.settings')->toString()];
-        $form['composite']['api_key']['#description'] .= '<br/>' . $this->t('You can either enter an element specific API key here or set the <a href=":href">default site-wide API key</a>.', $t_args);
+        $t_args = [':href' => UrlGenerator::fromRoute('webform.config.elements')->toString()];
+        $form['composite']['api_key']['#description'] .= '<br /><br />' . $this->t('You can either enter an element specific API key here or set the <a href=":href">default site-wide API key</a>.', $t_args);
       }
     }
 
@@ -210,7 +219,7 @@ class WebformLocation extends WebformCompositeBase {
   protected function buildCompositeElementsTable() {
     $header = [
       $this->t('Key'),
-      $this->t('Title'),
+      $this->t('Title/Placeholder'),
       $this->t('Visible'),
     ];
 
@@ -241,6 +250,13 @@ class WebformLocation extends WebformCompositeBase {
               '#placeholder' => $this->t('Enter title...'),
               '#attributes' => $attributes,
             ],
+            $composite_key . '__placeholder' => [
+              '#type' => 'textfield',
+              '#title' => $this->t('@title placeholder', $t_args),
+              '#title_display' => 'invisible',
+              '#placeholder' => $this->t('Enter placeholder...'),
+              '#attributes' => $attributes,
+            ],
           ],
         ];
       }
@@ -249,10 +265,20 @@ class WebformLocation extends WebformCompositeBase {
       }
 
       // Access.
-      $row[$composite_key . '__access'] = [
-        '#type' => 'checkbox',
-        '#return_value' => TRUE,
-      ];
+      if ($composite_key === 'value') {
+        $row[$composite_key . '__access'] = [
+          '#type' => 'checkbox',
+          '#default_value' => TRUE,
+          '#disabled' => TRUE,
+          '#access' => TRUE,
+        ];
+      }
+      else {
+        $row[$composite_key . '__access'] = [
+          '#type' => 'checkbox',
+          '#return_value' => TRUE,
+        ];
+      }
 
       $rows[$composite_key] = $row;
     }

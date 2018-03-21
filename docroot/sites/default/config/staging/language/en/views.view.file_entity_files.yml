@@ -43,7 +43,7 @@ display:
           separator: ', '
         count:
           label: 'Used in'
-          format_plural_string: "1 place\x03@count places"
+          format_plural_string: !!binary MSBwbGFjZQNAY291bnQgcGxhY2Vz
         operations:
           label: Operations
       filters:
@@ -92,7 +92,7 @@ display:
           label: 'Registering module'
         count:
           label: 'Use count'
-          format_plural_string: "1 place\x03@count places"
+          format_plural_string: !!binary MSBwbGFjZQNAY291bnQgcGxhY2Vz
       title: 'File usage'
       arguments:
         fid:

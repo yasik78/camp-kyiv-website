@@ -25,10 +25,12 @@ content:
     settings:
       trim_length: 600
     third_party_settings: {  }
+    region: content
   links:
     weight: 101
     settings: {  }
     third_party_settings: {  }
+    region: content
 hidden:
   field_meta_tags_basic_page: true
   field_subtitle_basic_page: true

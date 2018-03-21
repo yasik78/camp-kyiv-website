@@ -16,6 +16,7 @@ class WebformLocation extends WebformCompositeBase {
    */
   public function getInfo() {
     return parent::getInfo() + [
+      '#theme' => 'webform_composite_location',
       '#api_key' => '',
       '#hidden' => FALSE,
       '#geolocation' => FALSE,
@@ -26,7 +27,7 @@ class WebformLocation extends WebformCompositeBase {
   /**
    * {@inheritdoc}
    */
-  public static function getCompositeElements() {
+  public static function getCompositeElements(array $element) {
     // @see https://developers.google.com/maps/documentation/javascript/geocoding#GeocodingAddressTypes
     $attributes = [];
     $attributes['lat'] = [
@@ -46,6 +47,9 @@ class WebformLocation extends WebformCompositeBase {
     ];
     $attributes['street_number'] = [
       '#title' => t('Street Number'),
+    ];
+    $attributes['subpremise'] = [
+      '#title' => t('Unit'),
     ];
     $attributes['postal_code'] = [
       '#title' => t('Postal Code'),
@@ -95,7 +99,7 @@ class WebformLocation extends WebformCompositeBase {
 
     // Hide location element webform display only if #geolocation is also set.
     if (!empty($element['#hidden']) && !empty($element['#geolocation'])) {
-      $element['#attributes']['style'] = 'display: none';
+      $element['#wrapper_attributes']['style'] = 'display: none';
     }
 
     return $element;
@@ -106,22 +110,23 @@ class WebformLocation extends WebformCompositeBase {
    */
   public static function processWebformComposite(&$element, FormStateInterface $form_state, &$complete_form) {
     $element = parent::processWebformComposite($element, $form_state, $complete_form);
-
     // Composite elements should always be displayed and rendered so that
     // location data can be populated, so #access is really just converting the
     // readonly elements to hidden elements.
-    $composite_elements = static::getCompositeElements();
+    $composite_elements = static::getCompositeElements($element);
     foreach ($composite_elements as $composite_key => $composite_element) {
       if ($composite_key != 'value') {
         if (isset($element[$composite_key]['#access']) && $element[$composite_key]['#access'] === FALSE) {
           unset($element[$composite_key]['#access']);
+          unset($element[$composite_key]['#pre_render']);
           $element[$composite_key]['#type'] = 'hidden';
         }
         elseif (!empty($element['#hidden']) && !empty($element['#geolocation'])) {
+          unset($element[$composite_key]['#pre_render']);
           $element[$composite_key]['#type'] = 'hidden';
         }
         else {
-          $element[$composite_key]['#attributes']['class'][] = 'webform-readonly';
+          $element[$composite_key]['#wrapper_attributes']['class'][] = 'webform-readonly';
           $element[$composite_key]['#readonly'] = 'readonly';
         }
       }
@@ -142,21 +147,16 @@ class WebformLocation extends WebformCompositeBase {
       $element['value']['#attributes']['data-webform-location-map'] = 'data-webform-location-map';
     }
 
-    // Writing script tags (only once) directly into the page's output to ensure
-    // that Google Maps APi script is loaded using the proper API key.
-    static $google_api;
-    if (empty($google_api)) {
-      $api_key = (!empty($element['#api_key'])) ? $element['#api_key'] : \Drupal::config('webform.settings')->get('elements.default_google_maps_api_key');
-      $element['script'] = [
-        '#markup' => '<script src="https://maps.googleapis.com/maps/api/js?key=' . $api_key . '&libraries=places"></script>',
-        '#allowed_tags' => ['script'],
-      ];
-      $google_api = TRUE;
-    }
+    // Add Google Maps API key which is required by
+    // https://maps.googleapis.com/maps/api/js?key=API_KEY&libraries=places
+    // @see webform_js_alter()
+    $api_key = (!empty($element['#api_key'])) ? $element['#api_key'] : \Drupal::config('webform.settings')->get('element.default_google_maps_api_key');
+    $element['#attached']['drupalSettings']['webform']['location']['google_maps_api_key'] = $api_key;
 
     $element['#attached']['library'][] = 'webform/webform.element.location';
 
-    $element['#element_validate'] = [[get_called_class(), 'validateWebformLocation']];
+    $element += ['#element_validate' => []];
+    array_unshift($element['#element_validate'], [get_called_class(), 'validateWebformLocation']);
 
     return $element;
   }
