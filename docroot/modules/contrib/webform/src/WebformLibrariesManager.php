@@ -2,7 +2,10 @@
 
 namespace Drupal\webform;
 
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Render\RendererInterface;
+use Drupal\Core\Serialization\Yaml;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use Drupal\webform\Utility\WebformArrayHelper;
@@ -20,6 +23,20 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
    * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
   protected $configFactory;
+
+  /**
+   * The module handler.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
+
+  /**
+   * The renderer.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected $renderer;
 
   /**
    * Libraries that provides additional functionality to the Webform module.
@@ -40,9 +57,16 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration object factory.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The module handler.
+   * @param \Drupal\Core\Render\RendererInterface $renderer
+   *   The renderer.
    */
-  public function __construct(ConfigFactoryInterface $config_factory) {
+  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandlerInterface $module_handler, RendererInterface $renderer) {
     $this->configFactory = $config_factory;
+    $this->moduleHandler = $module_handler;
+    $this->renderer = $renderer;
+
     $this->libraries = $this->initLibraries();
     $this->excludedLibraries = $this->initExcludedLibraries();
   }
@@ -51,10 +75,25 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
    * {@inheritdoc}
    */
   public function requirements($cli = FALSE) {
-    $cdn = $this->configFactory->get('webform.settings')->get('libraries.cdn', FALSE);
+    $cdn = $this->configFactory->get('webform.settings')->get('requirements.cdn') ?: FALSE;
 
-    $status = [];
     $libraries = $this->getLibraries();
+
+    // Track stats.
+    $severity = REQUIREMENT_OK;
+    $stats = [
+      '@total' => count($libraries),
+      '@installed' => 0,
+      '@excluded' => 0,
+      '@missing' => 0,
+    ];
+
+    // Build library info array.
+    $info = [
+      '#prefix' => '<p><hr/></p><dl>',
+      '#suffix' => '</dl>',
+    ];
+
     foreach ($libraries as $library_name => $library) {
       $library_path = '/libraries/' . $library_name;
       $library_exists = (file_exists(DRUPAL_ROOT . $library_path)) ? TRUE : FALSE;
@@ -65,14 +104,16 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
         '@path' => $library_path,
         ':download_href' => $library['download_url']->toString(),
         ':homepage_href' => $library['homepage_url']->toString(),
-        ':install_href' => 'http://cgit.drupalcode.org/webform/tree/INSTALL.md?h=8.x-5.x',
         ':external_href' => 'https://www.drupal.org/docs/8/theming-drupal-8/adding-stylesheets-css-and-javascript-js-to-a-drupal-8-theme#external',
-        ':settings_libraries_href' => Url::fromRoute('webform.settings', [], ['fragment' => 'edit-libraries'])->toString(),
-        ':settings_elements_href' => Url::fromRoute('webform.settings', [], ['fragment' => 'edit-elements'])->toString(),
+        ':install_href' => ($this->moduleHandler->moduleExists('help')) ? Url::fromRoute('help.page', ['name' => 'webform'], ['fragment' => 'libraries'])->toString() : 'https://www.drupal.org/docs/8/modules/webform/webform-libraries',
+        ':settings_libraries_href' => Url::fromRoute('webform.config.libraries')->toString(),
+        ':settings_elements_href' => Url::fromRoute('webform.config.elements')->toString(),
       ];
 
       if ($this->isExcluded($library_name)) {
-        $value = $this->t('Excluded', $t_args);
+        // Excluded.
+        $stats['@excluded']++;
+        $title = $this->t('<strong>@title</strong> (Excluded)', $t_args);
         if (!empty($library['elements']) && $this->areElementsExcluded($library['elements'])) {
           $t_args['@element_type'] = implode('; ', $library['elements']);
           $description = $this->t('The <a href=":homepage_href">@title</a> library is excluded because required element types (@element_type) are <a href=":settings_elements_href">excluded</a>.', $t_args);
@@ -80,39 +121,63 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
         else {
           $description = $this->t('The <a href=":homepage_href">@title</a> library is <a href=":settings_libraries_href">excluded</a>.', $t_args);
         }
-        $severity = REQUIREMENT_OK;
       }
       elseif ($library_exists) {
-        $value = $this->t('@version (Installed)', $t_args);
+        // Installed.
+        $stats['@installed']++;
+        $title = $this->t('<strong>@title @version</strong> (Installed)', $t_args);
         $description = $this->t('The <a href=":homepage_href">@title</a> library is installed in <b>@path</b>.', $t_args);
-        $severity = REQUIREMENT_OK;
       }
       elseif ($cdn) {
-        $value = $this->t('@version (CDN).', $t_args);
-        $description = $this->t('The <a href=":homepage_href">@title</a> library is <a href=":external_href">externally hosted libraries</a> and loaded via a Content Delivery Network (CDN).', $t_args);
-        $severity = REQUIREMENT_OK;
-      }
-      else {
-        $value = $this->t('@version (CDN).', $t_args);
-        $build = [];
-        $build['download'] = ['#markup' => $this->t('Please download the <a href=":homepage_href">@title</a> library from <a href=":download_href">:download_href</a> and copy it to <b>@path</b> or use <a href=":install_href">Drush</a> to install this library.',  $t_args)];
-        if (!$cli) {
-          $build['cdn'] = ['#prefix' => ' ', '#markup' => $this->t('(<a href=":settings_libraries_href">Disable CDN warning</a>)', $t_args)];
-        }
-        $description = \Drupal::service('renderer')->renderPlain($build);
+        // Missing.
+        $stats['@missing']++;
+        $title = $this->t('<span class="color-warning"><strong>@title @version</strong> (CDN).</span>', $t_args);
+        $description = $this->t('Please download the <a href=":homepage_href">@title</a> library from <a href=":download_href">:download_href</a> and copy it to <b>@path</b> or use <a href=":install_href">Drush</a> to install this library.', $t_args);
         $severity = REQUIREMENT_WARNING;
       }
+      else {
+        // CDN.
+        $stats['@missing']++;
+        $title = $this->t('<strong>@title @version</strong> (CDN).', $t_args);
+        $description = $this->t('The <a href=":homepage_href">@title</a> library is <a href=":external_href">externally hosted libraries</a> and loaded via a Content Delivery Network (CDN).', $t_args);
+      }
 
-      $status['webform_library_' . $library_name] = [
-        'library' => $library ,
-        'title' => $this->t('Webform library: @title', $t_args),
-        'value' => $value,
-        'description' => $description,
-        'severity' => $severity,
+      $info[$library_name] = [];
+      $info[$library_name]['title'] = [
+        '#markup' => $title,
+        '#prefix' => '<dt>',
+        '#suffix' => '</dt>',
+      ];
+      $info[$library_name]['description'] = [
+        'content' => [
+          '#markup' => $description,
+        ],
+        'status' => (!empty($library['deprecated'])) ? [
+          '#markup' => $library['deprecated'],
+          '#prefix' => '<div class="color-warning"><strong>',
+          '#suffix' => '</strong></div>',
+        ] : [],
+        '#prefix' => '<dd>',
+        '#suffix' => '</dd>',
       ];
     }
 
-    return $status;
+    // Description.
+    $description = [
+      'info' => $info,
+    ];
+    if (!$cli && $severity == REQUIREMENT_WARNING) {
+      $description['cdn'] = ['#markup' => $this->t('<a href=":href">Disable CDN warning</a>', [':href' => Url::fromRoute('webform.config.advanced')->toString()])];
+    }
+
+    return [
+      'webform_libraries' => [
+        'title' => $this->t('Webform: External libraries'),
+        'value' => $this->t('@total libraries (@installed installed; @excluded excluded; @missing CDN)', $stats),
+        'description' => $this->renderer->renderPlain($description),
+        'severity' => $severity,
+      ],
+    ];
   }
 
   /**
@@ -185,23 +250,64 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
    *   An associative array containing libraries.
    */
   protected function initLibraries() {
+    // Get Drupal core's CKEditor version number.
+    $core_libraries = Yaml::decode(file_get_contents('core/core.libraries.yml'));
+    $ckeditor_version = $core_libraries['ckeditor']['version'];
+
     $libraries = [];
-    $libraries['ckeditor'] = [
-      'title' => $this->t('CKEditor'),
-      'description' => $this->t('The standard version of the CKEditor.'),
-      'notes' => $this->t("Allows the Webform module to implement a basic and simpler CKEditor which included CKEditor's default image and link dialogs."),
-      'homepage_url' => Url::fromUri('http://ckeditor.com/'),
-      'download_url' => Url::fromUri('https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.6.2/ckeditor_4.6.2_standard.zip'),
+    $libraries['ckeditor.autogrow'] = [
+      'title' => $this->t('CKEditor: Autogrow'),
+      'description' => $this->t('Automatically expand and shrink vertically depending on the amount and size of content entered in its editing area.'),
+      'notes' => $this->t('Allows CKEditor to automatically expand and shrink vertically.'),
+      'homepage_url' => Url::fromUri('https://ckeditor.com/addon/autogrow'),
+      'download_url' => Url::fromUri("https://download.ckeditor.com/autogrow/releases/autogrow_$ckeditor_version.zip"),
+      'plugin_path' => 'libraries/ckeditor.autogrow/',
+      'plugin_url' => "https://cdn.rawgit.com/ckeditor/ckeditor-dev/$ckeditor_version/plugins/autogrow/",
+      'version' => $ckeditor_version,
+      'optional' => TRUE,
+    ];
+    $libraries['ckeditor.fakeobjects'] = [
+      'title' => $this->t('CKEditor: Fakeobjects'),
+      'description' => $this->t('Utility required by CKEditor link plugin.'),
+      'notes' => $this->t('Allows CKEditor to use basic image and link dialog.'),
+      'homepage_url' => Url::fromUri('https://ckeditor.com/addon/fakeobjects'),
+      'download_url' => Url::fromUri("https://download.ckeditor.com/fakeobjects/releases/fakeobjects_$ckeditor_version.zip"),
+      'plugin_path' => 'libraries/ckeditor.fakeobjects/',
+      'plugin_url' => "https://cdn.rawgit.com/ckeditor/ckeditor-dev/$ckeditor_version/plugins/fakeobjects/",
+      'version' => $ckeditor_version,
+      'optional' => TRUE,
+    ];
+    $libraries['ckeditor.image'] = [
+      'title' => $this->t('CKEditor: Image'),
+      'description' => $this->t('Provides a basic image dialog for CKEditor.'),
+      'notes' => $this->t('Allows CKEditor to use basic image dialog, which is not included in Drupal core.'),
+      'homepage_url' => Url::fromUri('https://ckeditor.com/addon/image'),
+      'download_url' => Url::fromUri("https://download.ckeditor.com/image/releases/image_$ckeditor_version.zip"),
+      'plugin_path' => 'libraries/ckeditor.image/',
+      'plugin_url' => "https://cdn.rawgit.com/ckeditor/ckeditor-dev/$ckeditor_version/plugins/image/",
+      'version' => $ckeditor_version,
+      'optional' => TRUE,
+    ];
+    $libraries['ckeditor.link'] = [
+      'title' => $this->t('CKEditor: Link'),
+      'description' => $this->t('Provides a basic link dialog for CKEditor.'),
+      'notes' => $this->t('Allows CKEditor to use basic link dialog, which is not included in Drupal core.'),
+      'homepage_url' => Url::fromUri('https://ckeditor.com/addon/link'),
+      'download_url' => Url::fromUri('https://download.ckeditor.com/link/releases/link_4.6.2.zip'),
+      'plugin_path' => 'libraries/ckeditor.link/',
+      'plugin_url' => "https://cdn.rawgit.com/ckeditor/ckeditor-dev/$ckeditor_version/plugins/link/",
       'version' => '4.6.2',
       'optional' => TRUE,
     ];
-    $libraries['ckeditor_autogrow'] = [
-      'title' => $this->t('CKEditor: Autogrow'),
-      'description' => $this->t('Allows CKEditor to expand and shrink depending on the amount and size of content.'),
-      'notes' => $this->t('Autogrown make it possible to reduce the size of empty HTML editor while still supporting HTML markup.'),
-      'homepage_url' => Url::fromUri('http://ckeditor.com/addon/autogrow'),
-      'download_url' => Url::fromUri('https://cdn.rawgit.com/ckeditor/ckeditor-dev/4.6.2/plugins/autogrow/plugin.js'),
-      'version' => '4.6.2',
+    $libraries['ckeditor.codemirror'] = [
+      'title' => $this->t('CKEditor: CodeMirror'),
+      'description' => $this->t('Provides syntax highlighting for the CKEditor with the CodeMirror Plugin.'),
+      'notes' => $this->t('Makes it easier to edit the HTML source.'),
+      'homepage_url' => Url::fromUri('https://github.com/w8tcha/CKEditor-CodeMirror-Plugin'),
+      'download_url' => Url::fromUri('https://github.com/w8tcha/CKEditor-CodeMirror-Plugin/releases/download/v1.17.3/CKEditor-CodeMirror-Plugin.zip'),
+      'plugin_path' => 'libraries/ckeditor.codemirror/codemirror/',
+      'plugin_url' => "https://cdn.rawgit.com/w8tcha/CKEditor-CodeMirror-Plugin/v1.17.3/codemirror/",
+      'version' => 'v1.17.3',
       'optional' => TRUE,
     ];
     $libraries['codemirror'] = [
@@ -209,8 +315,8 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
       'description' => $this->t('Code Mirror is a versatile text editor implemented in JavaScript for the browser.'),
       'notes' => $this->t('Code Mirror is used to provide a text editor for YAML, HTML, CSS, and JavaScript configuration settings and messages.'),
       'homepage_url' => Url::fromUri('http://codemirror.net/'),
-      'download_url' => Url::fromUri('https://github.com/components/codemirror/archive/5.21.0.zip'),
-      'version' => '5.24.0',
+      'download_url' => Url::fromUri('https://github.com/components/codemirror/archive/5.31.0.zip'),
+      'version' => '5.31.0',
       'optional' => TRUE,
     ];
     $libraries['jquery.geocomplete'] = [
@@ -230,23 +336,15 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
       'download_url' => Url::fromUri('https://github.com/fronteed/icheck/archive/1.0.2.zip'),
       'version' => '1.0.2 ',
       'optional' => TRUE,
-    ];
-    $libraries['jquery.image-picker'] = [
-      'title' => $this->t('jQuery: Image Picker'),
-      'description' => $this->t('A simple jQuery plugin that transforms a select element into a more user friendly graphical interface.'),
-      'notes' => $this->t('Image Picker is used by the Image select element.'),
-      'homepage_url' => Url::fromUri('https://rvera.github.io/image-picker/'),
-      'download_url' => Url::fromUri('https://github.com/rvera/image-picker/archive/0.3.0.zip'),
-      'version' => '0.3.0',
-      'elements' => ['webform_image_select'],
+      'deprecated' => $this->t('The iCheck library is not being maintained and has been <a href=":href">deprecated</a>. It wil be removed before Webform 8.x-5.0.', [':href' => 'https://www.drupal.org/project/webform/issues/2931154']),
     ];
     $libraries['jquery.inputmask'] = [
       'title' => $this->t('jQuery: Input Mask'),
       'description' => $this->t('Input masks ensures a predefined format is entered. This can be useful for dates, numerics, phone numbers, etc...'),
       'notes' => $this->t('Input masks are used to ensure predefined and custom formats for text fields.'),
-      'homepage_url' => Url::fromUri('http://robinherbots.github.io/jquery.inputmask/'),
-      'download_url' => Url::fromUri('https://github.com/RobinHerbots/jquery.inputmask/archive/3.3.3.zip'),
-      'version' => '3.3.3',
+      'homepage_url' => Url::fromUri('https://robinherbots.github.io/Inputmask/'),
+      'download_url' => Url::fromUri('https://github.com/RobinHerbots/jquery.inputmask/archive/3.3.10.zip'),
+      'version' => '3.3.10',
       'optional' => TRUE,
     ];
     $libraries['jquery.intl-tel-input'] = [
@@ -254,8 +352,8 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
       'description' => $this->t("A jQuery plugin for entering and validating international telephone numbers. It adds a flag dropdown to any input, detects the user's country, displays a relevant placeholder and provides formatting/validation methods."),
       'notes' => $this->t('International Telephone Input is used by the Telephone element.'),
       'homepage_url' => Url::fromUri('https://github.com/jackocnr/intl-tel-input'),
-      'download_url' => Url::fromUri('https://github.com/jackocnr/intl-tel-input/archive/v11.0.0.zip'),
-      'version' => 'v11.0.0',
+      'download_url' => Url::fromUri('https://github.com/jackocnr/intl-tel-input/archive/v12.1.0.zip'),
+      'version' => '12.1.0',
       'optional' => TRUE,
     ];
     $libraries['jquery.rateit'] = [
@@ -272,8 +370,8 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
       'description' => $this->t('Select2 gives you a customizable select box with support for searching and tagging.'),
       'notes' => $this->t('Select2 is used to improve the user experience for select menus. Select2 is the recommended select menu enhancement library.'),
       'homepage_url' => Url::fromUri('https://select2.github.io/'),
-      'download_url' => Url::fromUri('https://github.com/select2/select2/archive/4.0.3.zip'),
-      'version' => '4.0.3',
+      'download_url' => Url::fromUri('https://github.com/select2/select2/archive/4.0.5.zip'),
+      'version' => '4.0.5',
       'optional' => TRUE,
     ];
     $libraries['jquery.chosen'] = [
@@ -281,8 +379,8 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
       'description' => $this->t('A jQuery plugin that makes long, unwieldy select boxes much more user-friendly.'),
       'notes' => $this->t('Chosen is used to improve the user experience for select menus. Chosen is an alternative to Select2.'),
       'homepage_url' => Url::fromUri('https://harvesthq.github.io/chosen/'),
-      'download_url' => Url::fromUri('https://github.com/harvesthq/chosen/releases/download/v1.7.0/chosen_v1.7.0.zip'),
-      'version' => 'v1.7.0',
+      'download_url' => Url::fromUri('https://github.com/harvesthq/chosen/releases/download/v1.8.2/chosen_v1.8.2.zip'),
+      'version' => '1.8.2',
       'optional' => TRUE,
     ];
     $libraries['jquery.timepicker'] = [
@@ -290,8 +388,8 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
       'description' => $this->t('A lightweight, customizable javascript timepicker plugin for jQuery, inspired by Google Calendar.'),
       'notes' => $this->t('Timepicker is used to provide a polyfill for HTML 5 time elements.'),
       'homepage_url' => Url::fromUri('https://github.com/jonthornton/jquery-timepicker'),
-      'download_url' => Url::fromUri('https://github.com/jonthornton/jquery-timepicker/archive/1.11.10.zip'),
-      'version' => '1.11.10',
+      'download_url' => Url::fromUri('https://github.com/jonthornton/jquery-timepicker/archive/1.11.12.zip'),
+      'version' => '1.11.12',
       'optional' => TRUE,
     ];
     $libraries['jquery.toggles'] = [
@@ -300,7 +398,7 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
       'notes' => $this->t('Toggles is used to provide a toggle element.'),
       'homepage_url' => Url::fromUri('https://github.com/simontabor/jquery-toggles/'),
       'download_url' => Url::fromUri('https://github.com/simontabor/jquery-toggles/archive/v4.0.0.zip'),
-      'version' => 'v4.0.0',
+      'version' => '4.0.0',
       'elements' => ['webform_toggle', 'webform_toggles'],
     ];
     $libraries['jquery.word-and-character-counter'] = [
@@ -308,8 +406,17 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
       'description' => $this->t('The jQuery word and character counter plug-in allows you to count characters or words'),
       'notes' => $this->t('Word or character counting, with server-side validation, is available for text fields and text areas.'),
       'homepage_url' => Url::fromUri('https://github.com/qwertypants/jQuery-Word-and-Character-Counter-Plugin'),
-      'download_url' => Url::fromUri('https://github.com/qwertypants/jQuery-Word-and-Character-Counter-Plugin/archive/2.3.5.zip'),
-      'version' => '1.6.0',
+      'download_url' => Url::fromUri('https://github.com/qwertypants/jQuery-Word-and-Character-Counter-Plugin/archive/2.5.1.zip'),
+      'version' => '2.5.1',
+      'optional' => TRUE,
+    ];
+    $libraries['progress-tracker'] = [
+      'title' => $this->t('Progress Tracker'),
+      'description' => $this->t("A flexible SASS component to illustrate the steps in a multi step process e.g. a multi step form, a timeline or a quiz."),
+      'notes' => $this->t('Progress Tracker is used by multi-step wizard forms.'),
+      'homepage_url' => Url::fromUri('http://nigelotoole.github.io/progress-tracker/'),
+      'download_url' => Url::fromUri('https://github.com/NigelOToole/progress-tracker/archive/v1.4.0.zip'),
+      'version' => '1.4.0',
       'optional' => TRUE,
     ];
     $libraries['signature_pad'] = [
@@ -317,10 +424,24 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
       'description' => $this->t("Signature Pad is a JavaScript library for drawing smooth signatures. It is HTML5 canvas based and uses variable width Bézier curve interpolation. It works in all modern desktop and mobile browsers and doesn't depend on any external libraries."),
       'notes' => $this->t('Signature Pad is used to provide a signature element.'),
       'homepage_url' => Url::fromUri('https://github.com/szimek/signature_pad'),
-      'download_url' => Url::fromUri('https://github.com/szimek/signature_pad/archive/v1.5.3.zip'),
-      'version' => '1.5.3',
+      'download_url' => Url::fromUri('https://github.com/szimek/signature_pad/archive/v2.3.0.zip'),
+      'version' => '2.3.0',
       'elements' => ['webform_signature'],
     ];
+
+    // Allow other modules to define webform libraries.
+    foreach ($this->moduleHandler->getImplementations('webform_libraries_info') as $module) {
+      foreach ($this->moduleHandler->invoke($module, 'webform_libraries_info') as $library_name => $library) {
+        $libraries[$library_name] = $library;
+      }
+    }
+
+    // Allow other modules to alter webform libraries.
+    $this->moduleHandler->alter('webform_libraries_info', $libraries);
+
+    // Sort libraries by key.
+    ksort($libraries);
+
     return $libraries;
   }
 
@@ -340,7 +461,7 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
     }
 
     // Get excluded libraries based on excluded (element) types.
-    foreach($this->libraries as $library_name => $library) {
+    foreach ($this->libraries as $library_name => $library) {
       if (!empty($library['elements']) && $this->areElementsExcluded($library['elements'])) {
         $excluded_libraries[$library_name] = $library_name;
       }
@@ -359,10 +480,11 @@ class WebformLibrariesManager implements WebformLibrariesManagerInterface {
    *   TRUE if a library's elements are excluded.
    */
   protected function areElementsExcluded(array $elements) {
-    $excluded_types = $this->configFactory->get('webform.settings')->get('elements.excluded_types');
-    if (!$excluded_types) {
+    $excluded_elements = $this->configFactory->get('webform.settings')->get('element.excluded_elements');
+    if (!$excluded_elements) {
       return FALSE;
     }
-    return WebformArrayHelper::keysExist($excluded_types, $elements);
+    return WebformArrayHelper::keysExist($excluded_elements, $elements);
   }
+
 }

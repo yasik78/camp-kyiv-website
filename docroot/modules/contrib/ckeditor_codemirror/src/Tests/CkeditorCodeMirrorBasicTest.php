@@ -28,7 +28,8 @@ class CkeditorCodeMirrorBasicTest extends WebTestBase {
 
   /**
    * User with permissions.
-   * @var
+   *
+   * @var \Drupal\user\UserInterface
    */
   protected $privilegedUser;
 
@@ -113,4 +114,5 @@ class CkeditorCodeMirrorBasicTest extends WebTestBase {
       $this->assertTrue($ckeditor_enabled);
     }
   }
+
 }

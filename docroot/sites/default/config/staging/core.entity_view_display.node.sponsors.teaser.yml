@@ -5,6 +5,12 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.sponsors.body
+    - field.field.node.sponsors.field_e_mail
+    - field.field.node.sponsors.field_logo
+    - field.field.node.sponsors.field_meta_tags_sponsors
+    - field.field.node.sponsors.field_sponsor_web_site
+    - field.field.node.sponsors.field_status
+    - field.field.node.sponsors.field_summury
     - node.type.sponsors
   module:
     - text
@@ -21,11 +27,14 @@ content:
     settings:
       trim_length: 600
     third_party_settings: {  }
+    region: content
   links:
     weight: 100
+    region: content
 hidden:
   field_e_mail: true
   field_logo: true
+  field_meta_tags_sponsors: true
   field_sponsor_web_site: true
   field_status: true
   field_summury: true

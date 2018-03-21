@@ -12,7 +12,7 @@ dependencies:
     - dc17_bootstrap
 id: statisponsorom_2
 theme: dc17_bootstrap
-region: '-1'
+region: navigation
 weight: -14
 provider: null
 plugin: 'block_content:47871cee-dba7-4c66-9b7b-a16f458ebf84'

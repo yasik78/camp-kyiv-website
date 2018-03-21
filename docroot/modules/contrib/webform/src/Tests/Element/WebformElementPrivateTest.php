@@ -3,14 +3,13 @@
 namespace Drupal\webform\Tests\Element;
 
 use Drupal\webform\Entity\Webform;
-use Drupal\webform\Tests\WebformTestBase;
 
 /**
  * Tests for webform element private.
  *
  * @group Webform
  */
-class WebformElementPrivateTest extends WebformTestBase {
+class WebformElementPrivateTest extends WebformElementTestBase {
 
   /**
    * Webforms to load.
@@ -37,7 +36,7 @@ class WebformElementPrivateTest extends WebformTestBase {
 
     // Create a webform submission.
     $this->drupalLogin($this->normalUser);
-    $sid = $this->postSubmission($webform);
+    $this->postSubmission($webform);
 
     // Check element with #private property hidden for normal user.
     $this->drupalLogin($this->normalUser);
@@ -45,7 +44,7 @@ class WebformElementPrivateTest extends WebformTestBase {
     $this->assertNoFieldByName('private', '');
 
     // Check element with #private property visible for admin user.
-    $this->drupalLogin($this->adminWebformUser);
+    $this->drupalLogin($this->rootUser);
     $this->drupalGet('webform/test_element_private');
     $this->assertFieldByName('private', '');
   }

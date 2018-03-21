@@ -25,12 +25,14 @@ content:
       target: ''
     third_party_settings: {  }
     type: link
+    region: content
   field_button_s_signature:
     weight: 1
     label: hidden
     settings: {  }
     third_party_settings: {  }
     type: text_default
+    region: content
 hidden:
   created: true
   uid: true

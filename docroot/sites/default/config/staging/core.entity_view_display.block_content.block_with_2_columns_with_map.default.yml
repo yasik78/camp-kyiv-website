@@ -22,6 +22,7 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: list_default
+    region: content
   field_button:
     weight: 3
     label: hidden
@@ -30,6 +31,7 @@ content:
       link: ''
     third_party_settings: {  }
     type: entity_reference_revisions_entity_view
+    region: content
   field_editor:
     weight: 2
     label: hidden
@@ -38,6 +40,7 @@ content:
       link: ''
     third_party_settings: {  }
     type: entity_reference_revisions_entity_view
+    region: content
   field_map:
     type: entity_reference_revisions_entity_view
     weight: 4
@@ -46,5 +49,6 @@ content:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    region: content
 hidden:
   langcode: true

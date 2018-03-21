@@ -12,7 +12,7 @@ _core:
   default_config_hash: rx9IrdDv7Ldc4kpalZAxdhIPZfYIeOMh1N-qKoQZwHo
 id: dc17_bootstrap_main_menu
 theme: dc17_bootstrap
-region: '-1'
+region: navigation
 weight: -23
 provider: null
 plugin: 'system_menu_block:main'

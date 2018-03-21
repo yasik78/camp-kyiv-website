@@ -5,6 +5,10 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.speaker.body
+    - field.field.node.speaker.field_company
+    - field.field.node.speaker.field_image
+    - field.field.node.speaker.field_position
+    - field.field.node.speaker.field_social_links
     - node.type.speaker
   module:
     - text
@@ -21,8 +25,10 @@ content:
     settings:
       trim_length: 600
     third_party_settings: {  }
+    region: content
   links:
     weight: 100
+    region: content
 hidden:
   field_company: true
   field_image: true

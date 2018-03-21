@@ -15,7 +15,7 @@ dependencies:
     - text
     - user
 id: news
-label: News
+label: Новини
 module: views
 description: 'displaying all news'
 tag: ''
@@ -64,8 +64,8 @@ display:
           tags:
             previous: ‹‹
             next: ››
-            first: '« First'
-            last: 'Last »'
+            first: '« Перша'
+            last: 'Остання »'
           expose:
             items_per_page: false
             items_per_page_label: 'Items per page'
@@ -88,7 +88,7 @@ display:
         path:
           id: path
           table: node
-          field: path
+          field: view_node
           relationship: none
           group_type: group
           admin_label: ''
@@ -135,7 +135,8 @@ display:
           hide_alter_empty: true
           absolute: false
           entity_type: node
-          plugin_id: node_path
+          plugin_id: entity_link
+          output_url_as_text: true
         field_news_date:
           id: field_news_date
           table: node__field_news_date
@@ -339,7 +340,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"news__wrapper\">\n\t<a href=\"{{ path }}\"> {{ 'More'|t }}</a>\n        <a href=\"{{ path }}\"> \n\t{{ field_news_image }}\n        </a>\n\t<div class=\"date\">\n\t\t<span class=\"day\">{{ field_news_date }}</span>\n\t\t<span class=\"month\">{{ field_news_date_1 }}</span>\n\t\t<span class=\"year\">{{ field_news_date_2 }}</span>\n\t</div>\n\t\n</div>\n"
+            text: "<div class=\"news__wrapper\">\r\n\t<a href=\"{{ path }} \"> {{ 'More'|t }}</a>\r\n\r\n\t<a href=\"{{ path }}\"> \n\t{{ field_news_image }}\n</a>\r\n\r\n\t<div class=\"date\">\r\n\t\t<span class=\"day\">{{ field_news_date }}</span>\r\n\t\t<span class=\"month\">{{ field_news_date_1 }}</span>\r\n\t\t<span class=\"year\">{{ field_news_date_2 }}</span>\r\n\t</div>\r\n\t\r\n</div>\r\n"
             make_link: false
             path: ''
             absolute: false
@@ -597,7 +598,7 @@ display:
           entity_type: node
           entity_field: created
           plugin_id: date
-      title: News
+      title: Новини
       header: {  }
       footer: {  }
       empty: {  }

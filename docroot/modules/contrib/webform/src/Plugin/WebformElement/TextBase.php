@@ -4,7 +4,7 @@ namespace Drupal\webform\Plugin\WebformElement;
 
 use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\webform\WebformElementBase;
+use Drupal\webform\Plugin\WebformElementBase;
 use Drupal\webform\WebformSubmissionInterface;
 
 /**
@@ -16,24 +16,37 @@ abstract class TextBase extends WebformElementBase {
    * {@inheritdoc}
    */
   public function getDefaultProperties() {
-    return parent::getDefaultProperties() + [
+    return [
+      'readonly' => FALSE,
       'size' => '',
       'minlength' => '',
       'maxlength' => '',
       'placeholder' => '',
       'autocomplete' => 'on',
       'pattern' => '',
-    ];
+    ] + parent::getDefaultProperties();
   }
 
   /**
    * {@inheritdoc}
    */
-  public function prepare(array &$element, WebformSubmissionInterface $webform_submission) {
+  public function getTranslatableProperties() {
+    return array_merge(parent::getTranslatableProperties(), ['counter_message']);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function prepare(array &$element, WebformSubmissionInterface $webform_submission = NULL) {
     parent::prepare($element, $webform_submission);
 
     // Counter.
     if (!empty($element['#counter_type']) && !empty($element['#counter_maximum']) && $this->librariesManager->isIncluded('jquery.word-and-character-counter')) {
+
+      if ($element['#counter_type'] == 'character') {
+        $element['#maxlength'] = $element['#counter_maximum'];
+      }
+
       $element['#attributes']['data-counter-type'] = $element['#counter_type'];
       $element['#attributes']['data-counter-limit'] = $element['#counter_maximum'];
       if (!empty($element['#counter_message'])) {
@@ -78,47 +91,51 @@ abstract class TextBase extends WebformElementBase {
       '#other__option_label' => $this->t('Custom...'),
       '#other__placeholder' => $this->t('Enter input mask...'),
       '#other__description' => $this->t('(9 = numeric; a = alphabetical; * = alphanumeric)'),
+      '#empty_option' => $this->t('- None -'),
       '#options' => [
-        '' => '',
         'Basic' => [
           "'alias': 'currency'" => $this->t('Currency - @format', ['@format' => '$ 9.99']),
           "'alias': 'mm/dd/yyyy'" => $this->t('Date - @format', ['@format' => 'mm/dd/yyyy']),
+          "'alias': 'decimal'" => $this->t('Decimal - @format', ['@format' => '1.234']),
           "'alias': 'email'" => $this->t('Email - @format', ['@format' => 'example@example.com']),
           "'alias': 'percentage'" => $this->t('Percentage - @format', ['@format' => '99%']),
           '(999) 999-9999' => $this->t('Phone - @format', ['@format' => '(999) 999-9999']),
           '99999[-9999]' => $this->t('Zip code - @format', ['@format' => '99999[-9999]']),
         ],
         'Advanced' => [
-          "'alias': 'ip'" => 'IP address - 255.255.255.255',
-          '[9-]AAA-999' => 'License plate - [9-]AAA-999',
-          "'alias': 'mac'" => 'MAC addresses - 99-99-99-99-99-99',
-          '999-99-9999' => 'SSN - 999-99-9999',
+          "'alias': 'ip'" => $this->t('IP address - @format', ['@format' => '255.255.255.255']),
+          '[9-]AAA-999' => $this->t('License plate - @format', ['@format' => '[9-]AAA-999']),
+          "'alias': 'mac'" => $this->t('MAC addresses - @format', ['@format' => '99-99-99-99-99-99']),
+          '999-99-9999' => $this->t('SSN - @format', ['@format' => '999-99-9999']),
           "'alias': 'vin'" => 'VIN (Vehicle identification number)',
         ],
       ],
-      '#access' => $this->librariesManager->isIncluded('jquery.inputmask'),
     ];
+    if ($this->librariesManager->isExcluded('jquery.inputmask')) {
+      $form['form']['input_mask']['#access'] = FALSE;
+    }
 
     // Pattern.
     $form['validation']['pattern'] = [
-      '#type' => 'textfield',
+      '#type' => 'webform_checkbox_value',
       '#title' => $this->t('Pattern'),
       '#description' => $this->t('A <a href=":href">regular expression</a> that the element\'s value is checked against.', [':href' => 'http://www.w3schools.com/js/js_regexp.asp']),
+      '#value__title' => $this->t('Pattern regular expression'),
     ];
 
     // Counter.
-    $form['validation']['counter_type'] = [
+    $form['validation']['counter_container'] = $this->getFormInlineContainer();
+    $form['validation']['counter_container']['counter_type'] = [
       '#type' => 'select',
       '#title' => $this->t('Count'),
       '#description' => $this->t('Limit entered value to a maximum number of characters or words.'),
+      '#empty_option' => $this->t('- None -'),
       '#options' => [
-        '' => '',
         'character' => $this->t('Characters'),
         'word' => $this->t('Words'),
       ],
-      '#access' => $this->librariesManager->isIncluded('jquery.word-and-character-counter'),
     ];
-    $form['validation']['counter_maximum'] = [
+    $form['validation']['counter_container']['counter_maximum'] = [
       '#type' => 'number',
       '#title' => $this->t('Count maximum'),
       '#min' => 1,
@@ -130,7 +147,6 @@ abstract class TextBase extends WebformElementBase {
           ':input[name="properties[counter_type]"]' => ['value' => ''],
         ],
       ],
-      '#access' => $this->librariesManager->isIncluded('jquery.word-and-character-counter'),
     ];
     $form['validation']['counter_message'] = [
       '#type' => 'textfield',
@@ -141,8 +157,20 @@ abstract class TextBase extends WebformElementBase {
           ':input[name="properties[counter_type]"]' => ['value' => ''],
         ],
       ],
-      '#access' => $this->librariesManager->isIncluded('jquery.word-and-character-counter'),
     ];
+    if ($this->librariesManager->isExcluded('jquery.word-and-character-counter')) {
+      $form['validation']['counter_container']['#access'] = FALSE;
+      $form['validation']['counter_message']['#access'] = FALSE;
+    }
+
+    if (isset($form['form']['maxlength'])) {
+      $form['form']['maxlength']['#description'] .= ' ' . $this->t('If character counter is enabled, maxlength will automatically be set to the count maximum.');
+      $form['form']['maxlength']['#states'] = [
+        'invisible' => [
+          ':input[name="properties[counter_type]"]' => ['value' => 'character'],
+        ],
+      ];
+    }
 
     return $form;
   }
@@ -154,24 +182,35 @@ abstract class TextBase extends WebformElementBase {
     $name = $element['#name'];
     $value = $form_state->getValue($name);
     $type = $element['#counter_type'];
-    $limit = $element['#counter_maximum'];
+    $max = $element['#counter_maximum'];
 
     // Validate character count.
-    if ($type == 'character' && Unicode::strlen($value) <= $limit) {
-      return;
+    if ($type == 'character') {
+      $length = Unicode::strlen($value);
+      if ($length <= $max) {
+        return;
+      }
     }
     // Validate word count.
-    elseif ($type == 'word' && str_word_count($value) <= $limit) {
+    elseif ($type == 'word') {
+      $length = str_word_count($value);
+      if ($length <= $max) {
+        return;
+      }
+    }
+    else {
       return;
     }
 
     // Display error.
+    // @see \Drupal\Core\Form\FormValidator::performRequiredValidation
     $t_args = [
-      '%name' => $name,
-      '@limit' => $limit,
+      '@name' => $element['#title'],
+      '%max' => $max,
       '@type' => ($type == 'character') ? t('characters') : t('words'),
+      '%length' => $length,
     ];
-    $form_state->setError($element, t('%name must be less than @limit @type.', $t_args));
+    $form_state->setError($element, t('@name cannot be longer than %max @type but is currently %length @type long.', $t_args));
   }
 
   /**

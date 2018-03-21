@@ -1,4 +1,0 @@
-label: Size
-description: 'This field stores the size of the document file.'
-settings:
-  suffix: byte|bytes

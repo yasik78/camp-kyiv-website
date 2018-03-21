@@ -2,8 +2,10 @@
 
 namespace Drupal\webform\Form;
 
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides the webform filter webform.
@@ -15,6 +17,32 @@ class WebformEntityFilterForm extends FormBase {
    */
   public function getFormId() {
     return 'webform_filter_form';
+  }
+
+  /**
+   * The webform storage.
+   *
+   * @var \Drupal\webform\WebformEntityStorageInterface
+   */
+  protected $webformStorage;
+
+  /**
+   * Constructs a WebformResultsCustomForm object.
+   *
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
+   */
+  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
+    $this->webformStorage = $entity_type_manager->getStorage('webform');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('entity_type.manager')
+    );
   }
 
   /**
@@ -30,21 +58,19 @@ class WebformEntityFilterForm extends FormBase {
     ];
     $form['filter']['search'] = [
       '#type' => 'search',
-      '#title' => $this->t('Filter by title, description, or elements'),
+      '#title' => $this->t('Filter by title, description, elements, user name, or role'),
       '#title_display' => 'invisible',
       '#autocomplete_route_name' => 'entity.webform.autocomplete',
-      '#placeholder' => $this->t('Filter by title, description, or elements'),
+      '#placeholder' => $this->t('Filter by title, description, elements, user name, or role'),
       '#maxlength' => 128,
-      '#size' => 40,
+      '#size' => 45,
       '#default_value' => $search,
     ];
-    /** @var \Drupal\webform\WebformEntityStorageInterface $webform_storage */
-    $webform_storage = \Drupal::service('entity_type.manager')->getStorage('webform');
     $form['filter']['category'] = [
       '#type' => 'select',
       '#title' => $this->t('Category'),
       '#title_display' => 'invisible',
-      '#options' => $webform_storage->getCategories(FALSE),
+      '#options' => $this->webformStorage->getCategories(FALSE),
       '#empty_option' => ($category) ? $this->t('Show all webforms') : $this->t('Filter by category'),
       '#default_value' => $category,
     ];

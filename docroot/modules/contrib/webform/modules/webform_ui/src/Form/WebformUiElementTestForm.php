@@ -8,6 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\webform\Entity\Webform;
 use Drupal\webform\Entity\WebformSubmission;
+use Drupal\webform\WebformInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -29,7 +30,7 @@ class WebformUiElementTestForm extends WebformUiElementFormBase {
   /**
    * A webform element.
    *
-   * @var \Drupal\webform\WebformElementInterface
+   * @var \Drupal\webform\Plugin\WebformElementInterface
    */
   protected $webformElement;
 
@@ -43,9 +44,9 @@ class WebformUiElementTestForm extends WebformUiElementFormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, $type = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, WebformInterface $webform = NULL, $key = NULL, $parent_key = NULL, $type = NULL) {
     // Create a temp webform.
-    $this->webform = Webform::create(['id' => 'webform_ui_element_test_form']);
+    $this->webform = Webform::create(['id' => '_webform_ui_temp_form']);
 
     $this->type = $type;
 
@@ -53,23 +54,21 @@ class WebformUiElementTestForm extends WebformUiElementFormBase {
       throw new NotFoundHttpException();
     }
 
-    if ($test_element = \Drupal::request()->getSession()->get('webform_ui_test_element_' . $type)) {
-      $this->element = $test_element;
+    if ($element = \Drupal::request()->getSession()->get('webform_ui_test_element_' . $type)) {
+      $this->element = $element;
     }
-    elseif (function_exists('_webform_test_get_example_element') && ($test_element = _webform_test_get_example_element($type))) {
-      $this->element = $test_element;
+    else {
+      $element = ['#type' => $type] + $this->getWebformElementPlugin()->preview();
+      $this->element = $element;
     }
-    $this->element['#type'] = $type;
 
-    $this->webformElement = $this->elementManager->getElementInstance($this->element);
-
+    $webform_element = $this->getWebformElementPlugin();
     $form['#title'] = $this->t('Test %type element', ['%type' => $type]);
 
-    if ($test_element) {
+    if ($element) {
       $webform_submission = WebformSubmission::create(['webform' => $this->webform]);
-      $this->webformElement->initialize($test_element);
-      $this->webformElement->initialize($this->element);
-      $this->webformElement->prepare($this->element, $webform_submission);
+      $webform_element->initialize($this->element);
+      $webform_element->prepare($this->element, $webform_submission);
 
       $form['test'] = [
         '#type' => 'details',
@@ -79,11 +78,11 @@ class WebformUiElementTestForm extends WebformUiElementFormBase {
           'style' => 'background-color: #f5f5f2',
         ],
         'element' => $this->element,
-        'hr' => ['#markup' => '<hr/>'],
+        'hr' => ['#markup' => '<hr />'],
       ];
 
-      if (isset($test_element['#default_value'])) {
-        $html = $this->webformElement->formatHtml($test_element, $test_element['#default_value']);
+      if (isset($element['#default_value'])) {
+        $html = $webform_element->formatHtml($element + ['#value' => $element['#default_value']], $webform_submission);
         $form['test']['html'] = [
           '#type' => 'item',
           '#title' => $this->t('HTML'),
@@ -93,7 +92,7 @@ class WebformUiElementTestForm extends WebformUiElementFormBase {
         $form['test']['text'] = [
           '#type' => 'item',
           '#title' => $this->t('Plain text'),
-          '#markup' => '<pre>' . $this->webformElement->formatText($test_element, $test_element['#default_value']) . '</pre>',
+          '#markup' => '<pre>' . $webform_element->formatText($element + ['#value' => $element['#default_value']], $webform_submission) . '</pre>',
           '#allowed_tag' => Xss::getAdminTagList(),
         ];
       }
@@ -104,7 +103,7 @@ class WebformUiElementTestForm extends WebformUiElementFormBase {
         'source' => [
           '#theme' => 'webform_codemirror',
           '#type' => 'yaml',
-          '#code' => Yaml::encode($this->convertTranslatableMarkupToStringRecursive($test_element)),
+          '#code' => Yaml::encode($this->convertTranslatableMarkupToStringRecursive($element)),
         ],
       ];
 
@@ -129,7 +128,7 @@ class WebformUiElementTestForm extends WebformUiElementFormBase {
       '#value' => '',
     ];
 
-    $form['properties'] = $this->webformElement->buildConfigurationForm([], $form_state);
+    $form['properties'] = $webform_element->buildConfigurationForm(['#tabs' => FALSE], $form_state);
     $form['properties']['#tree'] = TRUE;
     $form['properties']['custom']['#open'] = TRUE;
 
@@ -177,14 +176,14 @@ class WebformUiElementTestForm extends WebformUiElementFormBase {
     // Rebuild is throwing the below error.
     // LogicException: Settings can not be serialized.
     // $form_state->setRebuild();
-    // @todo Determine what object is being serialized with webform.
-
+    // @todo Determine what object is being serialized with webform
+    //
     // The webform element configuration is stored in the 'properties' key in
     // the webform, pass that through for submission.
     $element_form_state = clone $form_state;
     $element_form_state->setValues($form_state->getValue('properties'));
 
-    $properties = $this->webformElement->getConfigurationFormProperties($form, $element_form_state);
+    $properties = $this->getWebformElementPlugin()->getConfigurationFormProperties($form, $element_form_state);
 
     // Set #default_value using 'test' element value.
     if ($element_value = $form_state->getValue('element')) {
@@ -230,6 +229,18 @@ class WebformUiElementTestForm extends WebformUiElementFormBase {
       }
     }
     return $element;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getWebformElementPlugin() {
+    if (empty($this->element)) {
+      return $this->elementManager->getElementInstance(['#type' => $this->type]);
+    }
+    else {
+      return parent::getWebformElementPlugin();
+    }
   }
 
 }

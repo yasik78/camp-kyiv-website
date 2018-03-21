@@ -5,12 +5,11 @@ dependencies:
   module:
     - link
     - redirect
-    - system
     - user
 _core:
   default_config_hash: Tm6QoaGPvoGikEEJs6iuSB0LdSw3uzD9PPJ7DhkQJAg
 id: redirect
-label: Redirect
+label: Переспрямувати
 module: views
 description: 'List of redirects'
 tag: ''
@@ -21,7 +20,7 @@ display:
   default:
     display_plugin: default
     id: default
-    display_title: Master
+    display_title: Головне
     position: 0
     display_options:
       access:
@@ -42,13 +41,13 @@ display:
       exposed_form:
         type: basic
         options:
-          submit_button: Apply
+          submit_button: Застосувати
           reset_button: false
-          reset_button_label: Reset
-          exposed_sorts_label: 'Sort by'
+          reset_button_label: Скинути
+          exposed_sorts_label: 'Впорядкувати за'
           expose_sort_order: true
-          sort_asc_label: Asc
-          sort_desc_label: Desc
+          sort_asc_label: Зрост
+          sort_desc_label: Спад
       pager:
         type: full
         options:
@@ -63,12 +62,12 @@ display:
             last: 'last »'
           expose:
             items_per_page: false
-            items_per_page_label: 'Items per page'
+            items_per_page_label: 'Елементів на сторінку'
             items_per_page_options: '5, 10, 25, 50'
             items_per_page_options_all: false
-            items_per_page_options_all_label: '- All -'
+            items_per_page_options_all_label: '- Усе -'
             offset: false
-            offset_label: Offset
+            offset_label: Зміщення
           quantity: 9
       style:
         type: table
@@ -196,7 +195,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: From
+          label: Від
           exclude: false
           alter:
             alter_text: false
@@ -281,7 +280,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Created
+          label: Створено
           exclude: false
           alter:
             alter_text: false
@@ -348,7 +347,7 @@ display:
           exposed: true
           expose:
             operator_id: redirect_source__path_op
-            label: From
+            label: Від
             description: ''
             use_operator: false
             operator: redirect_source__path_op
@@ -360,6 +359,7 @@ display:
               authenticated: authenticated
               anonymous: '0'
               administrator: '0'
+            placeholder: ''
           is_grouped: false
           group_info:
             label: ''
@@ -388,7 +388,7 @@ display:
           exposed: true
           expose:
             operator_id: redirect_redirect__uri_op
-            label: To
+            label: До
             description: ''
             use_operator: false
             operator: redirect_redirect__uri_op
@@ -400,6 +400,7 @@ display:
               authenticated: authenticated
               anonymous: '0'
               administrator: '0'
+            placeholder: ''
           is_grouped: false
           group_info:
             label: ''
@@ -431,7 +432,7 @@ display:
           exposed: true
           expose:
             operator_id: status_code_op
-            label: 'Status code'
+            label: 'Код стану'
             description: ''
             use_operator: false
             operator: status_code_op
@@ -443,9 +444,12 @@ display:
               authenticated: authenticated
               anonymous: '0'
               administrator: '0'
+            placeholder: ''
+            min_placeholder: ''
+            max_placeholder: ''
           is_grouped: true
           group_info:
-            label: 'Status code'
+            label: 'Код стану'
             description: ''
             identifier: status_code
             optional: true
@@ -456,49 +460,49 @@ display:
             default_group_multiple: {  }
             group_items:
               1:
-                title: '300 Multiple Choices'
+                title: '300 Безліч Виборів'
                 operator: '='
                 value:
                   value: '300'
                   min: ''
                   max: ''
               2:
-                title: '301 Moved Permanently'
+                title: '301 Переміщене Остаточно'
                 operator: '='
                 value:
                   value: '301'
                   min: ''
                   max: ''
               3:
-                title: '302 Found'
+                title: '302 Знайдене'
                 operator: '='
                 value:
                   value: '302'
                   min: ''
                   max: ''
               4:
-                title: '303 See Other'
+                title: '303 Дивитися Інше'
                 operator: '='
                 value:
                   value: '303'
                   min: ''
                   max: ''
               5:
-                title: '304 Not Modified'
+                title: '304 Не Змінювалося'
                 operator: '='
                 value:
                   value: '304'
                   min: ''
                   max: ''
               6:
-                title: '305 Use Proxy'
+                title: '305 Використовувати Проксі'
                 operator: '='
                 value:
                   value: '305'
                   min: ''
                   max: ''
               7:
-                title: '307 Temporary Redirect'
+                title: '307 - Тимчасово переміщене'
                 operator: '='
                 value:
                   value: '307'
@@ -520,7 +524,7 @@ display:
           exposed: true
           expose:
             operator_id: language_op
-            label: 'Original language'
+            label: 'Мова оригіналу'
             description: ''
             use_operator: false
             operator: language_op
@@ -549,7 +553,7 @@ display:
           entity_field: language
           plugin_id: language
       sorts: {  }
-      title: Redirect
+      title: Переспрямувати
       header: {  }
       footer: {  }
       empty:
@@ -584,7 +588,7 @@ display:
   page_1:
     display_plugin: page
     id: page_1
-    display_title: Page
+    display_title: Сторінка
     position: 1
     display_options:
       display_extenders: {  }

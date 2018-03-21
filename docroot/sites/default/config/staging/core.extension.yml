@@ -17,7 +17,6 @@ module:
   contact: 0
   contextual: 0
   crop: 0
-  crop_media_entity: 0
   ctools: 0
   datetime: 0
   dblog: 0
@@ -50,13 +49,6 @@ module:
   libraries: 0
   link: 0
   locale: 0
-  media: 0
-  media_entity: 0
-  media_entity_document: 0
-  media_entity_image: 0
-  media_entity_instagram: 0
-  media_entity_slideshow: 0
-  media_entity_twitter: 0
   menu_ui: 0
   metatag: 0
   metatag_app_links: 0
@@ -78,7 +70,6 @@ module:
   shortcut: 0
   simple_sitemap: 0
   slick: 0
-  slick_media: 0
   smtp: 0
   system: 0
   taxonomy: 0
@@ -90,7 +81,6 @@ module:
   update: 0
   user: 0
   video_embed_field: 0
-  video_embed_media: 0
   video_embed_wysiwyg: 0
   views_infinite_scroll: 0
   views_slideshow: 0
@@ -116,3 +106,4 @@ theme:
 _core:
   default_config_hash: m2GVq11UAOVuNgj8x0t5fMOPujpvQQ_zxLoaly1BMEU
 langcode: uk
+profile: standard

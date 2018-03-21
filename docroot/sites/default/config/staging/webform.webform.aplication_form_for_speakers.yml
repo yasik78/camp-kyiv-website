@@ -1,12 +1,9 @@
-uuid: 2decad76-1914-47c4-940d-02c2f1044e80
 langcode: uk
 status: open
 dependencies:
   enforced:
     module:
       - webform
-_core:
-  default_config_hash: 9-0qAAB04ZXB-lll5r1fNyVVnMWW4GvIaAtU-FimtTk
 open: null
 close: null
 uid: null
@@ -15,16 +12,16 @@ id: aplication_form_for_speakers
 title: 'Aplication form for speakers'
 description: '<span style="-webkit-text-stroke-width:0px; background-color:#ffffff; color:#333333; display:inline !important; float:none; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-variant-caps:normal; font-variant-ligatures:normal; font-weight:normal; letter-spacing:normal; orphans:2; text-align:start; text-indent:0px; text-transform:none; white-space:normal; widows:2; word-spacing:0px">Aplication form for speakers.</span>'
 category: ''
-elements: "name:\n  '#type': textfield\n  '#title': 'Your Name'\n  '#default_value': '[webform-authenticated-user:display-name]'\n  '#title_display': invisible\n  '#placeholder': 'Ім''я'\n  '#required': true\nsubject:\n  '#type': textfield\n  '#title': Subject\n  '#title_display': invisible\n  '#placeholder': Тема\n  '#required': true\n  '#test': 'Testing contact webform from [site:name]'\ntelephone:\n  '#type': tel\n  '#title': Telephone\n  '#title_display': invisible\n  '#placeholder': Телефон\n  '#required': true\nemail:\n  '#type': email\n  '#title': 'Your Email'\n  '#default_value': '[webform-authenticated-user:mail]'\n  '#title_display': invisible\n  '#placeholder': E-mail\n  '#required': true\n  '#required_error': 'Не вірний формат E-mail'\nmessage:\n  '#type': textarea\n  '#title': Message\n  '#title_display': invisible\n  '#placeholder': 'Кілька слів про себе та свій досвід'\n  '#required': true\n  '#test': 'Please ignore this email.'\n"
+elements: "name:\n  '#type': textfield\n  '#title': 'Your Name'\n  '#default_value': '[webform-authenticated-user:display-name]'\n  '#title_display': invisible\n  '#placeholder': 'Ім''я'\n  '#required': true\nsubject:\n  '#type': textfield\n  '#title': Subject\n  '#title_display': invisible\n  '#placeholder': Тема\n  '#required': true\n  '#test': 'Testing contact webform from [site:name]'\ntelephone:\n  '#type': tel\n  '#title': Telephone\n  '#title_display': invisible\n  '#placeholder': Телефон\n  '#required': true\nemail:\n  '#type': email\n  '#title': 'Your Email'\n  '#default_value': '[webform-authenticated-user:mail]'\n  '#title_display': invisible\n  '#placeholder': E-mail\n  '#required': true\n  '#required_error': 'Не вірний формат E-mail'\nmessage:\n  '#type': textarea\n  '#title': Message\n  '#title_display': invisible\n  '#placeholder': 'Кілька слів про себе та свій досвід'\n  '#required': true\n  '#test': 'Please ignore this email.'\nactions:\n  '#type': webform_actions\n  '#title': 'Submit button(s)'\n  '#submit__label': Надіслати\n"
 css: ''
 javascript: ''
 settings:
+  ajax: false
+  ajax_scroll_top: form
   page: true
   page_submit_path: ''
   page_confirm_path: ''
-  form_submit_label: Надіслати
   form_submit_once: false
-  form_submit_attributes: {  }
   form_exception_message: ''
   form_open_message: ''
   form_close_message: ''
@@ -34,33 +31,47 @@ settings:
   form_convert_anonymous: false
   form_prepopulate: false
   form_prepopulate_source_entity: false
+  form_prepopulate_source_entity_required: false
+  form_prepopulate_source_entity_type: ''
+  form_reset: false
   form_disable_autocomplete: false
   form_novalidate: false
+  form_disable_inline_errors: false
+  form_required: false
   form_unsaved: false
   form_disable_back: false
+  form_submit_back: false
   form_autofocus: false
   form_details_toggle: false
+  form_login: false
+  form_login_message: ''
+  submission_label: ''
   submission_log: false
+  submission_user_columns: {  }
+  submission_login: false
+  submission_login_message: ''
+  submission_exception_message: ''
+  submission_locked_message: ''
+  autofill: false
+  autofill_message: ''
+  autofill_excluded_elements: {  }
   wizard_progress_bar: true
   wizard_progress_pages: false
   wizard_progress_percentage: false
-  wizard_next_button_label: ''
-  wizard_next_button_attributes: {  }
-  wizard_prev_button_label: ''
-  wizard_prev_button_attributes: {  }
   wizard_start_label: ''
-  wizard_complete: true
-  wizard_complete_label: ''
+  wizard_confirmation: true
+  wizard_confirmation_label: ''
+  wizard_track: ''
   preview: 0
-  preview_next_button_label: ''
-  preview_next_button_attributes: {  }
-  preview_prev_button_label: ''
-  preview_prev_button_attributes: {  }
+  preview_label: ''
+  preview_title: ''
   preview_message: ''
+  preview_attributes: {  }
+  preview_excluded_elements: {  }
+  preview_exclude_empty: true
   draft: ''
+  draft_multiple: false
   draft_auto_save: false
-  draft_button_label: ''
-  draft_button_attributes: {  }
   draft_saved_message: ''
   draft_loaded_message: ''
   confirmation_type: url_message
@@ -72,13 +83,17 @@ settings:
   confirmation_back_label: ''
   confirmation_back_attributes: {  }
   limit_total: null
+  limit_total_interval: null
   limit_total_message: ''
   limit_user: null
+  limit_user_interval: null
   limit_user_message: ''
+  entity_limit_total: null
+  entity_limit_total_interval: null
+  entity_limit_user: null
+  entity_limit_user_interval: null
   purge: none
   purge_days: null
-  entity_limit_total: null
-  entity_limit_user: null
   results_disabled: false
   results_disabled_ignore: false
   token_update: false
@@ -88,77 +103,108 @@ access:
       - anonymous
       - authenticated
     users: {  }
+    permissions: {  }
   view_any:
     roles: {  }
     users: {  }
+    permissions: {  }
   update_any:
     roles: {  }
     users: {  }
+    permissions: {  }
   delete_any:
     roles: {  }
     users: {  }
+    permissions: {  }
   purge_any:
     roles: {  }
     users: {  }
+    permissions: {  }
   view_own:
     roles: {  }
     users: {  }
+    permissions: {  }
   update_own:
     roles: {  }
     users: {  }
+    permissions: {  }
   delete_own:
     roles: {  }
     users: {  }
+    permissions: {  }
+  administer:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  test:
+    roles: {  }
+    users: {  }
+    permissions: {  }
 handlers:
   email_confirmation:
     id: email
     label: 'Email confirmation'
     handler_id: email_confirmation
     status: true
+    conditions: {  }
     weight: 1
     settings:
-      to_mail: '[webform_submission:values:email:raw]'
-      cc_mail: ''
-      bcc_mail: ''
-      from_mail: default
-      from_name: default
-      subject: '[webform_submission:values:subject:value]'
-      body: "Name: [webform_submission:values:name:value] &lt;br&gt;<br />\nMail: [webform_submission:values:email:raw] &lt;br&gt;<br />\nTheme: [webform_submission:values:subject:value] &lt;br&gt;<br />\nTelephone: [webform_submission:values:telephone:value] &lt;br&gt;<br />\nAbout me: [webform_submission:values:message:value] &lt;br&gt;"
-      excluded_elements: {  }
-      html: true
-      attachments: false
-      debug: false
       states:
         - completed
+      to_mail: '[webform_submission:values:email:raw]'
       to_options: {  }
+      cc_mail: ''
       cc_options: {  }
+      bcc_mail: ''
       bcc_options: {  }
+      from_mail: default
       from_options: {  }
+      from_name: default
+      subject: '[webform_submission:values:subject:raw]'
+      body: "Name: [webform_submission:values:name:value] &lt;br&gt;<br />\nMail: [webform_submission:values:email:raw] &lt;br&gt;<br />\nTheme: [webform_submission:values:subject:value] &lt;br&gt;<br />\nTelephone: [webform_submission:values:telephone:value] &lt;br&gt;<br />\nAbout me: [webform_submission:values:message:value] &lt;br&gt;"
+      excluded_elements: {  }
+      ignore_access: false
+      exclude_empty: true
+      html: true
+      attachments: false
+      twig: false
+      debug: false
       reply_to: ''
       return_path: ''
+      sender_mail: ''
+      sender_name: ''
   email_notification:
     id: email
     label: 'Email notification'
     handler_id: email_notification
     status: true
+    conditions: {  }
     weight: 1
     settings:
-      to_mail: org.drupalcamp.kyiv@gmail.com
-      cc_mail: ''
-      bcc_mail: ''
-      from_mail: '[webform_submission:values:email:raw]'
-      from_name: '[webform_submission:values:name:value]'
-      subject: '[webform_submission:values:subject:value]'
-      body: "Name: [webform_submission:values:name:value]<br />\nMail: [webform_submission:values:email:raw]<br />\nTheme: [webform_submission:values:subject:value]<br />\nTelephone: [webform_submission:values:telephone:value]<br />\nAbout me: [webform_submission:values:message:value]"
-      excluded_elements: {  }
-      html: true
-      attachments: false
-      debug: false
       states:
         - completed
+      to_mail: org.drupalcamp.kyiv@gmail.com
       to_options: {  }
+      cc_mail: ''
       cc_options: {  }
+      bcc_mail: ''
       bcc_options: {  }
+      from_mail: '[webform_submission:values:email:raw]'
       from_options: {  }
+      from_name: '[webform_submission:values:name:raw]'
+      subject: '[webform_submission:values:subject:raw]'
+      body: "Name: [webform_submission:values:name:value]<br />\nMail: [webform_submission:values:email:raw]<br />\nTheme: [webform_submission:values:subject:value]<br />\nTelephone: [webform_submission:values:telephone:value]<br />\nAbout me: [webform_submission:values:message:value]"
+      excluded_elements: {  }
+      ignore_access: false
+      exclude_empty: true
+      html: true
+      attachments: false
+      twig: false
+      debug: false
       reply_to: ''
       return_path: ''
+      sender_mail: ''
+      sender_name: ''
+uuid: 2decad76-1914-47c4-940d-02c2f1044e80
+_core:
+  default_config_hash: 9-0qAAB04ZXB-lll5r1fNyVVnMWW4GvIaAtU-FimtTk

@@ -38,7 +38,7 @@ display:
           label: 'Дата зміни'
         count:
           label: 'Використано в'
-          format_plural_string: "@count місце\x03@count місця\x03@count місць"
+          format_plural_string: !!binary QGNvdW50INC80ZbRgdGG0LUDQGNvdW50INC80ZbRgdGG0Y8DQGNvdW50INC80ZbRgdGG0Yw=
       filters:
         filename:
           expose:
@@ -79,7 +79,7 @@ display:
           label: 'Реєстрація модуля'
         count:
           label: 'Підрахунок використань'
-          format_plural_string: "@count\x03@count\x03@count"
+          format_plural_string: !!binary QGNvdW50A0Bjb3VudANAY291bnQ=
       title: 'Використання файла'
       arguments:
         fid:

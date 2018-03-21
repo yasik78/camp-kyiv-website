@@ -1,4 +1,3 @@
-canonical: true
 auto_redirect: true
 default_status_code: 301
 passthrough_querystring: true
@@ -9,7 +8,6 @@ frontpage_redirect: true
 deslash: true
 access_check: false
 normalize_aliases: true
-content_location_header: false
 term_path_handler: true
 _core:
   default_config_hash: IxLwI-D9NeuZKfY2iz87l0NeM8LfBn7IVucsc6RG6l4

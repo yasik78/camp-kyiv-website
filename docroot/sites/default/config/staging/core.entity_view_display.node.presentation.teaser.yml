@@ -5,6 +5,14 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.presentation.body
+    - field.field.node.presentation.field_areas
+    - field.field.node.presentation.field_double_speaker_image
+    - field.field.node.presentation.field_level_of_difficulty
+    - field.field.node.presentation.field_meta_tags_presentation
+    - field.field.node.presentation.field_report_language
+    - field.field.node.presentation.field_speaker_image
+    - field.field.node.presentation.field_speakers
+    - field.field.node.presentation.field_video
     - node.type.presentation
   module:
     - text
@@ -21,12 +29,15 @@ content:
     settings:
       trim_length: 600
     third_party_settings: {  }
+    region: content
   links:
     weight: 100
+    region: content
 hidden:
   field_areas: true
   field_double_speaker_image: true
   field_level_of_difficulty: true
+  field_meta_tags_presentation: true
   field_report_language: true
   field_speaker_image: true
   field_speakers: true
