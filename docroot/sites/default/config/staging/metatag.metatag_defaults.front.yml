@@ -7,8 +7,9 @@ _core:
 id: front
 label: 'Front page'
 tags:
+  title: 'DRUPALCAMP KYIV''18'
   shortlink: '[site:url]'
-  keywords: 'conference, конференція, Drupal, DrupalCamp, Drupal conference, Kyiv Drupal, Kyiv Drupal Camp, конференція про Друпал, друпалісти, Drupal community'
-  description: 'DrupalCamp Kyiv 2018 is the main annual event in Ukrainian Drupal community will be held on June 23-24, 2018, in Kyiv, hotel "Bratislava"'
   canonical_url: '[site:url]'
-  og_image: 'http://camp18.drupal.ua/themes/custom/dc17_bootstrap/images/image-for-meta-tags.png'
+  description: 'DrupalCamp Kyiv 2018 is the main annual event in Ukrainian Drupal community will be held on June 23-24, 2018, in Kyiv, iZone Creative Community'
+  keywords: 'conference, конференція, Drupal, DrupalCamp, Drupal conference, Kyiv Drupal, Kyiv Drupal Camp, конференція про Друпал, друпалісти, Drupal community'
+  og_image: 'https://camp18.drupal.ua/themes/custom/dc17_bootstrap/images/image-for-meta-tags.png'
