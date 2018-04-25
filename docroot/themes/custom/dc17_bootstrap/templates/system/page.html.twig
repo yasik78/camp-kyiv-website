@@ -100,11 +100,11 @@
             {% endif %}
 
             {% if is_front %}
-                {<div class="row">}
-                {<div class="col-sm-12">}
-                    {<div class="timer" id="DateCountdown" data-date="2018-06-23 09:00:00"></div>}
-                    {</div>}
-                {</div>}
+                <div class="row">
+                <div class="col-sm-12">
+                    <div class="timer" id="DateCountdown" data-date="2018-06-23 09:00:00"></div>
+                    </div>
+                </div>
 
                 <section class="hashtag-section">
                     <span>{{- "#meetings"|t-}}</span>
@@ -215,9 +215,9 @@
                     <div class="col-sm-4">
                         <div class="footer__logo">
                             {{ "<a href='/'>" }}
-                            {{ "&copy;" }}
-                            {{ 'DRUPALCAMP' }}
-                            {{ "<span class='text-green'>KYIV'18</span>"  }}
+                                {{ "&copy;" }}
+                                {{ 'DRUPALCAMP' }}
+                                {{ "<span class='text-green'>KYIV'18</span>"  }}
                             {{ "</a>" }}
                         </div>
                     </div>
@@ -225,19 +225,22 @@
                         <div class="footer__years previous-years">
                             {{ "<span class='previous-years__title'>DrupalCamp Kyiv:</span>" }}
                             {{ "<div class='previous-years__list'>" }}
-                            {{ "<span class='previous-years__item'>" }}
-                            {{ "<a href='http://camp15.drupal.ua/' target='_blank'>2015</a>" }}
-                            {{ "</span>" }}
-                            {{ "<span class='previous-years__item'>" }}
-                            {{ "<a href='http://camp16.drupal.ua/' target='_blank'>2016</a>" }}
-                            {{ "</span>" }}
-                            {{ "<span class='previous-years__item'>" }}
-                            {{ "<a href='http://camp17.drupal.ua/' target='_blank'>2017</a>" }}
-                            {{ "</span>" }}
+                                {{ "<span class='previous-years__item'>" }}
+                                    {{ "<a href='http://camp17.drupal.ua/' target='_blank'>2017</a>" }}
+                                {{ "</span>" }}
+                                {{ "<span class='previous-years__item'>" }}
+                                    {{ "<a href='http://camp16.drupal.ua/' target='_blank'>2016</a>" }}
+                                {{ "</span>" }}
+                                {{ "<span class='previous-years__item'>" }}
+                                    {{ "<a href='http://camp15.drupal.ua/' target='_blank'>2015</a>" }}
+                                {{ "</span>" }}
                             {{ "</div>" }}
                         </div>
                     </div>
                     <div class="col-sm-3">
+                        <div class="footer__dev">
+
+                        </div>
                     </div>
                 </div>
             </div>
