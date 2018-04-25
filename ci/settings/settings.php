@@ -756,7 +756,7 @@ $settings['file_scan_ignore_directories'] = [
 $databases['default']['default'] = array (
   'database' => 'stage02_db',
   'username' => 'stage02_user',
-  'password' => 'Pek3rUrafrUh',
+  'password' => 'bAfecrefusp4',
   'prefix' => '',
   'host' => 'localhost',
   'port' => '',
@@ -767,7 +767,7 @@ $databases['default']['default'] = array (
 
   $settings['install_profile'] = 'standard';
   $config_directories['sync'] = 'sites/default/config/staging';
-  $settings['hash_salt'] = 201704131150551;
+  $settings['hash_salt'] = 201804051928251;
 
    if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
    include $app_root . '/' . $site_path . '/settings.local.php';

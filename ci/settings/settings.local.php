@@ -115,13 +115,3 @@ $databases['default']['default'] = array (
   'namespace' => 'Drupal\Core\Database\Driver\mysql',
   'driver' => 'mysql',
 );
-$databases['default']['default'] = array (
-  'database' => 'dc2017_db',
-  'username' => 'dc2017_db',
-  'password' => 'dc2017_db',
-  'prefix' => '',
-  'host' => 'mariadb',
-  'port' => '',
-  'namespace' => 'Drupal\Core\Database\Driver\mysql',
-  'driver' => 'mysql',
-);
