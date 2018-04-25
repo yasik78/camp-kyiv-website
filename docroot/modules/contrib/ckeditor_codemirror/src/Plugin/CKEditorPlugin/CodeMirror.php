@@ -23,23 +23,21 @@ class CodeMirror extends CKEditorPluginBase implements CKEditorPluginConfigurabl
    * {@inheritdoc}
    */
   public function getFile() {
-    if ($library_path = libraries_get_path('ckeditor.codemirror')) {
-      return $library_path . '/plugin.js';
-    }
+    return _ckeditor_codemirror_get_library_path() . '/codemirror/plugin.js';
   }
 
   /**
    * {@inheritdoc}
    */
   public function getDependencies(Editor $editor) {
-    return array();
+    return [];
   }
 
   /**
    * {@inheritdoc}
    */
   public function getLibraries(Editor $editor) {
-    return array();
+    return [];
   }
 
   /**
@@ -53,7 +51,7 @@ class CodeMirror extends CKEditorPluginBase implements CKEditorPluginConfigurabl
    * {@inheritdoc}
    */
   public function getButtons() {
-    return array();
+    return [];
   }
 
   /**
@@ -75,24 +73,44 @@ class CodeMirror extends CKEditorPluginBase implements CKEditorPluginConfigurabl
   public function getConfig(Editor $editor) {
     $settings = $editor->getSettings()['plugins']['codemirror'];
 
-    return array(
-      'codemirror' => array(
+    $config = [
+      'codemirror' => [
         'enable' => isset($settings['enable']) ? $settings['enable'] : FALSE,
         'mode' => isset($settings['mode']) ? $settings['mode'] : 'htmlmixed',
         'theme' => isset($settings['theme']) ? $settings['theme'] : 'default',
-        'lineNumbers' => isset($settings['lineNumbers']) ? $settings['lineNumbers'] : TRUE,
-        'lineWrapping' => isset($settings['lineWrapping']) ? $settings['lineWrapping'] : TRUE,
-        'matchBrackets' => isset($settings['matchBrackets']) ? $settings['matchBrackets'] : TRUE,
-        'autoCloseTags' => isset($settings['autoCloseTags']) ? $settings['autoCloseTags'] : TRUE,
-        'autoCloseBrackets' => isset($settings['autoCloseBrackets']) ? $settings['autoCloseBrackets'] : TRUE,
-        'enableSearchTools' => isset($settings['enableSearchTools']) ? $settings['enableSearchTools'] : TRUE,
-        'enableCodeFolding' => isset($settings['enableCodeFolding']) ? $settings['enableCodeFolding'] : TRUE,
-        'enableCodeFormatting' => isset($settings['enableCodeFormatting']) ? $settings['enableCodeFormatting'] : TRUE,
-        'autoFormatOnStart' => isset($settings['autoFormatOnStart']) ? $settings['autoFormatOnStart'] : TRUE,
-        'autoFormatOnModeChange' => isset($settings['autoFormatOnModeChange']) ? $settings['autoFormatOnModeChange'] : TRUE,
-        'autoFormatOnUncomment' => isset($settings['autoFormatOnUncomment']) ? $settings['autoFormatOnUncomment'] : TRUE,
-      ),
-    );
+      ],
+      'startupMode' => isset($settings['startupMode'])
+        ? $settings['startupMode'] : 'wysiwyg',
+    ];
+
+    foreach ($this->options() as $option => $description) {
+      $config['codemirror'][$option] = isset($settings['options'][$option])
+        ? $settings['options'][$option] : TRUE;
+    }
+
+    return $config;
+  }
+
+  /**
+   * Additional settings options.
+   *
+   * @return array
+   *   An array of settings options and their descriptions.
+   */
+  private function options() {
+    return [
+      'lineNumbers' => $this->t('Show line numbers.'),
+      'lineWrapping' => $this->t('Enable line wrapping.'),
+      'matchBrackets' => $this->t('Highlight matching brackets.'),
+      'autoCloseTags' => $this->t('Close tags automatically.'),
+      'autoCloseBrackets' => $this->t('Close brackets automatically.'),
+      'enableSearchTools' => $this->t('Enable search tools.'),
+      'enableCodeFolding' => $this->t('Enable code folding.'),
+      'enableCodeFormatting' => $this->t('Enable code formatting.'),
+      'autoFormatOnStart' => $this->t('Format code on start.'),
+      'autoFormatOnModeChange' => $this->t('Format code each time source is opened.'),
+      'autoFormatOnUncomment' => $this->t('Format code when a line is uncommented.'),
+    ];
   }
 
   /**
@@ -106,25 +124,40 @@ class CodeMirror extends CKEditorPluginBase implements CKEditorPluginConfigurabl
 
     $form['#attached']['library'][] = 'ckeditor_codemirror/ckeditor_codemirror.admin';
 
-    $form['enable'] = array(
+    $form['enable'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Enable CodeMirror source view syntax highlighting.'),
-      '#default_value' => isset($settings['enable']) ? $settings['enable'] : FALSE,
-    );
+      '#default_value' => isset($settings['enable'])
+        ? $settings['enable'] : FALSE,
+    ];
 
-    $form['mode'] = array(
+    $form['startupMode'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Editor startup Mode'),
+      '#options' => [
+        'wysiwyg' => $this->t('WYSIWYG (default)'),
+        'source' => $this->t('Source'),
+      ],
+      '#default_value' => isset($settings['startupMode'])
+        ? $settings['startupMode'] : 'wysiwyg',
+    ];
+
+    $form['mode'] = [
       '#type' => 'select',
       '#title' => $this->t('Mode'),
-      '#options' => array(
+      '#options' => [
         'htmlmixed' => $this->t('HTML (including css, xml and javascript)'),
+        'text/html' => $this->t('HTML only'),
         'application/x-httpd-php' => $this->t('PHP (including HTML)'),
         'text/javascript' => $this->t('Javascript only'),
-      ),
-      '#default_value' => isset($settings['mode']) ? $settings['mode'] : 'htmlmixed',
-    );
+      ],
+      '#default_value' => isset($settings['mode'])
+        ? $settings['mode'] : 'htmlmixed',
+    ];
 
-    $theme_options = array('default' => 'default');
-    $themes_directory = libraries_get_path('ckeditor.codemirror') . '/theme';
+    $theme_options = ['default' => 'default'];
+    $themes_directory = _ckeditor_codemirror_get_library_path()
+      . '/codemirror/theme';
     if (is_dir($themes_directory)) {
       $theme_css_files = file_scan_directory($themes_directory, '/\.css/i');
       foreach ($theme_css_files as $file) {
@@ -132,33 +165,27 @@ class CodeMirror extends CKEditorPluginBase implements CKEditorPluginConfigurabl
       }
     }
 
-    $form['theme'] = array(
+    $form['theme'] = [
       '#type' => 'select',
       '#title' => $this->t('Theme'),
       '#options' => $theme_options,
-      '#default_value' => isset($settings['theme']) ? $settings['theme'] : 'default',
-    );
+      '#default_value' => isset($settings['theme'])
+        ? $settings['theme'] : 'default',
+    ];
 
-    $checkboxes = array(
-      'lineNumbers' => $this->t('Show line numbers.'),
-      'lineWrapping' => $this->t('Enable line wrapping.'),
-      'matchBrackets' => $this->t('Highlight matching brackets.'),
-      'autoCloseTags' => $this->t('Close tags automatically.'),
-      'autoCloseBrackets' => $this->t('Close brackets automatically.'),
-      'enableSearchTools' => $this->t('Enable search tools.'),
-      'enableCodeFolding' => $this->t('Enable code folding.'),
-      'enableCodeFormatting' => $this->t('Enable code formatting.'),
-      'autoFormatOnStart' => $this->t('Format code on start.'),
-      'autoFormatOnModeChange' => $this->t('Format code each time source is opened.'),
-      'autoFormatOnUncomment' => $this->t('Format code when a line is uncommented.'),
-    );
+    $form['options'] = [
+      '#type' => 'details',
+      '#title' => t('Additional settings'),
+      '#description' => t('Source highlighting and code formatting options:'),
+      '#open' => FALSE,
+    ];
 
-    foreach ($checkboxes as $setting => $description) {
-      $form[$setting] = array(
+    foreach ($this->options() as $setting => $description) {
+      $form['options'][$setting] = [
         '#type' => 'checkbox',
         '#title' => $description,
-        '#default_value' => isset($settings[$setting]) ? $settings[$setting] : TRUE,
-      );
+        '#default_value' => isset($settings['options'][$setting]) ? $settings['options'][$setting] : TRUE,
+      ];
     }
 
     return $form;

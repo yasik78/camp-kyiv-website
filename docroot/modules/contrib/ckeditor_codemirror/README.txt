@@ -2,8 +2,8 @@ INTRODUCTION
 ------------
 
 CKEditor CodeMirror module adds syntax highlighting for "Source View" in
-CKEditor WYSIWYG editor using CodeMirror Plugin https://w8tcha.github.io/CKEdito
-r-CodeMirror-Plugin.
+CKEditor WYSIWYG editor using CodeMirror Plugin
+https://w8tcha.github.io/CKEditor-CodeMirror-Plugin.
 
 
 DRUPAL 8
@@ -11,17 +11,16 @@ DRUPAL 8
 
 DEPENDENCIES
 ------------
-- Libraries API (8.x-3.x) module https://www.drupal.org/project/libraries
-- CKEditor-CodeMirror-Plugin library https://github.com/w8tcha/CKEditor-CodeMir
-  ror-Plugin
+- CKEditor-CodeMirror-Plugin library
+  https://github.com/w8tcha/CKEditor-CodeMirror-Plugin
 
 INSTALLATION
 ------------
-1. Download and install the Libraries API module.
-2. Download and install CKEditor CodeMirror module.
-3. Download CKEditor-CodeMirror-Plugin library to the following directory
-   "libraries/ckeditor.codemirror". Path to "plugin.js" file should be
-   "libraries/ckeditor.codemirror/plugin.js".
+1. Download and install CKEditor CodeMirror module.
+2. Download and uncompress the latest CKEditor-CodeMirror-Plugin release and
+   rename the folder to "ckeditor_codemirror" such that the resulting path to
+   the "plugin.js" file should be:
+   "libraries/ckeditor_codemirror/codemirror/plugin.js".
 
 CONFIGURATION
 -------------

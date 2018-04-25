@@ -1,9 +1,12 @@
+uuid: f5d8b64c-a78a-4ab2-bf4f-7aa6123d0d42
 langcode: uk
 status: open
 dependencies:
   enforced:
     module:
       - webform
+_core:
+  default_config_hash: 9-0qAAB04ZXB-lll5r1fNyVVnMWW4GvIaAtU-FimtTk
 open: null
 close: null
 uid: null
@@ -12,7 +15,7 @@ id: application_form
 title: 'Application form'
 description: 'Basic email contact webform.'
 category: ''
-elements: "name:\n  '#type': textfield\n  '#title': 'Your Name'\n  '#default_value': '[webform-authenticated-user:display-name]'\n  '#title_display': invisible\n  '#placeholder': 'Ім''я'\n  '#required': true\nsubject:\n  '#type': textfield\n  '#title': Subject\n  '#title_display': invisible\n  '#placeholder': Тема\n  '#required': true\n  '#test': 'Testing contact webform from [site:name]'\ntelephone:\n  '#type': tel\n  '#title': Telephone\n  '#title_display': invisible\n  '#placeholder': Телефон\n  '#required': true\n  '#pattern': '[0-9]*'\nemail:\n  '#type': email\n  '#title': 'Your Email'\n  '#default_value': '[webform-authenticated-user:mail]'\n  '#title_display': invisible\n  '#placeholder': E-mail\n  '#required': true\nmessage:\n  '#type': textarea\n  '#title': Message\n  '#title_display': invisible\n  '#placeholder': 'Кілька слів про себе та свій досвід'\n  '#required': true\n  '#test': 'Please ignore this email.'\nactions:\n  '#type': webform_actions\n  '#title': 'Submit button(s)'\n  '#submit__label': Надіслати\n"
+elements: "name:\n  '#type': textfield\n  '#title': 'Your Name'\n  '#default_value': '[webform-authenticated-user:display-name]'\n  '#title_display': invisible\n  '#placeholder': 'Ім''я'\n  '#required': true\nsubject:\n  '#type': textfield\n  '#title': Subject\n  '#title_display': invisible\n  '#placeholder': Тема\n  '#required': true\n  '#test': 'Testing contact webform from [site:name]'\ntelephone:\n  '#type': tel\n  '#title': Telephone\n  '#title_display': invisible\n  '#placeholder': Телефон\n  '#required': true\n  '#pattern': '[0-9]*'\nemail:\n  '#type': email\n  '#title': 'Your Email'\n  '#default_value': '[webform-authenticated-user:mail]'\n  '#title_display': invisible\n  '#placeholder': E-mail\n  '#required': true\nmessage:\n  '#type': textarea\n  '#title': Message\n  '#title_display': invisible\n  '#placeholder': 'Кілька слів про себе та свій досвід'\n  '#required': true\n  '#test': 'Please ignore this email.'\nactions:\n  '#type': webform_actions\n  '#title': 'Submit button(s)'\n  '#submit__label': Submit\n"
 css: ''
 javascript: ''
 settings:
@@ -159,9 +162,9 @@ handlers:
       bcc_options: {  }
       from_mail: default
       from_options: {  }
-      from_name: 'DRUPALCAMP KYIV`17'
+      from_name: 'DRUPALCAMP KYIV`18'
       subject: 'Заявка від спікера: [webform_submission:values:name:value]'
-      body: "Name: [webform_submission:values:name:value]<br />\r\nMail: [webform_submission:values:email:raw]<br />\r\nTheme: [webform_submission:values:subject:value]<br />\r\nTelephone: [webform_submission:values:telephone:value]<br />\r\nAbout me: [webform_submission:values:message:value]"
+      body: "Name: [webform_submission:values:name:value]<br />\nMail: [webform_submission:values:email:raw]<br />\nTheme: [webform_submission:values:subject:value]<br />\nTelephone: [webform_submission:values:telephone:value]<br />\nAbout me: [webform_submission:values:message:value]"
       excluded_elements: {  }
       ignore_access: false
       exclude_empty: true
@@ -173,6 +176,3 @@ handlers:
       return_path: ''
       sender_mail: ''
       sender_name: ''
-uuid: f5d8b64c-a78a-4ab2-bf4f-7aa6123d0d42
-_core:
-  default_config_hash: 9-0qAAB04ZXB-lll5r1fNyVVnMWW4GvIaAtU-FimtTk
