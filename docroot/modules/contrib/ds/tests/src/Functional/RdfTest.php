@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ds\Tests;
+namespace Drupal\Tests\ds\Functional;
 
 /**
  * Tests for Rdf integration.
@@ -14,25 +14,26 @@ class RdfTest extends FastTestBase {
    *
    * @var array
    */
-  public static $modules = array(
+  public static $modules = [
     'node',
     'field_ui',
     'ds',
-    'rdf'
-  );
+    'rdf',
+  ];
 
   /**
    * Test rdf integration.
    */
   public function testRdf() {
-    \Drupal::service('module_installer')->install(array('ds_test_rdf'));
+    \Drupal::service('module_installer')->install(['ds_test_rdf']);
 
     /* @var \Drupal\node\NodeInterface $node */
     $node = $this->entitiesTestSetup();
 
-    // Look at node and verify the rdf tags are available
+    // Look at node and verify the rdf tags are available.
     $this->drupalGet('node/' . $node->id());
-    $this->assertRaw('typeof="schema:Article', 'RDF tag found on the node wrapper');
+
+    $this->assertSession()->responseContains('typeof="schema:Article');
   }
 
 }

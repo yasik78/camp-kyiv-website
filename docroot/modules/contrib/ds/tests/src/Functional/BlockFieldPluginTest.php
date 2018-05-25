@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ds\Tests;
+namespace Drupal\Tests\ds\Functional;
 
 use Drupal\views\Tests\ViewTestData;
 use Drupal\views\ViewExecutable;
@@ -19,14 +19,13 @@ class BlockFieldPluginTest extends FastTestBase {
    *
    * @var array
    */
-  public static $modules = array(
+  public static $modules = [
     'node',
     'block',
     'ds',
     'ds_test',
-    'layout_plugin',
     'views',
-  );
+  ];
 
   /**
    * Views used by this test.
@@ -34,7 +33,7 @@ class BlockFieldPluginTest extends FastTestBase {
    * @var array
    *   The list of views.
    */
-  public static $testViews = array('ds-testing');
+  public static $testViews = ['ds-testing'];
 
   /**
    * {@inheritdoc}
@@ -47,7 +46,7 @@ class BlockFieldPluginTest extends FastTestBase {
       $this->container->get("plugin.manager.views.$plugin_type")->clearCachedDefinitions();
     }
 
-    ViewTestData::createTestViews(get_class($this), array('ds_test'));
+    ViewTestData::createTestViews(get_class($this), ['ds_test']);
   }
 
   /**
@@ -55,12 +54,12 @@ class BlockFieldPluginTest extends FastTestBase {
    */
   public function testBlockFieldTitleOverride() {
     // Block fields.
-    $edit = array(
+    $edit = [
       'name' => 'Test block title field',
       'id' => 'test_block_title_field',
       'entities[node]' => '1',
       'block' => 'views_block:ds_testing-block_1',
-    );
+    ];
 
     $this->dsCreateBlockField($edit);
 
@@ -68,35 +67,35 @@ class BlockFieldPluginTest extends FastTestBase {
 
     // Assert it's found on the Field UI for article.
     $this->drupalGet('admin/structure/types/manage/article/display');
-    $this->assertRaw('fields[dynamic_block_field:node-test_block_title_field][weight]', t('Test block field found on node article.'));
+    $this->assertSession()->responseContains('fields[dynamic_block_field:node-test_block_title_field][weight]');
 
-    $fields = array(
+    $fields = [
       'fields[dynamic_block_field:node-test_block_title_field][region]' => 'left',
       'fields[dynamic_block_field:node-test_block_title_field][label]' => 'above',
       'fields[body][region]' => 'right',
-    );
+    ];
 
     $this->dsSelectLayout();
     $this->dsConfigureUi($fields);
 
     // Create a node.
-    $settings = array('type' => 'article', 'promote' => 1);
+    $settings = ['type' => 'article', 'promote' => 1];
     $node = $this->drupalCreateNode($settings);
 
     // Look at node and verify the block title is overridden.
     $this->drupalGet('node/' . $node->id());
-    $this->assertRaw('Test block title field', t('Default field label.'));
+    $this->assertSession()->responseContains('Test block title field');
 
     // Update testing label.
-    $edit = array(
+    $edit = [
       'use_block_title' => '1',
-    );
+    ];
     $this->drupalPostForm('admin/structure/ds/fields/manage_block/test_block_title_field', $edit, t('Save'));
-    $this->assertText(t('The field Test block title field has been saved'), t('Test field label override updated'));
+    $this->assertSession()->responseContains(t('The field %name has been saved', ['%name' => 'Test block title field']));
 
     // Look at node and verify the block title is overridden.
     $this->drupalGet('node/' . $node->id());
-    $this->assertRaw('Block title from view', t('Field label from view block display.'));
+    $this->assertSession()->responseContains('Block title from view');
   }
 
   /**
@@ -124,7 +123,7 @@ class BlockFieldPluginTest extends FastTestBase {
     // Check block is not visible.
     \Drupal::state()->set('ds_test_block__access', FALSE);
     $this->drupalGet($node->toUrl());
-    $this->assertNoRaw(DsTestBlock::BODY_TEXT);
+    $this->assertSession()->responseNotContains(DsTestBlock::BODY_TEXT);
 
     // Reset page cache.
     $this->resetAll();
@@ -132,11 +131,14 @@ class BlockFieldPluginTest extends FastTestBase {
     // Check block is visible.
     \Drupal::state()->set('ds_test_block__access', TRUE);
     $this->drupalGet($node->toUrl());
-    $this->assertRaw(DsTestBlock::BODY_TEXT);
+    $this->assertSession()->responseContains(DsTestBlock::BODY_TEXT);
   }
 
   /**
-   * Cache contexts, tags and max-age on the block should get merged into the field build array
+   * Tests cache properties on blocks.
+   *
+   * Cache contexts, tags and max-age on the block should get merged into the
+   * field build array.
    */
   public function testBlockCache() {
     $block_field_id = Unicode::strtolower($this->randomMachineName());
@@ -157,13 +159,13 @@ class BlockFieldPluginTest extends FastTestBase {
     $settings['type'] = 'article';
     $node = $this->drupalCreateNode($settings);
 
-    // Check for query parameters
+    // Check for query parameters.
     $this->drupalGet($node->toUrl(), ['query' => ['cached' => 1]]);
-    $this->assertRaw('cached=1');
+    $this->assertSession()->responseContains('cached=1');
 
-    // Check for query parameters
+    // Check for query parameters.
     $this->drupalGet($node->toUrl(), ['query' => ['cached' => 2]]);
-    $this->assertRaw('cached=2');
+    $this->assertSession()->responseContains('cached=2');
   }
 
 }

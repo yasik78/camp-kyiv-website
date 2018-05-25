@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ds\Tests;
+namespace Drupal\Tests\ds\Functional;
 
 /**
  * Tests for twig specific functionality.
@@ -14,40 +14,44 @@ class TwigRenderTest extends FastTestBase {
    */
   public function testFieldNameTargeting() {
     // Create a node.
-    $settings = array('type' => 'article', 'promote' => 1);
+    $settings = ['type' => 'article', 'promote' => 1];
     /* @var \Drupal\node\NodeInterface $node */
     $node = $this->drupalCreateNode($settings);
 
     // Configure layout.
-    $layout = array(
+    $layout = [
       'layout' => 'dstest_1col_title',
-    );
-    $layout_assert = array(
-      'regions' => array(
+    ];
+    $layout_assert = [
+      'regions' => [
         'ds_content' => '<td colspan="8">' . t('Content') . '</td>',
-      ),
-    );
+      ],
+    ];
     $this->dsSelectLayout($layout, $layout_assert);
 
-    $fields = array(
+    $fields = [
       'fields[node_title][region]' => 'ds_content',
-    );
+    ];
     $this->dsConfigureUi($fields);
 
     $this->drupalGet('node/' . $node->id());
 
     // Assert that the title is visible.
-    $this->assertText($node->getTitle());
+    $elements = $this->xpath('//div[@class="field field--name-node-title field--type-ds field--label-hidden field__item"]/h2');
+    $this->assertEquals(count($elements), 1);
 
-    $edit = array(
+    $this->assertSession()->pageTextContains($node->getTitle());
+
+    $edit = [
       'fs3[use_field_names]' => FALSE,
-    );
-    $this->drupalPostForm('admin/structure/ds/settings', $edit, t('Save configuration'));
+    ];
+    $this->drupalPostForm('admin/structure/ds/settings', $edit, 'Save configuration');
 
     $this->drupalGet('node/' . $node->id());
 
     // Assert that the title is not visible anymore.
-    $this->assertNoText($node->getTitle());
+    $elements = $this->xpath('//div[@class="field field--name-node-title field--type-ds field--label-hidden field__item"]/h2');
+    $this->assertEquals(count($elements), 0);
   }
 
 }

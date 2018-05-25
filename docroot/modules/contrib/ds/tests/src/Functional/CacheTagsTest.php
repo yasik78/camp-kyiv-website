@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ds\Tests;
+namespace Drupal\Tests\ds\Functional;
 
 /**
  * Tests for cache tags associated with an entity.
@@ -14,39 +14,39 @@ class CacheTagsTest extends FastTestBase {
    */
   public function testUserCacheTags() {
     // Create a node.
-    $settings = array('type' => 'article', 'promote' => 1);
+    $settings = ['type' => 'article', 'promote' => 1];
     $node = $this->drupalCreateNode($settings);
 
     // Create field CSS classes.
-    $edit = array('fields' => "test_field_class\ntest_field_class_2|Field class 2");
+    $edit = ['fields' => "test_field_class\ntest_field_class_2|Field class 2"];
     $this->drupalPostForm('admin/structure/ds/classes', $edit, t('Save configuration'));
 
     // Create a token field.
-    $token_field = array(
+    $token_field = [
       'name' => 'Token field',
       'id' => 'token_field',
       'entities[node]' => '1',
       'content[value]' => '[node:title]',
-    );
+    ];
     $this->dsCreateTokenField($token_field);
 
     // Select layout.
     $this->dsSelectLayout();
 
     // Configure fields.
-    $fields = array(
+    $fields = [
       'fields[dynamic_token_field:node-token_field][region]' => 'header',
       'fields[body][region]' => 'right',
       'fields[node_link][region]' => 'footer',
       'fields[body][label]' => 'above',
       'fields[node_submitted_by][region]' => 'header',
-    );
+    ];
     $this->dsConfigureUi($fields);
 
     $this->drupalGet('node/' . $node->id());
     $headers = $this->drupalGetHeader('X-Drupal-Cache-Tags');
     $this->assertTrue(
-      strpos($headers, 'user:' . $node->getRevisionAuthor()->getOriginalId()),
+      strpos($headers, 'user:' . $node->getRevisionUser()->getOriginalId()),
       'User cache tag found'
     );
   }
